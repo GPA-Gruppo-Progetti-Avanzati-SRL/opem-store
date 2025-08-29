@@ -1,0 +1,39 @@
+name: Domain
+attributes:
+- name: oId
+  type: object-id
+  options: with-filter
+  tags:
+    - name: json
+      value: _id,omitempty
+    - name: bson
+      value: _id,omitempty
+    - name: yaml
+      value: _id,omitempty
+- name: code
+  type: string
+  options: with-filter
+- name: objType
+  type: string
+- name: name
+  type: string
+- name: description
+  type: string
+- name: langs
+  type: string
+- name: members
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: Member
+- name: apps
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: App
+- name: sysInfo
+  struct-ref:
+    name: SysInfo
+  type: struct

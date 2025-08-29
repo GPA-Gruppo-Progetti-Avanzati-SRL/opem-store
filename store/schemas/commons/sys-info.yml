@@ -1,0 +1,8 @@
+name: SysInfo
+attributes:
+- name: status
+  type: string
+- name: createdat
+  type: date
+- name: modifiedat
+  type: date

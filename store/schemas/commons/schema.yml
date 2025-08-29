@@ -1,0 +1,11 @@
+module: github.com/mario-imperato/r3ds9-mongodb
+package: github.com/mario-imperato/r3ds9-mongodb/store/commons
+entities:
+- file-name: ./sys-info.yml
+- file-name: ./user-role.yml
+- file-name: ./app.yml
+- file-name: ./file-variant.yml
+- file-name: ./file-reference.yml
+
+# @tpm-schematics:start-region("bottom-file-section")
+# @tpm-schematics:end-region("bottom-file-section")

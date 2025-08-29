@@ -1,0 +1,34 @@
+{
+  "name": "userCard",
+  "properties": {
+    "folder-path": "./usercard",
+    "struct-name": "UserCard"
+  },
+  "attributes": [
+    {
+      "name": "oId",
+      "type": "object-id",
+      "tags": [ "json", "-", "bson", "_id" ],
+      "queryable": true
+    },
+    {
+      "name": "userId",
+      "type": "string",
+      "queryable": true
+    },
+    {
+      "name": "objType",
+      "type": "string",
+      "queryable": true
+    },
+    {
+      "name": "sysinfo",
+      "type": "ref-struct",
+      "struct-ref": {
+        "struct-name": "SysInfo",
+        "is-external": true,
+        "package": "github.com/mario-imperato/r3ds9-mongodb/model/commons"
+      }
+    }
+  ]
+}

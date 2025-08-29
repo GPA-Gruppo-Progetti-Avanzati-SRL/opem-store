@@ -1,0 +1,17 @@
+name: FileReference
+attributes:
+- name: oId
+  type: object-id
+  tags:
+    - name: json
+      value: _id,omitempty
+    - name: bson
+      value: _id,omitempty
+    - name: yaml
+      value: _id,omitempty
+- name: srcSet
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: FileVariant

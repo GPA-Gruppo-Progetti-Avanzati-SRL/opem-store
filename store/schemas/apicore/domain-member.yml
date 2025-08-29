@@ -1,0 +1,6 @@
+name: Member
+attributes:
+- name: code
+  type: string
+- name: objType
+  type: string

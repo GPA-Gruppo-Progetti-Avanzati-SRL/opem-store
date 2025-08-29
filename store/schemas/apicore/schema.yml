@@ -1,0 +1,27 @@
+module: github.com/mario-imperato/r3ds9-mongodb
+package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore
+imports:
+  - ../commons/schema.yml
+entities:
+- file-name: ./domain.yml
+  document: true
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/domain
+- file-name: ./domain-member.yml
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/domain
+- file-name: ./ns.yml
+  document: true
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/site
+- file-name: ./user.yml
+  document: true
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/user
+- file-name: ./kv.yml
+  document: true
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/keyvaluepackage
+- file-name: ./kv-key-value.yml
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/keyvaluepackage
+- file-name: ./session.yml
+  document: true
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/session
+
+# @tpm-schematics:start-region("bottom-file-section")
+# @tpm-schematics:end-region("bottom-file-section")

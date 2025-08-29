@@ -1,0 +1,10 @@
+name: EntRefStruct
+attributes:
+- name: dom
+  type: string
+- name: ns
+  type: string
+- name: entType
+  type: string
+- name: entId
+  type: string

@@ -1,0 +1,13 @@
+module: github.com/mario-imperato/r3ds9-mongodb
+package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicms
+imports:
+  - ../commons/schema.yml
+entities:
+- file-name: ./file.yml
+  document: true
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicms/file
+- file-name: ./ent-ref-struct.yml
+  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicms/file
+
+# @tpm-schematics:start-region("bottom-file-section")
+# @tpm-schematics:end-region("bottom-file-section")

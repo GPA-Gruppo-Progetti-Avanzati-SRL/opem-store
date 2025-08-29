@@ -1,0 +1,14 @@
+name: App
+attributes:
+- name: id
+  type: string
+- name: objType
+  type: string
+- name: name
+  type: string
+- name: description
+  type: string
+- name: path
+  type: string
+- name: roleRequired
+  type: bool

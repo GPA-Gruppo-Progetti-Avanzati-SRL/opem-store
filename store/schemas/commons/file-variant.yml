@@ -1,0 +1,18 @@
+name: FileVariant
+attributes:
+- name: ct
+  type: string
+- name: wd
+  type: int
+- name: ht
+  type: int
+- name: lks
+  type: string
+- name: bln
+  type: string
+- name: cnt
+  type: string
+- name: url
+  type: string
+- name: role
+  type: string
