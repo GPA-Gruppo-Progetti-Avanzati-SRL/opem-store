@@ -1,9 +1,8 @@
-module GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
+module github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
 
 go 1.25
 
 require (
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store v0.0.1
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
