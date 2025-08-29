@@ -31,7 +31,7 @@ go.work.sum
 # .idea/
 # .vscode/
 
-# .idea/
+.idea/
 target/
 sonar-scan.sh
 .scannerwork/
