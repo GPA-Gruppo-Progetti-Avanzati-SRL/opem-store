@@ -2,10 +2,10 @@
  * This is a testing file and populates a few documents for checking the key-value-package inheritance mechanism.
  */
 
-const r3ds9DbName = "r3ds9"
+const r3ds9DbName = "opem"
 const r3ds9CollectionName = "apicore_kv"
 
-let conn = new Mongo();
+let conn = db.getMongo();
 let db = conn.getDB(r3ds9DbName);
 
 let c = db[r3ds9CollectionName]

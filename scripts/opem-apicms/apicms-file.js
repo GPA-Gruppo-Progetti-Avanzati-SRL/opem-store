@@ -1,7 +1,7 @@
-const r3ds9DbName = "r3ds9"
+const r3ds9DbName = "opem"
 const r3ds9CollectionName = "apicms_file"
 
-let conn = new Mongo();
+let conn = db.getMongo();
 let db = conn.getDB(r3ds9DbName);
 
 let c = db[r3ds9CollectionName]

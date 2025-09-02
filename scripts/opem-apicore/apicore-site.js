@@ -1,0 +1,45 @@
+const r3ds9DbName = "opem"
+const r3ds9CollectionName = "apicore_site"
+let conn = db.getMongo();
+let db = conn.getDB(r3ds9DbName);
+
+let c = db[r3ds9CollectionName]
+if (!c)  {
+    db.createCollection(r3ds9CollectionName)
+}
+else
+{
+    c.deleteMany({});
+}
+
+db[r3ds9CollectionName].insertOne(
+    {
+        "code" : "edenred",
+        "domain": "card",
+        "objType": "site",
+        "name" : "Istituto Edenred",
+        "description" : "Area Istituto Edenred",
+        "langs": "it",
+        "apps": [
+            {
+                "id": "app-home"
+                ,"objType": "app-admin"
+                ,"name": "Applicazione Home"
+                ,"description": "Applicazione Home"
+                ,"path": "opem-fe-magazzino/browser/index.html"
+            },
+            {
+                "id": "app-magazzino"
+                ,"objType": "app-admin"
+                ,"name": "Applicazione Gestione Magazzino"
+                ,"description": "Applicazione  Gestione Magazzino"
+                ,"path": "opem-fe-magazzino/browser/index.html"
+            }
+        ]
+        ,"sysInfo": {
+            "createdat": new Date(),
+            "status": "active",
+            "modifiedat": new Date()
+        }
+    })
+

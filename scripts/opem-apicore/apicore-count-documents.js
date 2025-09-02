@@ -1,6 +1,6 @@
-const r3ds9DbName = "r3ds9"
+const r3ds9DbName = "opem"
 
-let conn = new Mongo();
+let conn = db.getMongo();
 let db = conn.getDB(r3ds9DbName);
 
 print("[apicore] session collection - #docs: ", db.apicore_session.countDocuments())

@@ -1,7 +1,7 @@
-const r3ds9DbName = "r3ds9"
+const r3ds9DbName = "opem"
 const r3ds9CollectionName = "apicore_domain"
 
-let conn = new Mongo();
+let conn = db.getMongo();
 let db = conn.getDB(r3ds9DbName);
 
 let c = db[r3ds9CollectionName]
@@ -26,19 +26,19 @@ db[r3ds9CollectionName].insertOne(
                 ,"objType": "app-admin"
                 ,"name": "Applicazione Home"
                 ,"description": "Applicazione Home"
-                ,"path": "r3ds9-admin-app-home/index.tmpl"
+                ,"path": "opem-fe-magazzino/browser/index.html"
             },
             {
-                "id": "app-sys-admin"
+                "id": "app-magazzino"
                 ,"objType": "app-admin"
-                ,"name": "Applicazione Sys Admin"
-                ,"description": "Applicazione  Sys Admin"
-                ,"path": "r3ds9-app-sys-admin/index.tmpl"
+                ,"name": "Applicazione Gestione Magazzino"
+                ,"description": "Applicazione  Gestione Magazzino"
+                ,"path": "opem-fe-magazzino/browser/index.html"
             }
         ],
         "members": [
             {
-               "code": "cvf", "objType": "domain"
+               "code": "card", "objType": "domain"
             }
         ],
         "sysInfo": {
@@ -50,10 +50,10 @@ db[r3ds9CollectionName].insertOne(
 
 db[r3ds9CollectionName].insertOne(
     {
-        "code" : "cvf",
+        "code" : "card",
         "objType": "domain",
-        "name" : "Circolo Velico Fiumicino ASD",
-        "description" : "Darsena Fiumicino",
+        "name" : "OpeM Front Door",
+        "description" : "OPeM FrontDoor",
         "langs": "it",
         "apps": [
             {
@@ -61,12 +61,19 @@ db[r3ds9CollectionName].insertOne(
                 ,"objType": "app-admin"
                 ,"name": "Applicazione Home"
                 ,"description": "Applicazione Home"
-                ,"path": "r3ds9-admin-app-home/index.tmpl"
+                ,"path": "opem-fe-magazzino/browser/index.html"
+            },
+            {
+                "id": "app-magazzino"
+                ,"objType": "app-admin"
+                ,"name": "Applicazione Gestione Magazzino"
+                ,"description": "Applicazione  Gestione Magazzino"
+                ,"path": "opem-fe-magazzino/browser/index.html"
             }
         ],
         "members": [
             {
-                "code": "champ42", "objType": "site"
+                "code": "edenred", "objType": "site"
             }
         ],
         "sysinfo": {
