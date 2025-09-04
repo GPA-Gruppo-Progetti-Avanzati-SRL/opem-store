@@ -9,6 +9,7 @@ type App struct {
 	Name         string `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Description  string `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
 	Path         string `json:"path,omitempty" bson:"path,omitempty" yaml:"path,omitempty"`
+	Version      string `json:"version,omitempty" bson:"version,omitempty" yaml:"version,omitempty"`
 	RoleRequired bool   `json:"roleRequired,omitempty" bson:"roleRequired,omitempty" yaml:"roleRequired,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
@@ -16,7 +17,7 @@ type App struct {
 }
 
 func (s App) IsZero() bool {
-	return s.Id == "" && s.ObjType == "" && s.Name == "" && s.Description == "" && s.Path == "" && !s.RoleRequired
+	return s.Id == "" && s.ObjType == "" && s.Name == "" && s.Description == "" && s.Path == "" && s.Version == "" && !s.RoleRequired
 }
 
 // @tpm-schematics:start-region("bottom-file-section")

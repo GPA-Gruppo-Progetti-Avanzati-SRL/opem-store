@@ -24,16 +24,18 @@ db[r3ds9CollectionName].insertOne(
             {
                 "id": "app-home"
                 ,"objType": "app-admin"
-                ,"name": "Applicazione Home"
+                ,"name": "opem-fe-magazzino"
                 ,"description": "Applicazione Home"
-                ,"path": "opem-fe-magazzino/browser/index.html"
+                ,"version": "latest"
+                ,"path": "opem-fe-magazzino/snapshot/index.html"
             },
             {
                 "id": "app-magazzino"
                 ,"objType": "app-admin"
-                ,"name": "Applicazione Gestione Magazzino"
-                ,"description": "Applicazione  Gestione Magazzino"
-                ,"path": "opem-fe-magazzino/browser/index.html"
+                ,"name": "opem-fe-magazzino"
+                ,"description": "Applicazione Home"
+                ,"version": "latest"
+                ,"path": "opem-fe-magazzino/latest/index.html"
             }
         ],
         "members": [
@@ -59,16 +61,18 @@ db[r3ds9CollectionName].insertOne(
             {
                 "id": "app-home"
                 ,"objType": "app-admin"
-                ,"name": "Applicazione Home"
+                ,"name": "opem-fe-magazzino"
                 ,"description": "Applicazione Home"
-                ,"path": "opem-fe-magazzino/browser/index.html"
+                ,"version": "latest"
+                ,"path": "opem-fe-magazzino/latest/index.html"
             },
             {
                 "id": "app-magazzino"
                 ,"objType": "app-admin"
-                ,"name": "Applicazione Gestione Magazzino"
-                ,"description": "Applicazione  Gestione Magazzino"
-                ,"path": "opem-fe-magazzino/browser/index.html"
+                ,"name": "opem-fe-magazzino"
+                ,"description": "Applicazione Home"
+                ,"version": "latest"
+                ,"path": "opem-fe-magazzino/latest/index.html"
             }
         ],
         "members": [

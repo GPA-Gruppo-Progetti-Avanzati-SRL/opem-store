@@ -10,5 +10,7 @@ attributes:
   type: string
 - name: path
   type: string
+- name: version
+  type: string
 - name: roleRequired
   type: bool
