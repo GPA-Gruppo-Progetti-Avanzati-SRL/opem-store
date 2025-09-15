@@ -33,7 +33,31 @@ db[r3ds9CollectionName].insertOne(
                 "id": "app-magazzino"
                 ,"objType": "app-admin"
                 ,"name": "opem-fe-magazzino"
-                ,"description": "Applicazione Home"
+                ,"description": "Gestione Approvigionamenti"
+                ,"version": "latest"
+                ,"path": "opem-fe-magazzino/latest/index.html"
+            },
+            {
+                "id": "app-cards"
+                ,"objType": "app-admin"
+                ,"name": "opem-fe-magazzino"
+                ,"description": "Carte"
+                ,"version": "latest"
+                ,"path": "opem-fe-magazzino/latest/index.html"
+            },
+            {
+                "id": "app-flussi"
+                ,"objType": "app-admin"
+                ,"name": "opem-fe-magazzino"
+                ,"description": "Flussi"
+                ,"version": "latest"
+                ,"path": "opem-fe-magazzino/latest/index.html"
+            },
+            {
+                "id": "app-org"
+                ,"objType": "app-admin"
+                ,"name": "opem-fe-magazzino"
+                ,"description": "Organizzazione"
                 ,"version": "latest"
                 ,"path": "opem-fe-magazzino/latest/index.html"
             }
