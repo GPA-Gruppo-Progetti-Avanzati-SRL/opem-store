@@ -20,3 +20,10 @@ tpm-morphia-cli gen entity --schema-file ./apicore/schema.yml --name session --o
 tpm-morphia-cli gen entity --schema-file ./apicore/schema.yml --name keyValue --out-dir ../.. --with-format --with-bak
 tpm-morphia-cli gen entity --schema-file ./apicore/schema.yml --name keyValuePackage --out-dir ../.. --with-format --with-bak
 
+tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name nazione --out-dir ../.. --with-format --with-bak
+tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name provincia --out-dir ../.. --with-format --with-bak
+tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name comune --out-dir ../.. --with-format --with-bak
+
+tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name prodotto --out-dir ../.. --with-format --with-bak
+
+tpm-morphia-cli gen entity --schema-file ./organizzazione/schema.yml --name focalPoint --out-dir ../.. --with-format --with-bak

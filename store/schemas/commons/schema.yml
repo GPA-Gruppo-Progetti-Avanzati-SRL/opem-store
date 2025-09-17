@@ -1,5 +1,5 @@
-module: github.com/mario-imperato/r3ds9-mongodb
-package: github.com/mario-imperato/r3ds9-mongodb/store/commons
+module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
+package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons
 entities:
 - file-name: ./sys-info.yml
 - file-name: ./user-role.yml

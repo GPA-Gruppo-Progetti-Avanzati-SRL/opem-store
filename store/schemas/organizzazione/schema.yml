@@ -1,0 +1,10 @@
+module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
+package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/organizzazione
+entities:
+- file-name: ./focal-point.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/organizzazione/focalpoint
+
+
+# @tpm-schematics:start-region("bottom-file-section")
+# @tpm-schematics:end-region("bottom-file-section")

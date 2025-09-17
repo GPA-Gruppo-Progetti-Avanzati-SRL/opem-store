@@ -1,27 +1,27 @@
-module: github.com/mario-imperato/r3ds9-mongodb
-package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore
+module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
+package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system
 imports:
   - ../commons/schema.yml
 entities:
 - file-name: ./domain.yml
   document: true
-  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/domain
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/domain
 - file-name: ./domain-member.yml
-  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/domain
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/domain
 - file-name: ./ns.yml
   document: true
-  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/site
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/site
 - file-name: ./user.yml
   document: true
-  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/user
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/user
 - file-name: ./kv.yml
   document: true
-  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/keyvaluepackage
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/keyvaluepackage
 - file-name: ./kv-key-value.yml
-  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/keyvaluepackage
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/keyvaluepackage
 - file-name: ./session.yml
   document: true
-  package: github.com/mario-imperato/r3ds9-mongodb/store/r3ds9-apicore/session
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/session
 
 # @tpm-schematics:start-region("bottom-file-section")
 # @tpm-schematics:end-region("bottom-file-section")

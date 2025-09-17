@@ -1,0 +1,15 @@
+module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
+package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/territorio
+entities:
+- file-name: ./nazione.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/territorio/nazione
+- file-name: ./provincia.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/territorio/provincia
+  document: true
+- file-name: ./comune.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/territorio/comune
+
+# @tpm-schematics:start-region("bottom-file-section")
+# @tpm-schematics:end-region("bottom-file-section")
