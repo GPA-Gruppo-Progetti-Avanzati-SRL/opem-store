@@ -10,10 +10,11 @@ package focalpoint
 const (
 	OIdFieldName         = "_id"
 	DomainFieldName      = "domain"
-	NsFieldName          = "ns"
+	SiteFieldName        = "site"
 	BidFieldName         = "_bid"
 	EtFieldName          = "_et"
 	OfficerNameFieldName = "officer_name"
+	StatusFieldName      = "status"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

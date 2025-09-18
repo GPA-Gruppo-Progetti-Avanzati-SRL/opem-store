@@ -13,7 +13,7 @@ attributes:
 - name: domain
   type: string
   options: with-filter
-- name: ns
+- name: site
   type: string
   options: with-filter
 - name: _bid
@@ -24,4 +24,7 @@ attributes:
   options: with-filter
 - name: officer_name
   type: string
+- name: status
+  type: string
+  options: with-filter
 

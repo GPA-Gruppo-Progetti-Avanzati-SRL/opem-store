@@ -10,10 +10,11 @@ package prodotto
 const (
 	OIdFieldName    = "_id"
 	DomainFieldName = "domain"
-	NsFieldName     = "ns"
+	SiteFieldName   = "site"
 	BidFieldName    = "_bid"
 	EtFieldName     = "_et"
 	NameFieldName   = "name"
+	StatusFieldName = "status"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

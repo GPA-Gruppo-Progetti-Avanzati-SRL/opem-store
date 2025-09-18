@@ -104,45 +104,45 @@ func (ca *Criteria) AndDomainIn(p []string) *Criteria {
 // @tpm-schematics:end-region("domain-field-filter-section")
 
 /*
- * filter-string template: ns
+ * filter-string template: site
  */
 
-// AndNsEqTo No Remarks
-func (ca *Criteria) AndNsEqTo(p string) *Criteria {
+// AndSiteEqTo No Remarks
+func (ca *Criteria) AndSiteEqTo(p string) *Criteria {
 
 	if p == "" {
 		return ca
 	}
 
-	mName := fmt.Sprintf(NsFieldName)
+	mName := fmt.Sprintf(SiteFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// AndNsIsNullOrUnset No Remarks
-func (ca *Criteria) AndNsIsNullOrUnset() *Criteria {
+// AndSiteIsNullOrUnset No Remarks
+func (ca *Criteria) AndSiteIsNullOrUnset() *Criteria {
 
-	mName := fmt.Sprintf(NsFieldName)
+	mName := fmt.Sprintf(SiteFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-func (ca *Criteria) AndNsIn(p []string) *Criteria {
+func (ca *Criteria) AndSiteIn(p []string) *Criteria {
 
 	if len(p) == 0 {
 		return ca
 	}
 
-	mName := fmt.Sprintf(NsFieldName)
+	mName := fmt.Sprintf(SiteFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// @tpm-schematics:start-region("ns-field-filter-section")
-// @tpm-schematics:end-region("ns-field-filter-section")
+// @tpm-schematics:start-region("site-field-filter-section")
+// @tpm-schematics:end-region("site-field-filter-section")
 
 /*
  * filter-string template: _bid
@@ -225,6 +225,47 @@ func (ca *Criteria) AndEtIn(p []string) *Criteria {
 
 // @tpm-schematics:start-region("-et-field-filter-section")
 // @tpm-schematics:end-region("-et-field-filter-section")
+
+/*
+ * filter-string template: status
+ */
+
+// AndStatusEqTo No Remarks
+func (ca *Criteria) AndStatusEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(StatusFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// AndStatusIsNullOrUnset No Remarks
+func (ca *Criteria) AndStatusIsNullOrUnset() *Criteria {
+
+	mName := fmt.Sprintf(StatusFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndStatusIn(p []string) *Criteria {
+
+	if len(p) == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(StatusFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:start-region("status-field-filter-section")
+// @tpm-schematics:end-region("status-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

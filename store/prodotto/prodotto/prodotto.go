@@ -13,17 +13,18 @@ const (
 type Prodotto struct {
 	OId    primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Domain string             `json:"domain,omitempty" bson:"domain,omitempty" yaml:"domain,omitempty"`
-	Ns     string             `json:"ns,omitempty" bson:"ns,omitempty" yaml:"ns,omitempty"`
+	Site   string             `json:"site,omitempty" bson:"site,omitempty" yaml:"site,omitempty"`
 	Bid    string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Et     string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Name   string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
+	Status string             `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s Prodotto) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Ns == "" && s.Bid == "" && s.Et == "" && s.Name == ""
+	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Name == "" && s.Status == ""
 }
 
 // @tpm-schematics:start-region("bottom-file-section")

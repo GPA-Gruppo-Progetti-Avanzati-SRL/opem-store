@@ -17,7 +17,7 @@ db[opemCollectionName].insertOne(
         "_bid": "lunch-day-dip",
         "_et": "PRODOTTO",
         "domain": "card",
-        "ns": "*",
+        "site": "*",
         "name" : "Postepay Lunch DAY Dipendenti",
         "status": "active",
         "order": 1

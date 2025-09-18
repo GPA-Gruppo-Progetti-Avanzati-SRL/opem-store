@@ -17,7 +17,7 @@ db[opemCollectionName].insertOne(
         "_bid": "FP-00001",
         "_et": "FOCAL-POINT",
         "domain": "card",
-        "ns": "RUO",
+        "site": "RUO",
         "officer_name" : "Giuseppe Celitti",
         "status": "active",
         "order": 1
