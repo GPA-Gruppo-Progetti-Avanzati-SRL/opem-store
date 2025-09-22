@@ -3,6 +3,7 @@ module github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
 go 1.25
 
 require (
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v0.1.4
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
@@ -10,12 +11,14 @@ require (
 )
 
 require (
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v0.1.4 // indirect
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.81 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/golang/snappy v1.0.0 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
+	github.com/lucasjones/reggen v0.0.0-20200904144131-37ba4fa293bb // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
