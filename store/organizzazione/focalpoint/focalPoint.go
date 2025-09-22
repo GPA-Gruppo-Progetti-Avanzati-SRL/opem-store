@@ -27,5 +27,10 @@ func (s FocalPoint) IsZero() bool {
 	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.OfficerName == "" && s.Status == ""
 }
 
+type QueryResult struct {
+	Records int          `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
+	Data    []FocalPoint `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
+}
+
 // @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

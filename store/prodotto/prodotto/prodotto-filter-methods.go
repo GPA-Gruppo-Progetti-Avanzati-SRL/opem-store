@@ -2,9 +2,8 @@ package prodotto
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/bson"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

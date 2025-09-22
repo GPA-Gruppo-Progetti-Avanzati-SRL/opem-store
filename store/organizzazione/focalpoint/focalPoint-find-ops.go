@@ -1,4 +1,4 @@
-package provincia
+package focalpoint
 
 import (
 	"context"
@@ -16,9 +16,9 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOptions *options.FindOneOptions) (*Provincia, bool, error) {
+func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptions) (*FocalPoint, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
-	const semLogContext = "provincia::find-by-pk"
+	const semLogContext = "focal-point::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
@@ -28,11 +28,12 @@ func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOpti
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	ent := Provincia{}
+	ent := FocalPoint{}
 
 	f := Filter{}
 	// @tpm-schematics:start-region("filter-section")
-	f.Or().AndEtEqTo(EntityType).AndCodeEqTo(code)
+	// customize the filtering
+	f.Or().AndEtEqTo(EntityType).AndDomainEqTo(domain).AndSiteEqTo(site).AndBidEqTo(bid)
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
 	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -58,7 +59,7 @@ func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOpti
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
-	const semLogContext = "provincia::find"
+	const semLogContext = "focal-point::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -87,7 +88,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	}
 
 	for cur.Next(context.Background()) {
-		dto := Provincia{}
+		dto := FocalPoint{}
 		err = cur.Decode(&dto)
 		if err != nil {
 			return qr, err
@@ -104,17 +105,4 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
-
-func FindByNazioneAndStatus(collection *mongo.Collection, code_nazione_uic string, status string, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
-	const semLogContext = "provincia::find-by-code_nazione_uic-status"
-	evtTraceLog := log.Trace().Str("cod_nazione_uic", code_nazione_uic).Str("status", status)
-	// evtTraceErr := log.Error().Str("cod_nazione_uic", code_nazione_uic).Str("status", status)
-	evtTraceLog.Msg(semLogContext)
-
-	evtTraceLog.Msg(semLogContext)
-	f := Filter{}
-	f.Or().AndEtEqTo(EntityType).AndCodeEqTo(code_nazione_uic).AndStatusEqTo(status)
-	return Find(collection, &f, withCount, findOptions)
-}
-
 // @tpm-schematics:end-region("bottom-file-section")
