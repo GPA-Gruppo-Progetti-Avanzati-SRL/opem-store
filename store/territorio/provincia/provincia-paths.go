@@ -8,13 +8,15 @@ package provincia
 // @tpm-schematics:end-region("top-file-section")
 
 const (
-	OIdFieldName            = "_id"
-	EtFieldName             = "_et"
-	CodeFieldName           = "code"
-	NameFieldName           = "name"
-	CodeUicNazioneFieldName = "code_uic_nazione"
-	StatusFieldName         = "status"
-	OrderFieldName          = "order"
+	OIdFieldName                = "_id"
+	EtFieldName                 = "_et"
+	CodeFieldName               = "code"
+	NameFieldName               = "name"
+	CodeUicNazioneFieldName     = "code_uic_nazione"
+	SysInfoFieldName            = "sys_info"
+	SysInfo_StatusFieldName     = "sys_info.status"
+	SysInfo_CreatedAtFieldName  = "sys_info.created_at"
+	SysInfo_ModifiedAtFieldName = "sys_info.modified_at"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

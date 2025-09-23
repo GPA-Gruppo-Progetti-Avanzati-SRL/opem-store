@@ -1,5 +1,7 @@
 module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
 package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/territorio
+imports:
+  - ../commons/schema.yml
 entities:
 - file-name: ./nazione.yml
   document: true

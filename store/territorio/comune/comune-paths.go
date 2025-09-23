@@ -8,19 +8,21 @@ package comune
 // @tpm-schematics:end-region("top-file-section")
 
 const (
-	OIdFieldName            = "_id"
-	BidFieldName            = "_bid"
-	EtFieldName             = "_et"
-	NameFieldName           = "name"
-	Cap1FieldName           = "cap1"
-	Cap2FieldName           = "cap2"
-	CodeProvinciaFieldName  = "code_provincia"
-	CodeUicNazioneFieldName = "code_uic_nazione"
-	CodeIstatFieldName      = "code_istat"
-	CodeCatastaleFieldName  = "code_catastale"
-	CabFieldName            = "cab"
-	StatusFieldName         = "status"
-	OrderFieldName          = "order"
+	OIdFieldName                = "_id"
+	BidFieldName                = "_bid"
+	EtFieldName                 = "_et"
+	NameFieldName               = "name"
+	Cap1FieldName               = "cap1"
+	Cap2FieldName               = "cap2"
+	CodeProvinciaFieldName      = "code_provincia"
+	CodeUicNazioneFieldName     = "code_uic_nazione"
+	CodeIstatFieldName          = "code_istat"
+	CodeCatastaleFieldName      = "code_catastale"
+	CabFieldName                = "cab"
+	SysInfoFieldName            = "sys_info"
+	SysInfo_StatusFieldName     = "sys_info.status"
+	SysInfo_CreatedAtFieldName  = "sys_info.created_at"
+	SysInfo_ModifiedAtFieldName = "sys_info.modified_at"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

@@ -1,6 +1,7 @@
 package provincia
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
+import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 const (
@@ -16,15 +17,14 @@ type Provincia struct {
 	Code           string             `json:"code,omitempty" bson:"code,omitempty" yaml:"code,omitempty"`
 	Name           string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	CodeUicNazione string             `json:"code_uic_nazione,omitempty" bson:"code_uic_nazione,omitempty" yaml:"code_uic_nazione,omitempty"`
-	Status         string             `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
-	Order          int32              `json:"order,omitempty" bson:"order,omitempty" yaml:"order,omitempty"`
+	SysInfo        commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s Provincia) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Et == "" && s.Code == "" && s.Name == "" && s.CodeUicNazione == "" && s.Status == "" && s.Order == 0
+	return s.OId == primitive.NilObjectID && s.Et == "" && s.Code == "" && s.Name == "" && s.CodeUicNazione == "" && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

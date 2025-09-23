@@ -1,6 +1,7 @@
 package comune
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
+import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 const (
@@ -22,15 +23,14 @@ type Comune struct {
 	CodeIstat      string             `json:"code_istat,omitempty" bson:"code_istat,omitempty" yaml:"code_istat,omitempty"`
 	CodeCatastale  string             `json:"code_catastale,omitempty" bson:"code_catastale,omitempty" yaml:"code_catastale,omitempty"`
 	Cab            string             `json:"cab,omitempty" bson:"cab,omitempty" yaml:"cab,omitempty"`
-	Status         string             `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
-	Order          int32              `json:"order,omitempty" bson:"order,omitempty" yaml:"order,omitempty"`
+	SysInfo        commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s Comune) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Cap1 == "" && s.Cap2 == "" && s.CodeProvincia == "" && s.CodeUicNazione == "" && s.CodeIstat == "" && s.CodeCatastale == "" && s.Cab == "" && s.Status == "" && s.Order == 0
+	return s.OId == primitive.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Cap1 == "" && s.Cap2 == "" && s.CodeProvincia == "" && s.CodeUicNazione == "" && s.CodeIstat == "" && s.CodeCatastale == "" && s.Cab == "" && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

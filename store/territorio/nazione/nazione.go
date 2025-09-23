@@ -29,5 +29,10 @@ func (s Nazione) IsZero() bool {
 	return s.OId == primitive.NilObjectID && s.Et == "" && s.Code == "" && s.Name == "" && s.CodeUic == "" && s.CodeIso3 == "" && s.CodeCatastale == "" && s.Status == "" && s.Order == 0
 }
 
+type QueryResult struct {
+	Records int       `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
+	Data    []Nazione `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
+}
+
 // @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

@@ -2,8 +2,9 @@ package comune
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -226,46 +227,18 @@ func (ca *Criteria) AndCodeUicNazioneIn(p []string) *Criteria {
 // @tpm-schematics:start-region("code-uic-nazione-field-filter-section")
 // @tpm-schematics:end-region("code-uic-nazione-field-filter-section")
 
-/*
- * filter-string template: status
- */
+// @tpm-schematics:start-region("bottom-file-section")
 
-// AndStatusEqTo No Remarks
 func (ca *Criteria) AndStatusEqTo(p string) *Criteria {
 
 	if p == "" {
 		return ca
 	}
 
-	mName := fmt.Sprintf(StatusFieldName)
+	mName := fmt.Sprintf(SysInfo_StatusFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// AndStatusIsNullOrUnset No Remarks
-func (ca *Criteria) AndStatusIsNullOrUnset() *Criteria {
-
-	mName := fmt.Sprintf(StatusFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-func (ca *Criteria) AndStatusIn(p []string) *Criteria {
-
-	if len(p) == 0 {
-		return ca
-	}
-
-	mName := fmt.Sprintf(StatusFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-// @tpm-schematics:start-region("status-field-filter-section")
-// @tpm-schematics:end-region("status-field-filter-section")
-
-// @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

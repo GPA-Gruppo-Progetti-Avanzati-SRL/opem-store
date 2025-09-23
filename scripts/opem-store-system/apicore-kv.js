@@ -18,7 +18,7 @@ c.insertOne(
     {
         "name": "theme",
         "scope": "root",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "admin-app-general",
         "description": "Aspetto UI di amministrazione",
         "inherit": false
@@ -36,7 +36,7 @@ c.insertOne(
     {
         "name": "apps",
         "scope": "root",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "admin-app-general",
         "description": "Apps disponibili",
         "inherit": false
@@ -61,7 +61,7 @@ c.insertOne(
     {
         "name": "theme",
         "scope": "root/card",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "admin-app-general",
         "description": "Aspetto UI di amministrazione",
         "inherit": false

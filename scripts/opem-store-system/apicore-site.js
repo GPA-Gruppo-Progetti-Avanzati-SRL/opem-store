@@ -16,14 +16,14 @@ db[opemCollectionName].insertOne(
     {
         "code" : "edenred",
         "domain": "card",
-        "objType": "site",
+        "obj_type": "site",
         "name" : "Istituto Edenred",
         "description" : "Area Istituto Edenred",
         "langs": "it",
         "apps": [
             {
                 "id": "app-home"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Applicazione Home"
                 ,"version": "latest"
@@ -31,7 +31,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-magazzino"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Gestione Approvigionamenti"
                 ,"version": "latest"
@@ -39,7 +39,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-cards"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Carte"
                 ,"version": "latest"
@@ -47,7 +47,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-flussi"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Flussi"
                 ,"version": "latest"
@@ -55,7 +55,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-org"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Organizzazione"
                 ,"version": "latest"
@@ -73,14 +73,14 @@ db[opemCollectionName].insertOne(
     {
         "code" : "ruo",
         "domain": "card",
-        "objType": "site",
+        "obj_type": "site",
         "name" : "Istituto RUO",
         "description" : "Area Istituto RUO",
         "langs": "it",
         "apps": [
             {
                 "id": "app-home"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Applicazione Home"
                 ,"version": "latest"
@@ -88,7 +88,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-magazzino"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Gestione Approvigionamenti"
                 ,"version": "latest"
@@ -96,7 +96,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-cards"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Carte"
                 ,"version": "latest"
@@ -104,7 +104,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-flussi"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Flussi"
                 ,"version": "latest"
@@ -112,7 +112,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-org"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Organizzazione"
                 ,"version": "latest"

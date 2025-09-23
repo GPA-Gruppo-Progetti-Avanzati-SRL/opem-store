@@ -16,7 +16,7 @@ else
 c.insertOne(
     {
         "nickname" : "root",
-        "objType"  : "root-user",
+        "obj_type"  : "root-user",
         "password" : "8a3308114f80796bb4b6d407e605752b167c6b75",
         "firstname": "G",
         "lastname" : "Root",
@@ -37,7 +37,7 @@ c.insertOne(
 c.insertOne(
     {
         "nickname" : "guest",
-        "objType"  : "guest-user",
+        "obj_type"  : "guest-user",
         "sys_info": {
             "created_at": new Date(),
             "status": "active",
@@ -48,7 +48,7 @@ c.insertOne(
 c.insertOne(
     {
         "nickname" : "nambalorian",
-        "objType"  : "user",
+        "obj_type"  : "user",
         "password" : "8a3308114f80796bb4b6d407e605752b167c6b75",
         "firstname": "Wanamba",
         "lastname" : "ForEver",

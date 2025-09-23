@@ -16,14 +16,14 @@ else
 db[opemCollectionName].insertOne(
     {
         "code" : "root",
-        "objType": "domain",
+        "obj_type": "domain",
         "name" : "Master Domain",
         "description" : "the master of domains",
         "langs": "it",
         "apps": [
             {
                 "id": "app-home"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Applicazione Home"
                 ,"version": "latest"
@@ -31,7 +31,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-magazzino"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Applicazione Home"
                 ,"version": "latest"
@@ -40,7 +40,7 @@ db[opemCollectionName].insertOne(
         ],
         "members": [
             {
-               "code": "card", "objType": "domain"
+               "code": "card", "obj_type": "domain"
             }
         ],
         "sys_info": {
@@ -53,14 +53,14 @@ db[opemCollectionName].insertOne(
 db[opemCollectionName].insertOne(
     {
         "code" : "card",
-        "objType": "domain",
+        "obj_type": "domain",
         "name" : "OpeM Front Door",
         "description" : "OPeM FrontDoor",
         "langs": "it",
         "apps": [
             {
                 "id": "app-home"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Applicazione Home"
                 ,"version": "latest"
@@ -68,7 +68,7 @@ db[opemCollectionName].insertOne(
             },
             {
                 "id": "app-magazzino"
-                ,"objType": "app-admin"
+                ,"obj_type": "app-admin"
                 ,"name": "opem-fe-magazzino"
                 ,"description": "Applicazione Home"
                 ,"version": "latest"
@@ -77,7 +77,7 @@ db[opemCollectionName].insertOne(
         ],
         "members": [
             {
-                "code": "edenred", "objType": "site"
+                "code": "edenred", "obj_type": "site"
             }
         ],
         "sys_info": {

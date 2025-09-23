@@ -21,7 +21,7 @@ c.insertOne(
     {
         "name": "test-kv1",
         "scope": "root",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "test-kv-cat1",
         "description": "Key value package (1) root level"
         ,"properties": [
@@ -38,7 +38,7 @@ c.insertOne(
     {
         "name": "test-kv2",
         "scope": "root",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "test-kv-cat1",
         "description": "Key value package (2) root level"
         ,"properties": [
@@ -55,7 +55,7 @@ c.insertOne(
     {
         "name": "test-kv3",
         "scope": "root",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "test-kv-cat1",
         "description": "Key value package (3) root level"
         ,"properties": [
@@ -72,7 +72,7 @@ c.insertOne(
     {
         "name": "test-kv4",
         "scope": "root",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "test-kv-cat2",
         "description": "Key value package (4) root level"
         ,"properties": [
@@ -90,7 +90,7 @@ c.insertOne(
     {
         "name": "test-kv2",
         "scope": "root/cvf",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "test-kv-cat1",
         "description": "Key value package (2) overridden domain level"
         ,"properties": [
@@ -107,7 +107,7 @@ c.insertOne(
     {
         "name": "test-kv3",
         "scope": "root/cvf",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "test-kv-cat1",
         "description": "Key value package (3) overridden domain level"
         ,"properties": [
@@ -125,7 +125,7 @@ c.insertOne(
     {
         "name": "test-kv3",
         "scope": "root/cvf/champ42",
-        "objType": "kv",
+        "obj_type": "kv",
         "category": "test-kv-cat1",
         "description": "Key value package (3) overridden site level"
         ,"properties": [

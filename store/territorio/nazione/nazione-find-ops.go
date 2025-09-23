@@ -1,4 +1,4 @@
-package comune
+package nazione
 
 import (
 	"context"
@@ -15,9 +15,9 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection, bid string, mustFind bool, findOptions *options.FindOneOptions) (*Comune, bool, error) {
+func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, findOptions *options.FindOneOptions) (*Nazione, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
-	const semLogContext = "comune::find-by-pk"
+	const semLogContext = "nazione::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
@@ -27,11 +27,12 @@ func FindByPk(collection *mongo.Collection, bid string, mustFind bool, findOptio
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	ent := Comune{}
+	ent := Nazione{}
 
 	f := Filter{}
 	// @tpm-schematics:start-region("filter-section")
-	f.Or().AndEtEqTo(EntityType).AndBidEqTo(bid)
+	// customize the filtering
+	// f.Or().And...
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
 	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -57,7 +58,7 @@ func FindByPk(collection *mongo.Collection, bid string, mustFind bool, findOptio
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
-	const semLogContext = "comune::find"
+	const semLogContext = "nazione::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -86,7 +87,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	}
 
 	for cur.Next(context.Background()) {
-		dto := Comune{}
+		dto := Nazione{}
 		err = cur.Decode(&dto)
 		if err != nil {
 			return qr, err
@@ -103,13 +104,4 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
-
-func FindByNazioneAndProvinciaAndStatus(collection *mongo.Collection, code_nazione_uic string, provincia string, status string, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
-	const semLogContext = "comune::find-by-code_nazione_uic-provincia-status"
-	log.Trace().Str("cod_nazione_uic", code_nazione_uic).Str("provincia", provincia).Str("status", status).Msg(semLogContext)
-	f := Filter{}
-	f.Or().AndEtEqTo(EntityType).AndCodeUicNazioneEqTo(code_nazione_uic).AndCodeProvinciaEqTo(provincia).AndStatusEqTo(status)
-	return Find(collection, &f, withCount, findOptions)
-}
-
 // @tpm-schematics:end-region("bottom-file-section")
