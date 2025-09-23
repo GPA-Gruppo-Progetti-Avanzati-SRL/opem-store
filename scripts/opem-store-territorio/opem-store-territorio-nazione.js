@@ -17,7 +17,11 @@ db[opemCollectionName].insertOne(
         "_et": "NAZIONE",
         "code": "IT",
         "name" : "Italia",
-        "status": "active",
-        "order": 1
+        "sys_info": {
+            "created_at": new Date(),
+            "status": "active",
+            "modified_at": new Date()
+        }
+
     })
 

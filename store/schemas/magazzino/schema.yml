@@ -1,0 +1,18 @@
+module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
+package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino
+imports:
+  - ../commons/schema.yml
+entities:
+- file-name: ./box.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/box
+- file-name: ./box-info.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/box
+- file-name: ./box-status.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/box
+- file-name: ./magazzino.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/magazzino
+
+# @tpm-schematics:start-region("bottom-file-section")
+# @tpm-schematics:end-region("bottom-file-section")

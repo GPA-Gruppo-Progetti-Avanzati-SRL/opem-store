@@ -61,11 +61,11 @@ db[opemCollectionName].insertOne(
                 ,"version": "latest"
                 ,"path": "opem-fe-magazzino/latest/index.html"
             }
-        ]
-        ,"sysInfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     })
 
@@ -118,10 +118,10 @@ db[opemCollectionName].insertOne(
                 ,"version": "latest"
                 ,"path": "opem-fe-magazzino/latest/index.html"
             }
-        ]
-        ,"sysInfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     })

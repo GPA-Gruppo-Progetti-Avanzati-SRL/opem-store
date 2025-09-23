@@ -1,0 +1,34 @@
+name: Magazzino
+attributes:
+- name: oId
+  type: object-id
+  options: with-filter
+  tags:
+    - name: json
+      value: _id,omitempty
+    - name: bson
+      value: _id,omitempty
+    - name: yaml
+      value: _id,omitempty
+- name: domain
+  type: string
+  options: with-filter
+- name: site
+  type: string
+  options: with-filter
+- name: _bid
+  type: string
+  options: with-filter
+- name: _et
+  type: string
+  options: with-filter
+- name: focal_point
+  struct-ref:
+    name: BidTextPair
+  type: struct
+  options: with-filter
+- name: sys_info
+  struct-ref:
+    name: SysInfo
+  type: struct
+

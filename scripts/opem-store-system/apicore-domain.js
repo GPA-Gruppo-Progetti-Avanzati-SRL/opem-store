@@ -43,10 +43,10 @@ db[opemCollectionName].insertOne(
                "code": "card", "objType": "domain"
             }
         ],
-        "sysInfo": {
-            "createdat": new Date(),
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     })
 
@@ -80,9 +80,9 @@ db[opemCollectionName].insertOne(
                 "code": "edenred", "objType": "site"
             }
         ],
-        "sysinfo": {
-            "createdat": new Date(),
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     })

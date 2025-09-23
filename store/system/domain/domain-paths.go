@@ -10,7 +10,7 @@ package domain
 const (
 	OIdFieldName                = "_id"
 	CodeFieldName               = "code"
-	ObjTypeFieldName            = "objType"
+	ObjTypeFieldName            = "obj_type"
 	NameFieldName               = "name"
 	DescriptionFieldName        = "description"
 	LangsFieldName              = "langs"
@@ -18,10 +18,10 @@ const (
 	Members_IFieldName          = "members.%d"
 	AppsFieldName               = "apps"
 	Apps_IFieldName             = "apps.%d"
-	SysInfoFieldName            = "sysInfo"
-	SysInfo_StatusFieldName     = "sysInfo.status"
-	SysInfo_CreatedatFieldName  = "sysInfo.createdat"
-	SysInfo_ModifiedatFieldName = "sysInfo.modifiedat"
+	SysInfoFieldName            = "sys_info"
+	SysInfo_StatusFieldName     = "sys_info.status"
+	SysInfo_CreatedAtFieldName  = "sys_info.created_at"
+	SysInfo_ModifiedAtFieldName = "sys_info.modified_at"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

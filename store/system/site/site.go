@@ -10,13 +10,13 @@ type Site struct {
 	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Code        string             `json:"code,omitempty" bson:"code,omitempty" yaml:"code,omitempty"`
 	Domain      string             `json:"domain,omitempty" bson:"domain,omitempty" yaml:"domain,omitempty"`
-	ObjType     string             `json:"objType,omitempty" bson:"objType,omitempty" yaml:"objType,omitempty"`
+	ObjType     string             `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
 	Name        string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Description string             `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
 	Bookmark    bool               `json:"bookmark,omitempty" bson:"bookmark,omitempty" yaml:"bookmark,omitempty"`
 	Langs       string             `json:"langs,omitempty" bson:"langs,omitempty" yaml:"langs,omitempty"`
 	Apps        []commons.App      `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
-	SysInfo     commons.SysInfo    `json:"sysInfo,omitempty" bson:"sysInfo,omitempty" yaml:"sysInfo,omitempty"`
+	SysInfo     commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
@@ -24,6 +24,11 @@ type Site struct {
 
 func (s Site) IsZero() bool {
 	return s.OId == primitive.NilObjectID && s.Code == "" && s.Domain == "" && s.ObjType == "" && s.Name == "" && s.Description == "" && !s.Bookmark && s.Langs == "" && len(s.Apps) == 0 && s.SysInfo.IsZero()
+}
+
+type QueryResult struct {
+	Records int    `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
+	Data    []Site `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
@@ -40,11 +45,6 @@ func (s Site) GetAppByObjTypeAndId(objType commons.AppObjType, appId string) (co
 	}
 
 	return app, false
-}
-
-type QueryResult struct {
-	Records int    `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
-	Data    []Site `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
 }
 
 // @tpm-schematics:end-region("bottom-file-section")

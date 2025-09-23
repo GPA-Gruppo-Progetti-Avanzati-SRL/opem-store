@@ -7,7 +7,7 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type FileReference struct {
 	OId    primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
-	SrcSet []FileVariant      `json:"srcSet,omitempty" bson:"srcSet,omitempty" yaml:"srcSet,omitempty"`
+	SrcSet []FileVariant      `json:"src_set,omitempty" bson:"src_set,omitempty" yaml:"src_set,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")

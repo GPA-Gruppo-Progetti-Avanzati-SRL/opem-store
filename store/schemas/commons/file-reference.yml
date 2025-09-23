@@ -9,7 +9,7 @@ attributes:
       value: _id,omitempty
     - name: yaml
       value: _id,omitempty
-- name: srcSet
+- name: src_set
   type: array
   item:
     type: struct

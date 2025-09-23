@@ -7,15 +7,15 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type SysInfo struct {
 	Status     string             `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
-	Createdat  primitive.DateTime `json:"createdat,omitempty" bson:"createdat,omitempty" yaml:"createdat,omitempty"`
-	Modifiedat primitive.DateTime `json:"modifiedat,omitempty" bson:"modifiedat,omitempty" yaml:"modifiedat,omitempty"`
+	CreatedAt  primitive.DateTime `json:"created_at,omitempty" bson:"created_at,omitempty" yaml:"created_at,omitempty"`
+	ModifiedAt primitive.DateTime `json:"modified_at,omitempty" bson:"modified_at,omitempty" yaml:"modified_at,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s SysInfo) IsZero() bool {
-	return s.Status == "" && s.Createdat == 0 && s.Modifiedat == 0
+	return s.Status == "" && s.CreatedAt == 0 && s.ModifiedAt == 0
 }
 
 // @tpm-schematics:start-region("bottom-file-section")

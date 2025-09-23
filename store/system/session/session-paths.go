@@ -11,12 +11,12 @@ const (
 	OIdFieldName                = "_id"
 	UseridFieldName             = "userid"
 	NicknameFieldName           = "nickname"
-	RemoteaddrFieldName         = "remoteaddr"
+	RemoteAddrFieldName         = "remote_addr"
 	FlagsFieldName              = "flags"
-	SysInfoFieldName            = "sysInfo"
-	SysInfo_StatusFieldName     = "sysInfo.status"
-	SysInfo_CreatedatFieldName  = "sysInfo.createdat"
-	SysInfo_ModifiedatFieldName = "sysInfo.modifiedat"
+	SysInfoFieldName            = "sys_info"
+	SysInfo_StatusFieldName     = "sys_info.status"
+	SysInfo_CreatedAtFieldName  = "sys_info.created_at"
+	SysInfo_ModifiedAtFieldName = "sys_info.modified_at"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

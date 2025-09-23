@@ -5,6 +5,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"time"
 
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -35,7 +36,7 @@ type UnsetOptions struct {
 	Bid         UnsetMode
 	Et          UnsetMode
 	Name        UnsetMode
-	Status      UnsetMode
+	SysInfo     UnsetMode
 }
 
 func (uo *UnsetOptions) ResolveUnsetMode(um UnsetMode) UnsetMode {
@@ -81,9 +82,9 @@ func WithNameUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Name = m
 	}
 }
-func WithStatusUnsetMode(m UnsetMode) UnsetOption {
+func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.Status = m
+		uopt.SysInfo = m
 	}
 }
 
@@ -117,7 +118,7 @@ func GetUpdateDocument(obj *Prodotto, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
-	ud.setOrUnsetStatus(obj.Status, uo.ResolveUnsetMode(uo.Status))
+	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
 }
@@ -388,51 +389,51 @@ func UpdateWithName(p string) UpdateOption {
 // @tpm-schematics:start-region("name-field-update-section")
 // @tpm-schematics:end-region("name-field-update-section")
 
-// SetStatus No Remarks
-func (ud *UpdateDocument) SetStatus(p string) *UpdateDocument {
-	mName := fmt.Sprintf(StatusFieldName)
+// SetSys_info No Remarks
+func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {
+	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetStatus No Remarks
-func (ud *UpdateDocument) UnsetStatus() *UpdateDocument {
-	mName := fmt.Sprintf(StatusFieldName)
+// UnsetSys_info No Remarks
+func (ud *UpdateDocument) UnsetSys_info() *UpdateDocument {
+	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetStatus No Remarks
-func (ud *UpdateDocument) setOrUnsetStatus(p string, um UnsetMode) {
-	if p != "" {
-		ud.SetStatus(p)
+// setOrUnsetSys_info No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetSys_info(p *commons.SysInfo, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetSys_info(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetStatus()
+			ud.UnsetSys_info()
 		case SetData2Default:
-			ud.UnsetStatus()
+			ud.UnsetSys_info()
 		}
 	}
 }
 
-func UpdateWithStatus(p string) UpdateOption {
+func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if p != "" {
-			ud.SetStatus(p)
+		if p != nil && !p.IsZero() {
+			ud.SetSys_info(p)
 		} else {
-			ud.UnsetStatus()
+			ud.UnsetSys_info()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("status-field-update-section")
-// @tpm-schematics:end-region("status-field-update-section")
+// @tpm-schematics:start-region("sys-info-field-update-section")
+// @tpm-schematics:end-region("sys-info-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

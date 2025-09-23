@@ -2,11 +2,9 @@ package file
 
 import (
 	"fmt"
-	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/bson"
-	"time"
-
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -15,6 +13,20 @@ import (
 func FilterMethodsGoInfo() string {
 	i := fmt.Sprintf("tpm_morphia query filter support generated for %s package on %s", "author", time.Now().String())
 	return i
+}
+
+// to be able to succesfully call this method you have to define a text index on the collection. The $text operator has some additional fields that are not supported yet.
+func (ca *Criteria) AndTextSearch(ssearch string) *Criteria {
+	if ssearch == "" {
+		return ca
+	}
+
+	c := func() bson.E {
+		const TextOperator = "$text"
+		return bson.E{Key: TextOperator, Value: bson.E{Key: "$search", Value: ssearch}}
+	}
+	*ca = append(*ca, c)
+	return ca
 }
 
 /*
@@ -48,23 +60,6 @@ func (ca *Criteria) AndOIdIn(p []primitive.ObjectID) *Criteria {
 
 // @tpm-schematics:start-region("o-id-field-filter-section")
 // @tpm-schematics:end-region("o-id-field-filter-section")
-
-func (ca *Criteria) AndHexOIdEqTo(oId string) *Criteria {
-	const semLogContext = "mongo-file::and-hex-oid-eq-to"
-	if oId == "" {
-		return ca
-	}
-
-	objId, err := primitive.ObjectIDFromHex(oId)
-	if err != nil {
-		log.Error().Err(err).Msg(semLogContext)
-		return ca
-	}
-	mName := fmt.Sprintf(OIdFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: objId} }
-	*ca = append(*ca, c)
-	return ca
-}
 
 // @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

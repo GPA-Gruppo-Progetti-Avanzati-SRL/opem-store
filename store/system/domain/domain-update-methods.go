@@ -126,13 +126,13 @@ func GetUpdateDocument(obj *Domain, opts ...UnsetOption) UpdateDocument {
 
 	ud := UpdateDocument{}
 	ud.setOrUnsetCode(obj.Code, uo.ResolveUnsetMode(uo.Code))
-	ud.setOrUnsetObjType(obj.ObjType, uo.ResolveUnsetMode(uo.ObjType))
+	ud.setOrUnsetObj_type(obj.ObjType, uo.ResolveUnsetMode(uo.ObjType))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
 	ud.setOrUnsetDescription(obj.Description, uo.ResolveUnsetMode(uo.Description))
 	ud.setOrUnsetLangs(obj.Langs, uo.ResolveUnsetMode(uo.Langs))
 	ud.setOrUnsetMembers(obj.Members, uo.ResolveUnsetMode(uo.Members))
 	ud.setOrUnsetApps(obj.Apps, uo.ResolveUnsetMode(uo.Apps))
-	ud.setOrUnsetSysInfo(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
+	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
 }
@@ -219,8 +219,8 @@ func UpdateWithCode(p string) UpdateOption {
 // @tpm-schematics:start-region("code-field-update-section")
 // @tpm-schematics:end-region("code-field-update-section")
 
-// SetObjType No Remarks
-func (ud *UpdateDocument) SetObjType(p string) *UpdateDocument {
+// SetObj_type No Remarks
+func (ud *UpdateDocument) SetObj_type(p string) *UpdateDocument {
 	mName := fmt.Sprintf(ObjTypeFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -228,8 +228,8 @@ func (ud *UpdateDocument) SetObjType(p string) *UpdateDocument {
 	return ud
 }
 
-// UnsetObjType No Remarks
-func (ud *UpdateDocument) UnsetObjType() *UpdateDocument {
+// UnsetObj_type No Remarks
+func (ud *UpdateDocument) UnsetObj_type() *UpdateDocument {
 	mName := fmt.Sprintf(ObjTypeFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -237,27 +237,27 @@ func (ud *UpdateDocument) UnsetObjType() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetObjType No Remarks
-func (ud *UpdateDocument) setOrUnsetObjType(p string, um UnsetMode) {
+// setOrUnsetObj_type No Remarks
+func (ud *UpdateDocument) setOrUnsetObj_type(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetObjType(p)
+		ud.SetObj_type(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		case SetData2Default:
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		}
 	}
 }
 
-func UpdateWithObjType(p string) UpdateOption {
+func UpdateWithObj_type(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetObjType(p)
+			ud.SetObj_type(p)
 		} else {
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		}
 	}
 }
@@ -495,8 +495,8 @@ func UpdateWithApps(p []commons.App) UpdateOption {
 // @tpm-schematics:start-region("apps-field-update-section")
 // @tpm-schematics:end-region("apps-field-update-section")
 
-// SetSysInfo No Remarks
-func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
+// SetSys_info No Remarks
+func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -504,8 +504,8 @@ func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
 	return ud
 }
 
-// UnsetSysInfo No Remarks
-func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
+// UnsetSys_info No Remarks
+func (ud *UpdateDocument) UnsetSys_info() *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -513,27 +513,27 @@ func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetSysInfo No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetSysInfo(p *commons.SysInfo, um UnsetMode) {
+// setOrUnsetSys_info No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetSys_info(p *commons.SysInfo, um UnsetMode) {
 	if p != nil && !p.IsZero() {
-		ud.SetSysInfo(p)
+		ud.SetSys_info(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		case SetData2Default:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }
 
-func UpdateWithSysInfo(p *commons.SysInfo) UpdateOption {
+func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil && !p.IsZero() {
-			ud.SetSysInfo(p)
+			ud.SetSys_info(p)
 		} else {
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }

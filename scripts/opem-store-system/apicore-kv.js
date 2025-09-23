@@ -24,11 +24,11 @@ c.insertOne(
         "inherit": false
         ,"properties": [
             { "key": "theme", "value": "theme-12", "order": 0, "kind": "string" },
-        ]
-        ,"sysInfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -48,11 +48,11 @@ c.insertOne(
             { "key": "app-org",         "value": "groups,/ui-admin/{0}/{1}/{2}/app-org,Organizzazione",  "order": 0, "kind": "record:icon,url,hint" },
             { "key": "app-products",    "value": "credit_card_gears,/ui-admin/{0}/{1}/{2}/app-products,Organizzazione",  "order": 0, "kind": "record:icon,url,hint" },
 
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -67,10 +67,10 @@ c.insertOne(
         "inherit": false
         ,"properties": [
             { "key": "theme", "value": "theme-12", "order": 0, "kind": "string" },
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });

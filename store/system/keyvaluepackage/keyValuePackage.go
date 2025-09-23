@@ -1,34 +1,43 @@
 package keyvaluepackage
 
 import (
-	"fmt"
+	"strings"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"strings"
 )
-import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
+import (
+	"fmt"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
+)
+
 // @tpm-schematics:end-region("top-file-section")
 
 type KeyValuePackage struct {
 	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Name        string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Scope       string             `json:"scope,omitempty" bson:"scope,omitempty" yaml:"scope,omitempty"`
-	ObjType     string             `json:"objType,omitempty" bson:"objType,omitempty" yaml:"objType,omitempty"`
+	ObjType     string             `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
 	Category    string             `json:"category,omitempty" bson:"category,omitempty" yaml:"category,omitempty"`
-	Issystem    bool               `json:"issystem,omitempty" bson:"issystem,omitempty" yaml:"issystem,omitempty"`
+	IsSystem    bool               `json:"is_system,omitempty" bson:"is_system,omitempty" yaml:"is_system,omitempty"`
 	Description string             `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
 	Inherited   bool               `json:"inherited,omitempty" bson:"inherited,omitempty" yaml:"inherited,omitempty"`
 	Properties  []KeyValue         `json:"properties,omitempty" bson:"properties,omitempty" yaml:"properties,omitempty"`
-	SysInfo     commons.SysInfo    `json:"sysInfo,omitempty" bson:"sysInfo,omitempty" yaml:"sysInfo,omitempty"`
+	SysInfo     commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s KeyValuePackage) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Name == "" && s.Scope == "" && s.ObjType == "" && s.Category == "" && !s.Issystem && s.Description == "" && !s.Inherited && len(s.Properties) == 0 && s.SysInfo.IsZero()
+	return s.OId == primitive.NilObjectID && s.Name == "" && s.Scope == "" && s.ObjType == "" && s.Category == "" && !s.IsSystem && s.Description == "" && !s.Inherited && len(s.Properties) == 0 && s.SysInfo.IsZero()
+}
+
+type QueryResult struct {
+	Records int               `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
+	Data    []KeyValuePackage `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
 }
 
 // @tpm-schematics:start-region("bottom-file-section")

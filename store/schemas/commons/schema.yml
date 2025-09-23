@@ -6,6 +6,8 @@ entities:
 - file-name: ./app.yml
 - file-name: ./file-variant.yml
 - file-name: ./file-reference.yml
-
+- file-name: ./address.yml
+- file-name: ./bid-text-pair.yml
+- file-name: ./address.yml
 # @tpm-schematics:start-region("bottom-file-section")
 # @tpm-schematics:end-region("bottom-file-section")

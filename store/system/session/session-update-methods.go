@@ -33,7 +33,7 @@ type UnsetOptions struct {
 	OId         UnsetMode
 	Userid      UnsetMode
 	Nickname    UnsetMode
-	Remoteaddr  UnsetMode
+	RemoteAddr  UnsetMode
 	Flags       UnsetMode
 	SysInfo     UnsetMode
 }
@@ -66,9 +66,9 @@ func WithNicknameUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Nickname = m
 	}
 }
-func WithRemoteaddrUnsetMode(m UnsetMode) UnsetOption {
+func WithRemoteAddrUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.Remoteaddr = m
+		uopt.RemoteAddr = m
 	}
 }
 func WithFlagsUnsetMode(m UnsetMode) UnsetOption {
@@ -109,9 +109,9 @@ func GetUpdateDocument(obj *Session, opts ...UnsetOption) UpdateDocument {
 	ud := UpdateDocument{}
 	ud.setOrUnsetUserid(obj.Userid, uo.ResolveUnsetMode(uo.Userid))
 	ud.setOrUnsetNickname(obj.Nickname, uo.ResolveUnsetMode(uo.Nickname))
-	ud.setOrUnsetRemoteaddr(obj.Remoteaddr, uo.ResolveUnsetMode(uo.Remoteaddr))
+	ud.setOrUnsetRemote_addr(obj.RemoteAddr, uo.ResolveUnsetMode(uo.RemoteAddr))
 	ud.setOrUnsetFlags(obj.Flags, uo.ResolveUnsetMode(uo.Flags))
-	ud.setOrUnsetSysInfo(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
+	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
 }
@@ -244,51 +244,51 @@ func UpdateWithNickname(p string) UpdateOption {
 // @tpm-schematics:start-region("nickname-field-update-section")
 // @tpm-schematics:end-region("nickname-field-update-section")
 
-// SetRemoteaddr No Remarks
-func (ud *UpdateDocument) SetRemoteaddr(p string) *UpdateDocument {
-	mName := fmt.Sprintf(RemoteaddrFieldName)
+// SetRemote_addr No Remarks
+func (ud *UpdateDocument) SetRemote_addr(p string) *UpdateDocument {
+	mName := fmt.Sprintf(RemoteAddrFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetRemoteaddr No Remarks
-func (ud *UpdateDocument) UnsetRemoteaddr() *UpdateDocument {
-	mName := fmt.Sprintf(RemoteaddrFieldName)
+// UnsetRemote_addr No Remarks
+func (ud *UpdateDocument) UnsetRemote_addr() *UpdateDocument {
+	mName := fmt.Sprintf(RemoteAddrFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetRemoteaddr No Remarks
-func (ud *UpdateDocument) setOrUnsetRemoteaddr(p string, um UnsetMode) {
+// setOrUnsetRemote_addr No Remarks
+func (ud *UpdateDocument) setOrUnsetRemote_addr(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetRemoteaddr(p)
+		ud.SetRemote_addr(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetRemoteaddr()
+			ud.UnsetRemote_addr()
 		case SetData2Default:
-			ud.UnsetRemoteaddr()
+			ud.UnsetRemote_addr()
 		}
 	}
 }
 
-func UpdateWithRemoteaddr(p string) UpdateOption {
+func UpdateWithRemote_addr(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetRemoteaddr(p)
+			ud.SetRemote_addr(p)
 		} else {
-			ud.UnsetRemoteaddr()
+			ud.UnsetRemote_addr()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("remoteaddr-field-update-section")
-// @tpm-schematics:end-region("remoteaddr-field-update-section")
+// @tpm-schematics:start-region("remote-addr-field-update-section")
+// @tpm-schematics:end-region("remote-addr-field-update-section")
 
 // SetFlags No Remarks
 func (ud *UpdateDocument) SetFlags(p string) *UpdateDocument {
@@ -336,8 +336,8 @@ func UpdateWithFlags(p string) UpdateOption {
 // @tpm-schematics:start-region("flags-field-update-section")
 // @tpm-schematics:end-region("flags-field-update-section")
 
-// SetSysInfo No Remarks
-func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
+// SetSys_info No Remarks
+func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -345,8 +345,8 @@ func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
 	return ud
 }
 
-// UnsetSysInfo No Remarks
-func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
+// UnsetSys_info No Remarks
+func (ud *UpdateDocument) UnsetSys_info() *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -354,27 +354,27 @@ func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetSysInfo No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetSysInfo(p *commons.SysInfo, um UnsetMode) {
+// setOrUnsetSys_info No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetSys_info(p *commons.SysInfo, um UnsetMode) {
 	if p != nil && !p.IsZero() {
-		ud.SetSysInfo(p)
+		ud.SetSys_info(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		case SetData2Default:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }
 
-func UpdateWithSysInfo(p *commons.SysInfo) UpdateOption {
+func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil && !p.IsZero() {
-			ud.SetSysInfo(p)
+			ud.SetSys_info(p)
 		} else {
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }

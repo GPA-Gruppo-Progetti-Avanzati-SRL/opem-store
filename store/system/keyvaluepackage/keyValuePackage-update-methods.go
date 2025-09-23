@@ -35,7 +35,7 @@ type UnsetOptions struct {
 	Scope       UnsetMode
 	ObjType     UnsetMode
 	Category    UnsetMode
-	Issystem    UnsetMode
+	IsSystem    UnsetMode
 	Description UnsetMode
 	Inherited   UnsetMode
 	Properties  UnsetMode
@@ -80,9 +80,9 @@ func WithCategoryUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Category = m
 	}
 }
-func WithIssystemUnsetMode(m UnsetMode) UnsetOption {
+func WithIsSystemUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.Issystem = m
+		uopt.IsSystem = m
 	}
 }
 func WithDescriptionUnsetMode(m UnsetMode) UnsetOption {
@@ -133,13 +133,13 @@ func GetUpdateDocument(obj *KeyValuePackage, opts ...UnsetOption) UpdateDocument
 	ud := UpdateDocument{}
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
 	ud.setOrUnsetScope(obj.Scope, uo.ResolveUnsetMode(uo.Scope))
-	ud.setOrUnsetObjType(obj.ObjType, uo.ResolveUnsetMode(uo.ObjType))
+	ud.setOrUnsetObj_type(obj.ObjType, uo.ResolveUnsetMode(uo.ObjType))
 	ud.setOrUnsetCategory(obj.Category, uo.ResolveUnsetMode(uo.Category))
-	ud.setOrUnsetIssystem(obj.Issystem, uo.ResolveUnsetMode(uo.Issystem))
+	ud.setOrUnsetIs_system(obj.IsSystem, uo.ResolveUnsetMode(uo.IsSystem))
 	ud.setOrUnsetDescription(obj.Description, uo.ResolveUnsetMode(uo.Description))
 	ud.setOrUnsetInherited(obj.Inherited, uo.ResolveUnsetMode(uo.Inherited))
 	ud.setOrUnsetProperties(obj.Properties, uo.ResolveUnsetMode(uo.Properties))
-	ud.setOrUnsetSysInfo(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
+	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
 }
@@ -272,8 +272,8 @@ func UpdateWithScope(p string) UpdateOption {
 // @tpm-schematics:start-region("scope-field-update-section")
 // @tpm-schematics:end-region("scope-field-update-section")
 
-// SetObjType No Remarks
-func (ud *UpdateDocument) SetObjType(p string) *UpdateDocument {
+// SetObj_type No Remarks
+func (ud *UpdateDocument) SetObj_type(p string) *UpdateDocument {
 	mName := fmt.Sprintf(ObjTypeFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -281,8 +281,8 @@ func (ud *UpdateDocument) SetObjType(p string) *UpdateDocument {
 	return ud
 }
 
-// UnsetObjType No Remarks
-func (ud *UpdateDocument) UnsetObjType() *UpdateDocument {
+// UnsetObj_type No Remarks
+func (ud *UpdateDocument) UnsetObj_type() *UpdateDocument {
 	mName := fmt.Sprintf(ObjTypeFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -290,27 +290,27 @@ func (ud *UpdateDocument) UnsetObjType() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetObjType No Remarks
-func (ud *UpdateDocument) setOrUnsetObjType(p string, um UnsetMode) {
+// setOrUnsetObj_type No Remarks
+func (ud *UpdateDocument) setOrUnsetObj_type(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetObjType(p)
+		ud.SetObj_type(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		case SetData2Default:
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		}
 	}
 }
 
-func UpdateWithObjType(p string) UpdateOption {
+func UpdateWithObj_type(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetObjType(p)
+			ud.SetObj_type(p)
 		} else {
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		}
 	}
 }
@@ -364,51 +364,51 @@ func UpdateWithCategory(p string) UpdateOption {
 // @tpm-schematics:start-region("category-field-update-section")
 // @tpm-schematics:end-region("category-field-update-section")
 
-// SetIssystem No Remarks
-func (ud *UpdateDocument) SetIssystem(p bool) *UpdateDocument {
-	mName := fmt.Sprintf(IssystemFieldName)
+// SetIs_system No Remarks
+func (ud *UpdateDocument) SetIs_system(p bool) *UpdateDocument {
+	mName := fmt.Sprintf(IsSystemFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetIssystem No Remarks
-func (ud *UpdateDocument) UnsetIssystem() *UpdateDocument {
-	mName := fmt.Sprintf(IssystemFieldName)
+// UnsetIs_system No Remarks
+func (ud *UpdateDocument) UnsetIs_system() *UpdateDocument {
+	mName := fmt.Sprintf(IsSystemFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetIssystem No Remarks
-func (ud *UpdateDocument) setOrUnsetIssystem(p bool, um UnsetMode) {
+// setOrUnsetIs_system No Remarks
+func (ud *UpdateDocument) setOrUnsetIs_system(p bool, um UnsetMode) {
 	if p {
-		ud.SetIssystem(p)
+		ud.SetIs_system(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetIssystem()
+			ud.UnsetIs_system()
 		case SetData2Default:
-			ud.UnsetIssystem()
+			ud.UnsetIs_system()
 		}
 	}
 }
 
-func UpdateWithIssystem(p bool) UpdateOption {
+func UpdateWithIs_system(p bool) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p {
-			ud.SetIssystem(p)
+			ud.SetIs_system(p)
 		} else {
-			ud.UnsetIssystem()
+			ud.UnsetIs_system()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("issystem-field-update-section")
-// @tpm-schematics:end-region("issystem-field-update-section")
+// @tpm-schematics:start-region("is-system-field-update-section")
+// @tpm-schematics:end-region("is-system-field-update-section")
 
 // SetDescription No Remarks
 func (ud *UpdateDocument) SetDescription(p string) *UpdateDocument {
@@ -548,8 +548,8 @@ func UpdateWithProperties(p []KeyValue) UpdateOption {
 // @tpm-schematics:start-region("properties-field-update-section")
 // @tpm-schematics:end-region("properties-field-update-section")
 
-// SetSysInfo No Remarks
-func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
+// SetSys_info No Remarks
+func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -557,8 +557,8 @@ func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
 	return ud
 }
 
-// UnsetSysInfo No Remarks
-func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
+// UnsetSys_info No Remarks
+func (ud *UpdateDocument) UnsetSys_info() *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -566,27 +566,27 @@ func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetSysInfo No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetSysInfo(p *commons.SysInfo, um UnsetMode) {
+// setOrUnsetSys_info No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetSys_info(p *commons.SysInfo, um UnsetMode) {
 	if p != nil && !p.IsZero() {
-		ud.SetSysInfo(p)
+		ud.SetSys_info(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		case SetData2Default:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }
 
-func UpdateWithSysInfo(p *commons.SysInfo) UpdateOption {
+func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil && !p.IsZero() {
-			ud.SetSysInfo(p)
+			ud.SetSys_info(p)
 		} else {
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }

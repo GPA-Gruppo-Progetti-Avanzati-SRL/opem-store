@@ -24,7 +24,7 @@ attributes:
   options: with-filter
 - name: officer_name
   type: string
-- name: status
-  type: string
-  options: with-filter
-
+- name: sys_info
+  struct-ref:
+    name: SysInfo
+  type: struct

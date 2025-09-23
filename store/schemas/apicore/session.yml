@@ -16,12 +16,12 @@ attributes:
 - name: nickname
   type: string
   options: with-filter
-- name: remoteaddr
+- name: remote_addr
   type: string
   options: with-filter
 - name: flags
   type: string
-- name: sysInfo
+- name: sys_info
   struct-ref:
     name: SysInfo
   type: struct

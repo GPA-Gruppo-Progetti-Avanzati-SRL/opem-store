@@ -12,10 +12,10 @@ type File struct {
 	Fn       string                `json:"fn,omitempty" bson:"fn,omitempty" yaml:"fn,omitempty"`
 	Descr    string                `json:"descr,omitempty" bson:"descr,omitempty" yaml:"descr,omitempty"`
 	Role     string                `json:"role,omitempty" bson:"role,omitempty" yaml:"role,omitempty"`
-	EntRefs  []EntRefStruct        `json:"entRefs,omitempty" bson:"entRefs,omitempty" yaml:"entRefs,omitempty"`
+	EntRefs  []EntRefStruct        `json:"ent_refs,omitempty" bson:"ent_refs,omitempty" yaml:"ent_refs,omitempty"`
 	Metadata bson.M                `json:"metadata,omitempty" bson:"metadata,omitempty" yaml:"metadata,omitempty"`
 	Vrnts    []commons.FileVariant `json:"vrnts,omitempty" bson:"vrnts,omitempty" yaml:"vrnts,omitempty"`
-	SysInfo  commons.SysInfo       `json:"sysInfo,omitempty" bson:"sysInfo,omitempty" yaml:"sysInfo,omitempty"`
+	SysInfo  commons.SysInfo       `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
@@ -23,6 +23,11 @@ type File struct {
 
 func (s File) IsZero() bool {
 	return s.OId == primitive.NilObjectID && s.Fn == "" && s.Descr == "" && s.Role == "" && len(s.EntRefs) == 0 && len(s.Metadata) == 0 && len(s.Vrnts) == 0 && s.SysInfo.IsZero()
+}
+
+type QueryResult struct {
+	Records int    `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
+	Data    []File `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
 }
 
 // @tpm-schematics:start-region("bottom-file-section")

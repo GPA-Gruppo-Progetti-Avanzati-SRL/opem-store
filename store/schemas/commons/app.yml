@@ -2,7 +2,7 @@ name: App
 attributes:
 - name: id
   type: string
-- name: objType
+- name: obj_type
   type: string
 - name: name
   type: string
@@ -12,5 +12,5 @@ attributes:
   type: string
 - name: version
   type: string
-- name: roleRequired
+- name: role_required
   type: bool

@@ -26,11 +26,11 @@ c.insertOne(
         "description": "Key value package (1) root level"
         ,"properties": [
             { "key": "theme", "value": "theme-1" },
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -43,11 +43,11 @@ c.insertOne(
         "description": "Key value package (2) root level"
         ,"properties": [
             { "key": "theme", "value": "theme-1" },
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -60,11 +60,11 @@ c.insertOne(
         "description": "Key value package (3) root level"
         ,"properties": [
             { "key": "theme", "value": "theme-1" },
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -77,11 +77,11 @@ c.insertOne(
         "description": "Key value package (4) root level"
         ,"properties": [
             { "key": "theme", "value": "theme-1" },
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -95,11 +95,11 @@ c.insertOne(
         "description": "Key value package (2) overridden domain level"
         ,"properties": [
             { "key": "theme", "value": "theme-1" },
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -112,11 +112,11 @@ c.insertOne(
         "description": "Key value package (3) overridden domain level"
         ,"properties": [
             { "key": "theme", "value": "theme-1" },
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -130,11 +130,11 @@ c.insertOne(
         "description": "Key value package (3) overridden site level"
         ,"properties": [
             { "key": "theme", "value": "theme-1" },
-        ]
-        ,"sysinfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 

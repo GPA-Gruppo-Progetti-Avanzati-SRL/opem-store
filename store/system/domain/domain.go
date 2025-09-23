@@ -9,13 +9,13 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 type Domain struct {
 	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Code        string             `json:"code,omitempty" bson:"code,omitempty" yaml:"code,omitempty"`
-	ObjType     string             `json:"objType,omitempty" bson:"objType,omitempty" yaml:"objType,omitempty"`
+	ObjType     string             `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
 	Name        string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Description string             `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
 	Langs       string             `json:"langs,omitempty" bson:"langs,omitempty" yaml:"langs,omitempty"`
 	Members     []Member           `json:"members,omitempty" bson:"members,omitempty" yaml:"members,omitempty"`
 	Apps        []commons.App      `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
-	SysInfo     commons.SysInfo    `json:"sysInfo,omitempty" bson:"sysInfo,omitempty" yaml:"sysInfo,omitempty"`
+	SysInfo     commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
@@ -23,6 +23,11 @@ type Domain struct {
 
 func (s Domain) IsZero() bool {
 	return s.OId == primitive.NilObjectID && s.Code == "" && s.ObjType == "" && s.Name == "" && s.Description == "" && s.Langs == "" && len(s.Members) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
+}
+
+type QueryResult struct {
+	Records int      `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
+	Data    []Domain `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
@@ -43,11 +48,6 @@ func (s Domain) GetAppByObjTypeAndId(objType commons.AppObjType, appId string) (
 	}
 
 	return app, false
-}
-
-type QueryResult struct {
-	Records int      `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
-	Data    []Domain `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
 }
 
 // @tpm-schematics:end-region("bottom-file-section")

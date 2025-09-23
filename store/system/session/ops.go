@@ -3,11 +3,12 @@ package session
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 func FindBySId(collection *mongo.Collection, sid string, mustFind bool, findOptions *options.FindOneOptions) (*Session, error) {
@@ -45,8 +46,8 @@ func Insert(ctx context.Context, aCollection *mongo.Collection, s *Session) (str
 
 	now := time.Now()
 	s.SysInfo.Status = "active"
-	s.SysInfo.Createdat = primitive.NewDateTimeFromTime(now)
-	s.SysInfo.Modifiedat = primitive.NewDateTimeFromTime(now)
+	s.SysInfo.CreatedAt = primitive.NewDateTimeFromTime(now)
+	s.SysInfo.ModifiedAt = primitive.NewDateTimeFromTime(now)
 	r, err := aCollection.InsertOne(ctx, s)
 
 	if err != nil {

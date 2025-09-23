@@ -20,7 +20,10 @@ db[opemCollectionName].insertOne(
         "code_provincia": "RM",
         "code_uic_nazione": "IT",
         "name" : "Roma",
-        "status": "active",
-        "order": 1
+        "sys_info": {
+            "created_at": new Date(),
+            "status": "active",
+            "modified_at": new Date()
+        }
     })
 

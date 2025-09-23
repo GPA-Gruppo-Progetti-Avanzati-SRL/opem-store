@@ -19,7 +19,10 @@ db[opemCollectionName].insertOne(
         "domain": "card",
         "site": "*",
         "name" : "Postepay Lunch DAY Dipendenti",
-        "status": "active",
-        "order": 1
+        "sys_info": {
+            "created_at": new Date(),
+            "status": "active",
+            "modified_at": new Date()
+        }
     })
 

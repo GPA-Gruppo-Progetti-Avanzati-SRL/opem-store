@@ -132,14 +132,14 @@ func GetUpdateDocument(obj *User, opts ...UnsetOption) UpdateDocument {
 
 	ud := UpdateDocument{}
 	ud.setOrUnsetNickname(obj.Nickname, uo.ResolveUnsetMode(uo.Nickname))
-	ud.setOrUnsetObjType(obj.ObjType, uo.ResolveUnsetMode(uo.ObjType))
+	ud.setOrUnsetObj_type(obj.ObjType, uo.ResolveUnsetMode(uo.ObjType))
 	ud.setOrUnsetFirstname(obj.Firstname, uo.ResolveUnsetMode(uo.Firstname))
 	ud.setOrUnsetLastname(obj.Lastname, uo.ResolveUnsetMode(uo.Lastname))
 	ud.setOrUnsetEmail(obj.Email, uo.ResolveUnsetMode(uo.Email))
 	ud.setOrUnsetPassword(obj.Password, uo.ResolveUnsetMode(uo.Password))
 	ud.setOrUnsetRoles(obj.Roles, uo.ResolveUnsetMode(uo.Roles))
-	ud.setOrUnsetSysInfo(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
-	ud.setOrUnsetProfilePicture(&obj.ProfilePicture, uo.ResolveUnsetMode(uo.ProfilePicture))
+	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
+	ud.setOrUnsetProfile_picture(&obj.ProfilePicture, uo.ResolveUnsetMode(uo.ProfilePicture))
 
 	return ud
 }
@@ -226,8 +226,8 @@ func UpdateWithNickname(p string) UpdateOption {
 // @tpm-schematics:start-region("nickname-field-update-section")
 // @tpm-schematics:end-region("nickname-field-update-section")
 
-// SetObjType No Remarks
-func (ud *UpdateDocument) SetObjType(p string) *UpdateDocument {
+// SetObj_type No Remarks
+func (ud *UpdateDocument) SetObj_type(p string) *UpdateDocument {
 	mName := fmt.Sprintf(ObjTypeFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -235,8 +235,8 @@ func (ud *UpdateDocument) SetObjType(p string) *UpdateDocument {
 	return ud
 }
 
-// UnsetObjType No Remarks
-func (ud *UpdateDocument) UnsetObjType() *UpdateDocument {
+// UnsetObj_type No Remarks
+func (ud *UpdateDocument) UnsetObj_type() *UpdateDocument {
 	mName := fmt.Sprintf(ObjTypeFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -244,27 +244,27 @@ func (ud *UpdateDocument) UnsetObjType() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetObjType No Remarks
-func (ud *UpdateDocument) setOrUnsetObjType(p string, um UnsetMode) {
+// setOrUnsetObj_type No Remarks
+func (ud *UpdateDocument) setOrUnsetObj_type(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetObjType(p)
+		ud.SetObj_type(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		case SetData2Default:
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		}
 	}
 }
 
-func UpdateWithObjType(p string) UpdateOption {
+func UpdateWithObj_type(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetObjType(p)
+			ud.SetObj_type(p)
 		} else {
-			ud.UnsetObjType()
+			ud.UnsetObj_type()
 		}
 	}
 }
@@ -502,8 +502,8 @@ func UpdateWithRoles(p []commons.UserRole) UpdateOption {
 // @tpm-schematics:start-region("roles-field-update-section")
 // @tpm-schematics:end-region("roles-field-update-section")
 
-// SetSysInfo No Remarks
-func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
+// SetSys_info No Remarks
+func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -511,8 +511,8 @@ func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
 	return ud
 }
 
-// UnsetSysInfo No Remarks
-func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
+// UnsetSys_info No Remarks
+func (ud *UpdateDocument) UnsetSys_info() *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -520,27 +520,27 @@ func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetSysInfo No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetSysInfo(p *commons.SysInfo, um UnsetMode) {
+// setOrUnsetSys_info No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetSys_info(p *commons.SysInfo, um UnsetMode) {
 	if p != nil && !p.IsZero() {
-		ud.SetSysInfo(p)
+		ud.SetSys_info(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		case SetData2Default:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }
 
-func UpdateWithSysInfo(p *commons.SysInfo) UpdateOption {
+func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil && !p.IsZero() {
-			ud.SetSysInfo(p)
+			ud.SetSys_info(p)
 		} else {
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }
@@ -548,8 +548,8 @@ func UpdateWithSysInfo(p *commons.SysInfo) UpdateOption {
 // @tpm-schematics:start-region("sys-info-field-update-section")
 // @tpm-schematics:end-region("sys-info-field-update-section")
 
-// SetProfilePicture No Remarks
-func (ud *UpdateDocument) SetProfilePicture(p *commons.FileReference) *UpdateDocument {
+// SetProfile_picture No Remarks
+func (ud *UpdateDocument) SetProfile_picture(p *commons.FileReference) *UpdateDocument {
 	mName := fmt.Sprintf(ProfilePictureFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -557,8 +557,8 @@ func (ud *UpdateDocument) SetProfilePicture(p *commons.FileReference) *UpdateDoc
 	return ud
 }
 
-// UnsetProfilePicture No Remarks
-func (ud *UpdateDocument) UnsetProfilePicture() *UpdateDocument {
+// UnsetProfile_picture No Remarks
+func (ud *UpdateDocument) UnsetProfile_picture() *UpdateDocument {
 	mName := fmt.Sprintf(ProfilePictureFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -566,27 +566,27 @@ func (ud *UpdateDocument) UnsetProfilePicture() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetProfilePicture No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetProfilePicture(p *commons.FileReference, um UnsetMode) {
+// setOrUnsetProfile_picture No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetProfile_picture(p *commons.FileReference, um UnsetMode) {
 	if p != nil && !p.IsZero() {
-		ud.SetProfilePicture(p)
+		ud.SetProfile_picture(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetProfilePicture()
+			ud.UnsetProfile_picture()
 		case SetData2Default:
-			ud.UnsetProfilePicture()
+			ud.UnsetProfile_picture()
 		}
 	}
 }
 
-func UpdateWithProfilePicture(p *commons.FileReference) UpdateOption {
+func UpdateWithProfile_picture(p *commons.FileReference) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil && !p.IsZero() {
-			ud.SetProfilePicture(p)
+			ud.SetProfile_picture(p)
 		} else {
-			ud.UnsetProfilePicture()
+			ud.UnsetProfile_picture()
 		}
 	}
 }

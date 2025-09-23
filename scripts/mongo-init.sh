@@ -19,3 +19,6 @@ cd ../opem-store-prodotto
 
 cd ../opem-store-organizzazione
 ./opem-store-organizzazione-mongo-init.sh $mongoServer
+
+cd ../opem-store-magazzino
+./opem-store-magazzino-mongo-init.sh $mongoServer

@@ -6,8 +6,8 @@ package file
 type EntRefStruct struct {
 	Dom     string `json:"dom,omitempty" bson:"dom,omitempty" yaml:"dom,omitempty"`
 	Ns      string `json:"ns,omitempty" bson:"ns,omitempty" yaml:"ns,omitempty"`
-	EntType string `json:"entType,omitempty" bson:"entType,omitempty" yaml:"entType,omitempty"`
-	EntId   string `json:"entId,omitempty" bson:"entId,omitempty" yaml:"entId,omitempty"`
+	EntType string `json:"ent_type,omitempty" bson:"ent_type,omitempty" yaml:"ent_type,omitempty"`
+	EntId   string `json:"ent_id,omitempty" bson:"ent_id,omitempty" yaml:"ent_id,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")

@@ -19,8 +19,12 @@ db[opemCollectionName].insertMany([
         "domain": "card",
         "site": "RUO",
         "officer_name" : "Giuseppe Celitti (RUO)",
-        "status": "active",
-        "order": 1
+        "sys_info": {
+            "created_at": new Date(),
+            "status": "active",
+            "modified_at": new Date()
+        }
+
     },
     {
         "_bid": "FP-ERD-00001",
@@ -28,8 +32,11 @@ db[opemCollectionName].insertMany([
         "domain": "card",
         "site": "edenred",
         "officer_name" : "Giuseppe Celitti (Edenred)",
-        "status": "active",
-        "order": 1
+        "sys_info": {
+            "created_at": new Date(),
+            "status": "active",
+            "modified_at": new Date()
+        }
     }
     ]
 )

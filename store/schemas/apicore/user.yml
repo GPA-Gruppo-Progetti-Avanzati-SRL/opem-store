@@ -13,7 +13,7 @@ attributes:
 - name: nickname
   type: string
   options: with-filter
-- name: objType
+- name: obj_type
   type: string
 - name: firstname
   type: string
@@ -29,11 +29,11 @@ attributes:
     type: struct
     struct-ref:
       name: UserRole
-- name: sysInfo
+- name: sys_info
   struct-ref:
     name: SysInfo
   type: struct
-- name: profilePicture
+- name: profile_picture
   struct-ref:
     name: FileReference
   type: struct

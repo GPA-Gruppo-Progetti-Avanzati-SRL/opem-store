@@ -1,12 +1,10 @@
 package user
 
-import (
-	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-)
+import "go.mongodb.org/mongo-driver/bson/primitive"
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
+import "github.com/rs/zerolog/log"
 
 const (
 	ObjectType    = "user"
@@ -19,14 +17,14 @@ const (
 type User struct {
 	OId            primitive.ObjectID    `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Nickname       string                `json:"nickname,omitempty" bson:"nickname,omitempty" yaml:"nickname,omitempty"`
-	ObjType        string                `json:"objType,omitempty" bson:"objType,omitempty" yaml:"objType,omitempty"`
+	ObjType        string                `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
 	Firstname      string                `json:"firstname,omitempty" bson:"firstname,omitempty" yaml:"firstname,omitempty"`
 	Lastname       string                `json:"lastname,omitempty" bson:"lastname,omitempty" yaml:"lastname,omitempty"`
 	Email          string                `json:"email,omitempty" bson:"email,omitempty" yaml:"email,omitempty"`
 	Password       string                `json:"password,omitempty" bson:"password,omitempty" yaml:"password,omitempty"`
 	Roles          []commons.UserRole    `json:"roles,omitempty" bson:"roles,omitempty" yaml:"roles,omitempty"`
-	SysInfo        commons.SysInfo       `json:"sysInfo,omitempty" bson:"sysInfo,omitempty" yaml:"sysInfo,omitempty"`
-	ProfilePicture commons.FileReference `json:"profilePicture,omitempty" bson:"profilePicture,omitempty" yaml:"profilePicture,omitempty"`
+	SysInfo        commons.SysInfo       `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
+	ProfilePicture commons.FileReference `json:"profile_picture,omitempty" bson:"profile_picture,omitempty" yaml:"profile_picture,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
@@ -36,12 +34,12 @@ func (s User) IsZero() bool {
 	return s.OId == primitive.NilObjectID && s.Nickname == "" && s.ObjType == "" && s.Firstname == "" && s.Lastname == "" && s.Email == "" && s.Password == "" && len(s.Roles) == 0 && s.SysInfo.IsZero() && s.ProfilePicture.IsZero()
 }
 
-// @tpm-schematics:start-region("bottom-file-section")
-
 type QueryResult struct {
 	Records int    `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
 	Data    []User `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
 }
+
+// @tpm-schematics:start-region("bottom-file-section")
 
 func (s User) HasRole4DomainSiteAppId(domain, site, appId, appType, role string) bool {
 	return AnyRole4DomainSiteAppId(s.Roles, domain, site, appId, appType, role)

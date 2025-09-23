@@ -1,14 +1,16 @@
 package commons
 
+// @tpm-schematics:start-region("top-file-section")
 import (
-	"fmt"
 	"strings"
-
-	"github.com/rs/zerolog/log"
 )
 
-// @tpm-schematics:start-region("top-file-section")
 // @tpm-schematics:end-region("top-file-section")
+
+import (
+	"fmt"
+	"github.com/rs/zerolog/log"
+)
 
 type UserRole struct {
 	Domain string `json:"domain,omitempty" bson:"domain,omitempty" yaml:"domain,omitempty"`

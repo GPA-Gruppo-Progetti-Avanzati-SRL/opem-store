@@ -5,7 +5,7 @@ package domain
 
 type Member struct {
 	Code    string `json:"code,omitempty" bson:"code,omitempty" yaml:"code,omitempty"`
-	ObjType string `json:"objType,omitempty" bson:"objType,omitempty" yaml:"objType,omitempty"`
+	ObjType string `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")

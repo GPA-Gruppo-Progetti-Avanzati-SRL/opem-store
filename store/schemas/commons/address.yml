@@ -1,0 +1,16 @@
+name: Address
+attributes:
+  - name: type
+    type: string
+  - name: county
+    struct-ref:
+      name: BidTextPair
+    type: struct
+  - name: townhall
+    struct-ref:
+      name: BidTextPair
+    type: struct
+  - name: zipcode
+    type: string
+  - name: attn_to
+    type: string

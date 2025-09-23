@@ -2,9 +2,8 @@ package file
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/bson"
+	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -123,10 +122,10 @@ func GetUpdateDocument(obj *File, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetFn(obj.Fn, uo.ResolveUnsetMode(uo.Fn))
 	ud.setOrUnsetDescr(obj.Descr, uo.ResolveUnsetMode(uo.Descr))
 	ud.setOrUnsetRole(obj.Role, uo.ResolveUnsetMode(uo.Role))
-	ud.setOrUnsetEntRefs(obj.EntRefs, uo.ResolveUnsetMode(uo.EntRefs))
+	ud.setOrUnsetEnt_refs(obj.EntRefs, uo.ResolveUnsetMode(uo.EntRefs))
 	ud.setOrUnsetMetadata(obj.Metadata, uo.ResolveUnsetMode(uo.Metadata))
 	ud.setOrUnsetVrnts(obj.Vrnts, uo.ResolveUnsetMode(uo.Vrnts))
-	ud.setOrUnsetSysInfo(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
+	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
 }
@@ -305,8 +304,8 @@ func UpdateWithRole(p string) UpdateOption {
 // @tpm-schematics:start-region("role-field-update-section")
 // @tpm-schematics:end-region("role-field-update-section")
 
-// SetEntRefs No Remarks
-func (ud *UpdateDocument) SetEntRefs(p []EntRefStruct) *UpdateDocument {
+// SetEnt_refs No Remarks
+func (ud *UpdateDocument) SetEnt_refs(p []EntRefStruct) *UpdateDocument {
 	mName := fmt.Sprintf(EntRefsFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -314,8 +313,8 @@ func (ud *UpdateDocument) SetEntRefs(p []EntRefStruct) *UpdateDocument {
 	return ud
 }
 
-// UnsetEntRefs No Remarks
-func (ud *UpdateDocument) UnsetEntRefs() *UpdateDocument {
+// UnsetEnt_refs No Remarks
+func (ud *UpdateDocument) UnsetEnt_refs() *UpdateDocument {
 	mName := fmt.Sprintf(EntRefsFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -323,27 +322,27 @@ func (ud *UpdateDocument) UnsetEntRefs() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetEntRefs No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetEntRefs(p []EntRefStruct, um UnsetMode) {
+// setOrUnsetEnt_refs No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetEnt_refs(p []EntRefStruct, um UnsetMode) {
 	if len(p) > 0 {
-		ud.SetEntRefs(p)
+		ud.SetEnt_refs(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetEntRefs()
+			ud.UnsetEnt_refs()
 		case SetData2Default:
-			ud.UnsetEntRefs()
+			ud.UnsetEnt_refs()
 		}
 	}
 }
 
-func UpdateWithEntRefs(p []EntRefStruct) UpdateOption {
+func UpdateWithEnt_refs(p []EntRefStruct) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if len(p) > 0 {
-			ud.SetEntRefs(p)
+			ud.SetEnt_refs(p)
 		} else {
-			ud.UnsetEntRefs()
+			ud.UnsetEnt_refs()
 		}
 	}
 }
@@ -443,8 +442,8 @@ func UpdateWithVrnts(p []commons.FileVariant) UpdateOption {
 // @tpm-schematics:start-region("vrnts-field-update-section")
 // @tpm-schematics:end-region("vrnts-field-update-section")
 
-// SetSysInfo No Remarks
-func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
+// SetSys_info No Remarks
+func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -452,8 +451,8 @@ func (ud *UpdateDocument) SetSysInfo(p *commons.SysInfo) *UpdateDocument {
 	return ud
 }
 
-// UnsetSysInfo No Remarks
-func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
+// UnsetSys_info No Remarks
+func (ud *UpdateDocument) UnsetSys_info() *UpdateDocument {
 	mName := fmt.Sprintf(SysInfoFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
@@ -461,60 +460,33 @@ func (ud *UpdateDocument) UnsetSysInfo() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetSysInfo No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetSysInfo(p *commons.SysInfo, um UnsetMode) {
+// setOrUnsetSys_info No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetSys_info(p *commons.SysInfo, um UnsetMode) {
 	if p != nil && !p.IsZero() {
-		ud.SetSysInfo(p)
+		ud.SetSys_info(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		case SetData2Default:
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }
 
-func UpdateWithSysInfo(p *commons.SysInfo) UpdateOption {
+func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil && !p.IsZero() {
-			ud.SetSysInfo(p)
+			ud.SetSys_info(p)
 		} else {
-			ud.UnsetSysInfo()
+			ud.UnsetSys_info()
 		}
 	}
 }
 
 // @tpm-schematics:start-region("sys-info-field-update-section")
 // @tpm-schematics:end-region("sys-info-field-update-section")
-
-const (
-	AddToSet UpdateOperator = "$addToSet"
-	Pull     UpdateOperator = "$pull"
-)
-
-func (ud *UpdateDocument) AddToSet() *Updates {
-	return ud.op(AddToSet)
-}
-
-func (ud *UpdateDocument) Pull() *Updates {
-	return ud.op(Pull)
-}
-
-func (ud *UpdateDocument) AddToEntRefsSet(p EntRefStruct) *UpdateDocument {
-	ud.AddToSet().Add(func() bson.E {
-		return bson.E{Key: EntRefsFieldName, Value: p}
-	})
-	return ud
-}
-
-func (ud *UpdateDocument) PullFromEntRefsSet(p EntRefStruct) *UpdateDocument {
-	ud.Pull().Add(func() bson.E {
-		return bson.E{Key: EntRefsFieldName, Value: p}
-	})
-	return ud
-}
 
 // @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

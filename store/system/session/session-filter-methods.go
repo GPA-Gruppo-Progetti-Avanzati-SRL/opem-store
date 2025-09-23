@@ -2,7 +2,6 @@ package session
 
 import (
 	"fmt"
-	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"time"
 
@@ -10,11 +9,27 @@ import (
 )
 
 // @tpm-schematics:start-region("top-file-section")
+import "github.com/rs/zerolog/log"
+
 // @tpm-schematics:end-region("top-file-section")
 
 func FilterMethodsGoInfo() string {
 	i := fmt.Sprintf("tpm_morphia query filter support generated for %s package on %s", "author", time.Now().String())
 	return i
+}
+
+// to be able to succesfully call this method you have to define a text index on the collection. The $text operator has some additional fields that are not supported yet.
+func (ca *Criteria) AndTextSearch(ssearch string) *Criteria {
+	if ssearch == "" {
+		return ca
+	}
+
+	c := func() bson.E {
+		const TextOperator = "$text"
+		return bson.E{Key: TextOperator, Value: bson.E{Key: "$search", Value: ssearch}}
+	}
+	*ca = append(*ca, c)
+	return ca
 }
 
 /*
@@ -132,45 +147,45 @@ func (ca *Criteria) AndNicknameIn(p []string) *Criteria {
 // @tpm-schematics:end-region("nickname-field-filter-section")
 
 /*
- * filter-string template: remoteaddr
+ * filter-string template: remote_addr
  */
 
-// AndRemoteaddrEqTo No Remarks
-func (ca *Criteria) AndRemoteaddrEqTo(p string) *Criteria {
+// AndRemoteAddrEqTo No Remarks
+func (ca *Criteria) AndRemoteAddrEqTo(p string) *Criteria {
 
 	if p == "" {
 		return ca
 	}
 
-	mName := fmt.Sprintf(RemoteaddrFieldName)
+	mName := fmt.Sprintf(RemoteAddrFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// AndRemoteaddrIsNullOrUnset No Remarks
-func (ca *Criteria) AndRemoteaddrIsNullOrUnset() *Criteria {
+// AndRemoteAddrIsNullOrUnset No Remarks
+func (ca *Criteria) AndRemoteAddrIsNullOrUnset() *Criteria {
 
-	mName := fmt.Sprintf(RemoteaddrFieldName)
+	mName := fmt.Sprintf(RemoteAddrFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-func (ca *Criteria) AndRemoteaddrIn(p []string) *Criteria {
+func (ca *Criteria) AndRemoteAddrIn(p []string) *Criteria {
 
 	if len(p) == 0 {
 		return ca
 	}
 
-	mName := fmt.Sprintf(RemoteaddrFieldName)
+	mName := fmt.Sprintf(RemoteAddrFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// @tpm-schematics:start-region("remoteaddr-field-filter-section")
-// @tpm-schematics:end-region("remoteaddr-field-filter-section")
+// @tpm-schematics:start-region("remote-addr-field-filter-section")
+// @tpm-schematics:end-region("remote-addr-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
 

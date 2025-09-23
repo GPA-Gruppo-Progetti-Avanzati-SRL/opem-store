@@ -8,20 +8,78 @@ import (
 
 // @tpm-schematics:start-region("top-file-section")
 
-type QueryOptions struct {
-	Limit         int64  `form:"limit" query:"limit" json:"limit,omitempty" bson:"limit,omitempty" yaml:"limit,omitempty"`
-	Offset        int64  `form:"offset" query:"offset" json:"offset,omitempty" bson:"offset,omitempty" yaml:"offset,omitempty"`
-	SortBy        string `form:"sortBy" query:"sortBy" json:"sortBy,omitempty" bson:"sortBy,omitempty" yaml:"sortBy,omitempty"`
-	SortDirection string `form:"sortDirection" query:"sortDirection" json:"sortDirection,omitempty" bson:"sortDirection,omitempty" yaml:"sortDirection,omitempty"`
-	SearchTerm    string `form:"ssearch" query:"ssearch" json:"ssearch,omitempty" bson:"ssearch,omitempty" yaml:"ssearch,omitempty"`
-}
-
+//type QueryOptions struct {
+//	Limit         int64  `form:"limit" query:"limit" json:"limit,omitempty" bson:"limit,omitempty" yaml:"limit,omitempty"`
+//	Offset        int64  `form:"offset" query:"offset" json:"offset,omitempty" bson:"offset,omitempty" yaml:"offset,omitempty"`
+//	SortBy        string `form:"sortBy" query:"sortBy" json:"sortBy,omitempty" bson:"sortBy,omitempty" yaml:"sortBy,omitempty"`
+//	SortDirection string `form:"sortDirection" query:"sortDirection" json:"sortDirection,omitempty" bson:"sortDirection,omitempty" yaml:"sortDirection,omitempty"`
+//	SearchTerm    string `form:"ssearch" query:"ssearch" json:"ssearch,omitempty" bson:"ssearch,omitempty" yaml:"ssearch,omitempty"`
+//}
+//
 // @tpm-schematics:end-region("top-file-section")
+
+//type QueryOptions struct {
+//	Limit         int64  `form:"limit" query:"limit" json:"limit,omitempty" bson:"limit,omitempty" yaml:"limit,omitempty"`
+//	Offset        int64  `form:"offset" query:"offset" json:"offset,omitempty" bson:"offset,omitempty" yaml:"offset,omitempty"`
+//	SortBy        string `form:"sortBy" query:"sortBy" json:"sortBy,omitempty" bson:"sortBy,omitempty" yaml:"sortBy,omitempty"`
+//	SortDirection string `form:"sortDirection" query:"sortDirection" json:"sortDirection,omitempty" bson:"sortDirection,omitempty" yaml:"sortDirection,omitempty"`
+//	SearchTerm    string `form:"ssearch" query:"ssearch" json:"ssearch,omitempty" bson:"ssearch,omitempty" yaml:"ssearch,omitempty"`
+//	WithCount     bool   `form:"withCount" query:"withCount" json:"withCount,omitempty" bson:"withCount,omitempty" yaml:"withCount,omitempty"`
+//	// @tpm-schematics:start-region("query-options-struct-section")
+//	// @tpm-schematics:end-region("query-options-struct-section")
+//}
+//
+//type SortOptions struct {
+//	document bson.D
+//}
+//
+//func NewSortOptions(opts ...SortOption) SortOptions {
+//	sops := SortOptions{}
+//	for _, o := range opts {
+//		o(&sops)
+//	}
+//
+//	return sops
+//}
+//
+//func (pops SortOptions) Build() bson.D {
+//	return pops.document
+//}
+//
+//type SortOption func(sops *SortOptions)
+//
+//func WithSortByFieldAsc(fn string) SortOption {
+//	return func(sops *SortOptions) {
+//		sops.document = append(sops.document, bson.E{Key: fn, Value: 1})
+//	}
+//}
+//
+//func WithSortByFieldDesc(fn string) SortOption {
+//	return func(sops *SortOptions) {
+//		sops.document = append(sops.document, bson.E{Key: fn, Value: -1})
+//	}
+//}
+//
+//func WithSortByTextSearchRankingDesc(fn string) SortOption {
+//	return func(sops *SortOptions) {
+//		sops.document = append(sops.document, bson.E{Key: fn, Value: bson.E{Key: "$meta", Value: "textScore"}})
+//	}
+//}
 
 func CriteriaGoInfo() string {
 	i := fmt.Sprintf("tpm_morphia query filter support generated for %s package on %s", "author", time.Now().String())
 	return i
 }
+
+const (
+	Text                   string = "$text"
+	Regex                  string = "$regex"
+	TextLanguage           string = "$language"
+	TextCaseSensitive             = "$caseSensitive"
+	TextDiacriticSensitive        = "$diacriticSensitive"
+	TextMeta                      = "$meta"
+	TextMetaTextScore             = "textScore"
+)
 
 type Criterion func() bson.E
 type Criteria []Criterion

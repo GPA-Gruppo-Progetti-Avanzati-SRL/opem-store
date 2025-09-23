@@ -5,12 +5,12 @@ package commons
 
 type App struct {
 	Id           string `json:"id,omitempty" bson:"id,omitempty" yaml:"id,omitempty"`
-	ObjType      string `json:"objType,omitempty" bson:"objType,omitempty" yaml:"objType,omitempty"`
+	ObjType      string `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
 	Name         string `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Description  string `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
 	Path         string `json:"path,omitempty" bson:"path,omitempty" yaml:"path,omitempty"`
 	Version      string `json:"version,omitempty" bson:"version,omitempty" yaml:"version,omitempty"`
-	RoleRequired bool   `json:"roleRequired,omitempty" bson:"roleRequired,omitempty" yaml:"roleRequired,omitempty"`
+	RoleRequired bool   `json:"role_required,omitempty" bson:"role_required,omitempty" yaml:"role_required,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")

@@ -2,5 +2,5 @@ name: Member
 attributes:
 - name: code
   type: string
-- name: objType
+- name: obj_type
   type: string

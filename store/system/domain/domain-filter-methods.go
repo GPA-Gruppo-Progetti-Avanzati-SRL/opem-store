@@ -15,6 +15,20 @@ func FilterMethodsGoInfo() string {
 	return i
 }
 
+// to be able to succesfully call this method you have to define a text index on the collection. The $text operator has some additional fields that are not supported yet.
+func (ca *Criteria) AndTextSearch(ssearch string) *Criteria {
+	if ssearch == "" {
+		return ca
+	}
+
+	c := func() bson.E {
+		const TextOperator = "$text"
+		return bson.E{Key: TextOperator, Value: bson.E{Key: "$search", Value: ssearch}}
+	}
+	*ca = append(*ca, c)
+	return ca
+}
+
 /*
  * filter-object-id template: oId
  */

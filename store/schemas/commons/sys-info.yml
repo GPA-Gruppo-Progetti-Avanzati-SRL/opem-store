@@ -2,7 +2,7 @@ name: SysInfo
 attributes:
 - name: status
   type: string
-- name: createdat
+- name: created_at
   type: date
-- name: modifiedat
+- name: modified_at
   type: date

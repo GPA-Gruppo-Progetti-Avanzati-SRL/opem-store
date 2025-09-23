@@ -1,6 +1,7 @@
 package focalpoint
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
+import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 const (
@@ -17,14 +18,14 @@ type FocalPoint struct {
 	Bid         string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Et          string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	OfficerName string             `json:"officer_name,omitempty" bson:"officer_name,omitempty" yaml:"officer_name,omitempty"`
-	Status      string             `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	SysInfo     commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s FocalPoint) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.OfficerName == "" && s.Status == ""
+	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.OfficerName == "" && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

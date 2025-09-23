@@ -34,8 +34,7 @@ attributes:
   type: string
 - name: cab
   type: string
-- name: status
-  type: string
-  options: with-filter
-- name: order
-  type: int
+- name: sys_info
+  struct-ref:
+    name: SysInfo
+  type: struct

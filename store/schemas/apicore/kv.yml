@@ -16,12 +16,12 @@ attributes:
 - name: scope
   type: string
   options: with-filter
-- name: objType
+- name: obj_type
   type: string
 - name: category
   type: string
   options: with-filter
-- name: issystem
+- name: is_system
   type: bool
 - name: description
   type: string
@@ -33,7 +33,7 @@ attributes:
     type: struct
     struct-ref:
       name: KeyValue
-- name: sysInfo
+- name: sys_info
   struct-ref:
     name: SysInfo
   type: struct

@@ -8,13 +8,16 @@ package focalpoint
 // @tpm-schematics:end-region("top-file-section")
 
 const (
-	OIdFieldName         = "_id"
-	DomainFieldName      = "domain"
-	SiteFieldName        = "site"
-	BidFieldName         = "_bid"
-	EtFieldName          = "_et"
-	OfficerNameFieldName = "officer_name"
-	StatusFieldName      = "status"
+	OIdFieldName                = "_id"
+	DomainFieldName             = "domain"
+	SiteFieldName               = "site"
+	BidFieldName                = "_bid"
+	EtFieldName                 = "_et"
+	OfficerNameFieldName        = "officer_name"
+	SysInfoFieldName            = "sys_info"
+	SysInfo_StatusFieldName     = "sys_info.status"
+	SysInfo_CreatedAtFieldName  = "sys_info.created_at"
+	SysInfo_ModifiedAtFieldName = "sys_info.modified_at"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

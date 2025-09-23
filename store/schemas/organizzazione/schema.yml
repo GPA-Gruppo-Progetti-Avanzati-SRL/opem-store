@@ -1,5 +1,7 @@
 module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
 package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/organizzazione
+imports:
+  - ../commons/schema.yml
 entities:
 - file-name: ./focal-point.yml
   document: true

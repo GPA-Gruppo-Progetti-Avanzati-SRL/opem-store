@@ -26,22 +26,22 @@ c.insertOne(
                 ,"site" : "*"
                 ,"apps" : "*"
             }
-        ]
-        ,"sysInfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
 c.insertOne(
     {
         "nickname" : "guest",
-        "objType"  : "guest-user"
-        ,"sysInfo": {
-            "createdat": new Date(),
+        "objType"  : "guest-user",
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
 
@@ -58,10 +58,10 @@ c.insertOne(
                 ,"site" : "*"
                 ,"apps" : "app-home:admin:requested-role;app-people-admin:admin"
             }
-        ]
-        ,"sysInfo": {
-            "createdat": new Date(),
+        ],
+        "sys_info": {
+            "created_at": new Date(),
             "status": "active",
-            "modifiedat": new Date()
+            "modified_at": new Date()
         }
     });
