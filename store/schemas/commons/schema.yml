@@ -9,5 +9,7 @@ entities:
 - file-name: ./address.yml
 - file-name: ./bid-text-pair.yml
 - file-name: ./address.yml
+- file-name: ./note.yml
+- file-name: ./event.yml
 # @tpm-schematics:start-region("bottom-file-section")
 # @tpm-schematics:end-region("bottom-file-section")

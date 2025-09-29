@@ -1,4 +1,4 @@
-package provincia
+package sequence
 
 // This file contains the paths to the field in the generated entity.
 // A path is a string with all the identifiers from the root document to the single leaves.
@@ -8,15 +8,10 @@ package provincia
 // @tpm-schematics:end-region("top-file-section")
 
 const (
-	OIdFieldName                = "_id"
-	EtFieldName                 = "_et"
-	CodeFieldName               = "code"
-	NameFieldName               = "name"
-	CodeNazioneFieldName        = "code_nazione"
-	SysInfoFieldName            = "sys_info"
-	SysInfo_StatusFieldName     = "sys_info.status"
-	SysInfo_CreatedAtFieldName  = "sys_info.created_at"
-	SysInfo_ModifiedAtFieldName = "sys_info.modified_at"
+	OIdFieldName   = "_id"
+	BidFieldName   = "_bid"
+	EtFieldName    = "_et"
+	ValueFieldName = "value"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

@@ -2,8 +2,9 @@ package box
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -41,6 +42,8 @@ type UnsetOptions struct {
 	Info        UnsetMode
 	Status      UnsetMode
 	Recipient   UnsetMode
+	Events      UnsetMode
+	Notes       UnsetMode
 	SysInfo     UnsetMode
 }
 
@@ -112,6 +115,16 @@ func WithRecipientUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Recipient = m
 	}
 }
+func WithEventsUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Events = m
+	}
+}
+func WithNotesUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Notes = m
+	}
+}
 func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.SysInfo = m
@@ -153,6 +166,8 @@ func GetUpdateDocument(obj *Box, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetInfo(&obj.Info, uo.ResolveUnsetMode(uo.Info))
 	ud.setOrUnsetStatus(&obj.Status, uo.ResolveUnsetMode(uo.Status))
 	ud.setOrUnsetRecipient(&obj.Recipient, uo.ResolveUnsetMode(uo.Recipient))
+	ud.setOrUnsetEvents(obj.Events, uo.ResolveUnsetMode(uo.Events))
+	ud.setOrUnsetNotes(obj.Notes, uo.ResolveUnsetMode(uo.Notes))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
@@ -653,6 +668,110 @@ func UpdateWithRecipient(p *commons.Address) UpdateOption {
 
 // @tpm-schematics:start-region("recipient-field-update-section")
 // @tpm-schematics:end-region("recipient-field-update-section")
+
+// SetEvents No Remarks
+func (ud *UpdateDocument) SetEvents(p []commons.Event) *UpdateDocument {
+	mName := fmt.Sprintf(EventsFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetEvents No Remarks
+func (ud *UpdateDocument) UnsetEvents() *UpdateDocument {
+	mName := fmt.Sprintf(EventsFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetEvents No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetEvents(p []commons.Event, um UnsetMode) {
+	if len(p) > 0 {
+		ud.SetEvents(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetEvents()
+		case SetData2Default:
+			ud.UnsetEvents()
+		}
+	}
+}
+
+func UpdateWithEvents(p []commons.Event) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if len(p) > 0 {
+			ud.SetEvents(p)
+		} else {
+			ud.UnsetEvents()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("events-field-update-section")
+// @tpm-schematics:end-region("events-field-update-section")
+
+// SetNotes No Remarks
+func (ud *UpdateDocument) SetNotes(p []commons.Note) *UpdateDocument {
+	mName := fmt.Sprintf(NotesFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetNotes No Remarks
+func (ud *UpdateDocument) UnsetNotes() *UpdateDocument {
+	mName := fmt.Sprintf(NotesFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetNotes No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetNotes(p []commons.Note, um UnsetMode) {
+	if len(p) > 0 {
+		ud.SetNotes(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetNotes()
+		case SetData2Default:
+			ud.UnsetNotes()
+		}
+	}
+}
+
+func UpdateWithNotes(p []commons.Note) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if len(p) > 0 {
+			ud.SetNotes(p)
+		} else {
+			ud.UnsetNotes()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("notes-field-update-section")
+
+func UpdateWithAddNote(p commons.Note) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if !p.IsZero() {
+			mName := fmt.Sprintf(NotesFieldName)
+			ud.Push().Add(func() bson.E {
+				return bson.E{Key: mName, Value: p}
+			})
+		}
+	}
+}
+
+// @tpm-schematics:end-region("notes-field-update-section")
 
 // SetSys_info No Remarks
 func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {

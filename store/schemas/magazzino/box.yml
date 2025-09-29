@@ -46,6 +46,18 @@ attributes:
   struct-ref:
     name: Address
   type: struct
+- name: events
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: Event
+- name: notes
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: Note
 - name: sys_info
   struct-ref:
     name: SysInfo

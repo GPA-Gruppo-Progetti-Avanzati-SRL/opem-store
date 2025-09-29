@@ -2,9 +2,10 @@ package magazzino
 
 import (
 	"fmt"
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -226,4 +227,17 @@ func (ca *Criteria) AndEtIn(p []string) *Criteria {
 // @tpm-schematics:end-region("-et-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (ca *Criteria) AndFocalPointEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(FocalPoint_BidFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

@@ -3,11 +3,12 @@ package magazzino
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -22,7 +23,6 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
 	// @tpm-schematics:end-region("log-event-section")
-	evtTraceLog.Msg(semLogContext)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -35,7 +35,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	// f.Or().And...
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
-	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
+	evtTraceLog = evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	err := collection.FindOne(ctx, fd, findOptions).Decode(&ent)
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		evtErrLog.Err(err).Msg(semLogContext)
@@ -104,4 +104,41 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func FindByFocalPoint(collection *mongo.Collection, domain, site, focalPoint string, findOptions *options.FindOptions) (*Magazzino, bool, error) {
+	// @tpm-schematics:end-region("find-by-pk-signature-section")
+	const semLogContext = "magazzino::find-by-focal-point"
+	// @tpm-schematics:start-region("log-event-section")
+	evtTraceLog := log.Trace()
+	evtErrLog := log.Error()
+	// @tpm-schematics:end-region("log-event-section")
+	evtTraceLog.Msg(semLogContext)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	f := &Filter{}
+	f.Or().AndEtEqTo(EntityType).AndDomainEqTo(domain).AndSiteEqTo(site).AndFocalPointEqTo(focalPoint)
+	fd := f.Build()
+	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	cur, err := collection.Find(ctx, fd, findOptions)
+	if err != nil {
+		evtErrLog.Err(err).Msg(semLogContext)
+		return nil, false, err
+	}
+
+	for cur.Next(context.Background()) {
+		dto := Magazzino{}
+		err = cur.Decode(&dto)
+		if err != nil {
+			return nil, false, err
+		} else {
+			return &dto, true, err
+		}
+	}
+
+	return nil, false, err
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

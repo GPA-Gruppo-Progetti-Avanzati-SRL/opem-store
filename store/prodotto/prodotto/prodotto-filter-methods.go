@@ -227,6 +227,66 @@ func (ca *Criteria) AndEtIn(p []string) *Criteria {
 // @tpm-schematics:start-region("-et-field-filter-section")
 // @tpm-schematics:end-region("-et-field-filter-section")
 
+/*
+ * filter-string template: expiration_at
+ */
+
+// AndExpirationAtEqTo No Remarks
+func (ca *Criteria) AndExpirationAtEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(ExpirationAtFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// AndExpirationAtIsNullOrUnset No Remarks
+func (ca *Criteria) AndExpirationAtIsNullOrUnset() *Criteria {
+
+	mName := fmt.Sprintf(ExpirationAtFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndExpirationAtIn(p []string) *Criteria {
+
+	if len(p) == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(ExpirationAtFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:start-region("expiration-at-field-filter-section")
+
+func (ca *Criteria) AndNotExpired(b bool) *Criteria {
+
+	if !b {
+		return ca
+	}
+
+	now := primitive.NewDateTimeFromTime(time.Now())
+	c := func() bson.E {
+		return bson.E{"$or", bson.A{
+			bson.D{{ExpirationAtFieldName, nil}},
+			bson.D{{ExpirationAtFieldName, bson.D{{"$gte", now}}}},
+		}}
+	}
+
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:end-region("expiration-at-field-filter-section")
+
 // @tpm-schematics:start-region("bottom-file-section")
 
 func (ca *Criteria) AndStatusEqTo(p string) *Criteria {

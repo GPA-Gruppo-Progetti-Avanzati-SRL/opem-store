@@ -22,6 +22,8 @@ entities:
 - file-name: ./session.yml
   document: true
   package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/session
-
+- file-name: ./sequence.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/sequence
 # @tpm-schematics:start-region("bottom-file-section")
 # @tpm-schematics:end-region("bottom-file-section")

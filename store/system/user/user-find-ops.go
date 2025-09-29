@@ -23,7 +23,6 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
 	// @tpm-schematics:end-region("log-event-section")
-	evtTraceLog.Msg(semLogContext)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -36,7 +35,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	// f.Or().And...
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
-	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
+	evtTraceLog = evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	err := collection.FindOne(ctx, fd, findOptions).Decode(&ent)
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		evtErrLog.Err(err).Msg(semLogContext)

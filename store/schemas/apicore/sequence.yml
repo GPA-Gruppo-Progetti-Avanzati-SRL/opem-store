@@ -1,4 +1,4 @@
-name: Provincia
+name: Sequence
 attributes:
 - name: oId
   type: object-id
@@ -10,18 +10,11 @@ attributes:
       value: _id,omitempty
     - name: yaml
       value: _id,omitempty
+- name: _bid
+  type: string
+  options: with-filter
 - name: _et
   type: string
   options: with-filter
-- name: code
-  type: string
-  options: with-filter
-- name: name
-  type: string
-- name: code_nazione
-  type: string
-  options: with-filter
-- name: sys_info
-  struct-ref:
-    name: SysInfo
-  type: struct
+- name: value
+  type: int

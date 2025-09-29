@@ -1,0 +1,10 @@
+name: Event
+attributes:
+  - name: type
+    type: string
+  - name: who
+    type: string
+  - name: text
+    type: string
+  - name: when
+    type: date

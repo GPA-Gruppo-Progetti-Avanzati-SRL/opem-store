@@ -12,5 +12,7 @@ attributes:
     type: struct
   - name: zipcode
     type: string
+  - name: address
+    type: string
   - name: attn_to
     type: string

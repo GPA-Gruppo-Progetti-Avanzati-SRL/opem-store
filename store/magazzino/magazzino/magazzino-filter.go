@@ -2,8 +2,9 @@ package magazzino
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -17,6 +18,7 @@ type QueryOptions struct {
 	SearchTerm    string `form:"ssearch" query:"ssearch" json:"ssearch,omitempty" bson:"ssearch,omitempty" yaml:"ssearch,omitempty"`
 	WithCount     bool   `form:"withCount" query:"withCount" json:"withCount,omitempty" bson:"withCount,omitempty" yaml:"withCount,omitempty"`
 	// @tpm-schematics:start-region("query-options-struct-section")
+	BidFocalPoint string `form:"focal_point" query:"focal_point" json:"focal_point,omitempty" bson:"focal_point,omitempty" yaml:"focal_point,omitempty"`
 	// @tpm-schematics:end-region("query-options-struct-section")
 }
 

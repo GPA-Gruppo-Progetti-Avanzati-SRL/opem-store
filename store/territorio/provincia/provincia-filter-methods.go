@@ -146,45 +146,45 @@ func (ca *Criteria) AndCodeIn(p []string) *Criteria {
 // @tpm-schematics:end-region("code-field-filter-section")
 
 /*
- * filter-string template: code_uic_nazione
+ * filter-string template: code_nazione
  */
 
-// AndCodeUicNazioneEqTo No Remarks
-func (ca *Criteria) AndCodeUicNazioneEqTo(p string) *Criteria {
+// AndCodeNazioneEqTo No Remarks
+func (ca *Criteria) AndCodeNazioneEqTo(p string) *Criteria {
 
 	if p == "" {
 		return ca
 	}
 
-	mName := fmt.Sprintf(CodeUicNazioneFieldName)
+	mName := fmt.Sprintf(CodeNazioneFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// AndCodeUicNazioneIsNullOrUnset No Remarks
-func (ca *Criteria) AndCodeUicNazioneIsNullOrUnset() *Criteria {
+// AndCodeNazioneIsNullOrUnset No Remarks
+func (ca *Criteria) AndCodeNazioneIsNullOrUnset() *Criteria {
 
-	mName := fmt.Sprintf(CodeUicNazioneFieldName)
+	mName := fmt.Sprintf(CodeNazioneFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-func (ca *Criteria) AndCodeUicNazioneIn(p []string) *Criteria {
+func (ca *Criteria) AndCodeNazioneIn(p []string) *Criteria {
 
 	if len(p) == 0 {
 		return ca
 	}
 
-	mName := fmt.Sprintf(CodeUicNazioneFieldName)
+	mName := fmt.Sprintf(CodeNazioneFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// @tpm-schematics:start-region("code-uic-nazione-field-filter-section")
-// @tpm-schematics:end-region("code-uic-nazione-field-filter-section")
+// @tpm-schematics:start-region("code-nazione-field-filter-section")
+// @tpm-schematics:end-region("code-nazione-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
 

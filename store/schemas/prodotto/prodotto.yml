@@ -24,6 +24,13 @@ attributes:
   options: with-filter
 - name: name
   type: string
+- name: primary_funct
+  type: string
+- name: code
+  type: string
+- name: expiration_at
+  type: string
+  options: with-filter
 - name: sys_info
   struct-ref:
     name: SysInfo

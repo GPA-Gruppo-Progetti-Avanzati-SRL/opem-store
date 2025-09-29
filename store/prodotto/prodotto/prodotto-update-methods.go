@@ -29,14 +29,17 @@ const (
 type UnsetOption func(uopt *UnsetOptions)
 
 type UnsetOptions struct {
-	DefaultMode UnsetMode
-	OId         UnsetMode
-	Domain      UnsetMode
-	Site        UnsetMode
-	Bid         UnsetMode
-	Et          UnsetMode
-	Name        UnsetMode
-	SysInfo     UnsetMode
+	DefaultMode  UnsetMode
+	OId          UnsetMode
+	Domain       UnsetMode
+	Site         UnsetMode
+	Bid          UnsetMode
+	Et           UnsetMode
+	Name         UnsetMode
+	PrimaryFunct UnsetMode
+	Code         UnsetMode
+	ExpirationAt UnsetMode
+	SysInfo      UnsetMode
 }
 
 func (uo *UnsetOptions) ResolveUnsetMode(um UnsetMode) UnsetMode {
@@ -82,6 +85,21 @@ func WithNameUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Name = m
 	}
 }
+func WithPrimaryFunctUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.PrimaryFunct = m
+	}
+}
+func WithCodeUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Code = m
+	}
+}
+func WithExpirationAtUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.ExpirationAt = m
+	}
+}
 func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.SysInfo = m
@@ -118,6 +136,9 @@ func GetUpdateDocument(obj *Prodotto, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
+	ud.setOrUnsetPrimary_funct(obj.PrimaryFunct, uo.ResolveUnsetMode(uo.PrimaryFunct))
+	ud.setOrUnsetCode(obj.Code, uo.ResolveUnsetMode(uo.Code))
+	ud.setOrUnsetExpiration_at(obj.ExpirationAt, uo.ResolveUnsetMode(uo.ExpirationAt))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
@@ -388,6 +409,144 @@ func UpdateWithName(p string) UpdateOption {
 
 // @tpm-schematics:start-region("name-field-update-section")
 // @tpm-schematics:end-region("name-field-update-section")
+
+// SetPrimary_funct No Remarks
+func (ud *UpdateDocument) SetPrimary_funct(p string) *UpdateDocument {
+	mName := fmt.Sprintf(PrimaryFunctFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetPrimary_funct No Remarks
+func (ud *UpdateDocument) UnsetPrimary_funct() *UpdateDocument {
+	mName := fmt.Sprintf(PrimaryFunctFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetPrimary_funct No Remarks
+func (ud *UpdateDocument) setOrUnsetPrimary_funct(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetPrimary_funct(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetPrimary_funct()
+		case SetData2Default:
+			ud.UnsetPrimary_funct()
+		}
+	}
+}
+
+func UpdateWithPrimary_funct(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetPrimary_funct(p)
+		} else {
+			ud.UnsetPrimary_funct()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("primary-funct-field-update-section")
+// @tpm-schematics:end-region("primary-funct-field-update-section")
+
+// SetCode No Remarks
+func (ud *UpdateDocument) SetCode(p string) *UpdateDocument {
+	mName := fmt.Sprintf(CodeFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetCode No Remarks
+func (ud *UpdateDocument) UnsetCode() *UpdateDocument {
+	mName := fmt.Sprintf(CodeFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetCode No Remarks
+func (ud *UpdateDocument) setOrUnsetCode(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetCode(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetCode()
+		case SetData2Default:
+			ud.UnsetCode()
+		}
+	}
+}
+
+func UpdateWithCode(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetCode(p)
+		} else {
+			ud.UnsetCode()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("code-field-update-section")
+// @tpm-schematics:end-region("code-field-update-section")
+
+// SetExpiration_at No Remarks
+func (ud *UpdateDocument) SetExpiration_at(p string) *UpdateDocument {
+	mName := fmt.Sprintf(ExpirationAtFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetExpiration_at No Remarks
+func (ud *UpdateDocument) UnsetExpiration_at() *UpdateDocument {
+	mName := fmt.Sprintf(ExpirationAtFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetExpiration_at No Remarks
+func (ud *UpdateDocument) setOrUnsetExpiration_at(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetExpiration_at(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetExpiration_at()
+		case SetData2Default:
+			ud.UnsetExpiration_at()
+		}
+	}
+}
+
+func UpdateWithExpiration_at(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetExpiration_at(p)
+		} else {
+			ud.UnsetExpiration_at()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("expiration-at-field-update-section")
+// @tpm-schematics:end-region("expiration-at-field-update-section")
 
 // SetSys_info No Remarks
 func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {

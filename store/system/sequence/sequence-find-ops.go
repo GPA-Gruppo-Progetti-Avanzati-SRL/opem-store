@@ -1,14 +1,13 @@
-package keyvaluepackage
+package sequence
 
 import (
 	"context"
 	"errors"
-	"time"
-
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -16,18 +15,19 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, findOptions *options.FindOneOptions) (*KeyValuePackage, bool, error) {
+func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, findOptions *options.FindOneOptions) (*Sequence, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
-	const semLogContext = "key-value-package::find-by-pk"
+	const semLogContext = "sequence::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
 	// @tpm-schematics:end-region("log-event-section")
+	evtTraceLog.Msg(semLogContext)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	ent := KeyValuePackage{}
+	ent := Sequence{}
 
 	f := Filter{}
 	// @tpm-schematics:start-region("filter-section")
@@ -35,7 +35,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	// f.Or().And...
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
-	evtTraceLog = evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
+	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	err := collection.FindOne(ctx, fd, findOptions).Decode(&ent)
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		evtErrLog.Err(err).Msg(semLogContext)
@@ -58,7 +58,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
-	const semLogContext = "key-value-package::find"
+	const semLogContext = "sequence::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -87,7 +87,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	}
 
 	for cur.Next(context.Background()) {
-		dto := KeyValuePackage{}
+		dto := Sequence{}
 		err = cur.Decode(&dto)
 		if err != nil {
 			return qr, err

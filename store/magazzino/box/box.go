@@ -23,6 +23,8 @@ type Box struct {
 	Info       Info                `json:"info,omitempty" bson:"info,omitempty" yaml:"info,omitempty"`
 	Status     Status              `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
 	Recipient  commons.Address     `json:"recipient,omitempty" bson:"recipient,omitempty" yaml:"recipient,omitempty"`
+	Events     []commons.Event     `json:"events,omitempty" bson:"events,omitempty" yaml:"events,omitempty"`
+	Notes      []commons.Note      `json:"notes,omitempty" bson:"notes,omitempty" yaml:"notes,omitempty"`
 	SysInfo    commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
@@ -30,7 +32,7 @@ type Box struct {
 }
 
 func (s Box) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Magazzino.IsZero() && s.Prodotto.IsZero() && s.FocalPoint.IsZero() && s.Info.IsZero() && s.Status.IsZero() && s.Recipient.IsZero() && s.SysInfo.IsZero()
+	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Magazzino.IsZero() && s.Prodotto.IsZero() && s.FocalPoint.IsZero() && s.Info.IsZero() && s.Status.IsZero() && s.Recipient.IsZero() && len(s.Events) == 0 && len(s.Notes) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

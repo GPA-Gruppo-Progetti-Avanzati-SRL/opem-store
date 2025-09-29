@@ -4,6 +4,8 @@ const opemViewSource = "mag_boxes"
 let conn = db.getMongo();
 let db = conn.getDB(opemDbName);
 
+db.mag_boxes_view.drop();
+
 db.createView(
     opemViewName,
     opemViewSource,
@@ -12,6 +14,12 @@ db.createView(
             $match: {
                 _et: "BOX"
             }
+        },
+        {
+            $limit: 10
+        },
+        {
+            $skip: 20
         },
         // {
         //   $project: {
@@ -89,6 +97,7 @@ db.createView(
                 info: 1,
                 status: 1,
                 recipient: 1,
+                sys_info: 1,
                 doc_magazzino: {
                     $arrayElemAt: ["$doc_magazzino", 0]
                 },
@@ -106,9 +115,11 @@ db.createView(
                 info: 1,
                 status: 1,
                 recipient: 1,
+                sys_info: 1,
                 "magazzino.bid": "$doc_magazzino._bid",
                 "prodotto.bid": "$doc_prodotto._bid",
-                "prodotto.text": "$doc_prodotto.name",
+                //"prodotto.text": "$doc_prodotto.name",
+                "prodotto.text": { $concat: [ "$doc_prodotto._bid", " - ", "$doc_prodotto.name" ] },
                 "focal_point.bid":
                     "$doc_magazzino.focal_point.bid"
             }
