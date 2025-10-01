@@ -3,23 +3,28 @@ package keyvaluepackage
 import (
 	"strings"
 
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 import (
 	"fmt"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store"
+)
+
+const (
+	EntityType   = "KV"
+	CollectionId = "key-value-package"
 )
 
 // @tpm-schematics:end-region("top-file-section")
 
 type KeyValuePackage struct {
 	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
-	Name        string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
+	Bid         string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Scope       string             `json:"scope,omitempty" bson:"scope,omitempty" yaml:"scope,omitempty"`
-	ObjType     string             `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
+	Et          string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Category    string             `json:"category,omitempty" bson:"category,omitempty" yaml:"category,omitempty"`
 	IsSystem    bool               `json:"is_system,omitempty" bson:"is_system,omitempty" yaml:"is_system,omitempty"`
 	Description string             `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
@@ -32,7 +37,7 @@ type KeyValuePackage struct {
 }
 
 func (s KeyValuePackage) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Name == "" && s.Scope == "" && s.ObjType == "" && s.Category == "" && !s.IsSystem && s.Description == "" && !s.Inherited && len(s.Properties) == 0 && s.SysInfo.IsZero()
+	return s.OId == primitive.NilObjectID && s.Bid == "" && s.Scope == "" && s.Et == "" && s.Category == "" && !s.IsSystem && s.Description == "" && !s.Inherited && len(s.Properties) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

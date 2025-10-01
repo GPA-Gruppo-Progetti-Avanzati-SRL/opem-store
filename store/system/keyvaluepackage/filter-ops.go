@@ -3,6 +3,7 @@ package keyvaluepackage
 import (
 	"context"
 	"fmt"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -54,7 +55,7 @@ func FindByDomainSiteName(c *mongo.Collection, domain, site, pkgName string) (Ke
 
 func filterByDomainSiteNameCategories(domain, site, pkgName string, categories []string) Filter {
 	f := Filter{}
-	criteria := f.Or().AndNameEqTo(pkgName).AndCategoryIn(categories)
+	criteria := f.Or().AndBidEqTo(pkgName).AndEtEqTo(EntityType).AndCategoryIn(categories)
 
 	if domain == store.RootDomain {
 		criteria.AndScopeEqTo(store.RootDomain)
@@ -81,7 +82,7 @@ func FindByDomainSiteCategoryList(c *mongo.Collection, domain, site string, cate
 	f := filterByDomainSiteNameCategories(domain, site, "", categories)
 
 	findOptions := options.Find()
-	findOptions.SetSort(bson.D{{NameFieldName, -1}})
+	findOptions.SetSort(bson.D{{BidFieldName, -1}})
 	crs, err := c.Find(context.TODO(), f.Build(), findOptions)
 	if err != nil {
 		if err != mongo.ErrNoDocuments {
@@ -99,7 +100,7 @@ func FindByDomainSiteCategoryList(c *mongo.Collection, domain, site string, cate
 			return res, err
 		}
 
-		if kvp1.Name != kvp.Name {
+		if kvp1.Bid != kvp.Bid {
 			if !kvp.IsZero() {
 				kvpScopeType, _ := kvp.ScopeType()
 				if reqScopeType != kvpScopeType {

@@ -2,6 +2,7 @@ const opemDbName = "opem"
 let conn = db.getMongo();
 let db = conn.getDB(opemDbName);
 
+db["opem_system"].drop();
 db["apicore_site"].drop();
 db["apicore_domain"].drop();
 db["apicore_kv"].drop();

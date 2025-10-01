@@ -3,12 +3,11 @@ package keyvaluepackage
 import (
 	"context"
 	"errors"
-	"time"
-
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -35,7 +34,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	// f.Or().And...
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
-	evtTraceLog = evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
+	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	err := collection.FindOne(ctx, fd, findOptions).Decode(&ent)
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		evtErrLog.Err(err).Msg(semLogContext)

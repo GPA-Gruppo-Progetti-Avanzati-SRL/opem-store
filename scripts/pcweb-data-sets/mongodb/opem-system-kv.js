@@ -1,5 +1,5 @@
 const opemDbName = "opem"
-const opemCollectionName = "apicore_kv"
+const opemCollectionName = "opem_system"
 
 let conn = db.getMongo();
 let db = conn.getDB(opemDbName);
@@ -8,17 +8,13 @@ let c = db[opemCollectionName]
 if (!c)  {
     db.createCollection(opemCollectionName)
 }
-else
-{
-    c.deleteMany({});
-}
 
 // Root level packages.
 c.insertOne(
     {
-        "name": "theme",
         "scope": "root",
-        "obj_type": "kv",
+        "_bid": "theme",
+        "_et": "KV",
         "category": "admin-app-general",
         "description": "Aspetto UI di amministrazione",
         "inherit": false
@@ -34,9 +30,9 @@ c.insertOne(
 
 c.insertOne(
     {
-        "name": "apps",
         "scope": "root",
-        "obj_type": "kv",
+        "_bid": "apps",
+        "_et": "KV",
         "category": "admin-app-general",
         "description": "Apps disponibili",
         "inherit": false
@@ -59,9 +55,9 @@ c.insertOne(
 // Override for CVF
 c.insertOne(
     {
-        "name": "theme",
         "scope": "root/card",
-        "obj_type": "kv",
+        "_bid": "theme",
+        "_et": "KV",
         "category": "admin-app-general",
         "description": "Aspetto UI di amministrazione",
         "inherit": false

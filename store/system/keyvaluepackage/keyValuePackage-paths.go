@@ -9,9 +9,9 @@ package keyvaluepackage
 
 const (
 	OIdFieldName                = "_id"
-	NameFieldName               = "name"
+	BidFieldName                = "_bid"
 	ScopeFieldName              = "scope"
-	ObjTypeFieldName            = "obj_type"
+	EtFieldName                 = "_et"
 	CategoryFieldName           = "category"
 	IsSystemFieldName           = "is_system"
 	DescriptionFieldName        = "description"

@@ -3,8 +3,9 @@ package keyvaluepackage
 import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -62,45 +63,45 @@ func (ca *Criteria) AndOIdIn(p []primitive.ObjectID) *Criteria {
 // @tpm-schematics:end-region("o-id-field-filter-section")
 
 /*
- * filter-string template: name
+ * filter-string template: _bid
  */
 
-// AndNameEqTo No Remarks
-func (ca *Criteria) AndNameEqTo(p string) *Criteria {
+// AndBidEqTo No Remarks
+func (ca *Criteria) AndBidEqTo(p string) *Criteria {
 
 	if p == "" {
 		return ca
 	}
 
-	mName := fmt.Sprintf(NameFieldName)
+	mName := fmt.Sprintf(BidFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// AndNameIsNullOrUnset No Remarks
-func (ca *Criteria) AndNameIsNullOrUnset() *Criteria {
+// AndBidIsNullOrUnset No Remarks
+func (ca *Criteria) AndBidIsNullOrUnset() *Criteria {
 
-	mName := fmt.Sprintf(NameFieldName)
+	mName := fmt.Sprintf(BidFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-func (ca *Criteria) AndNameIn(p []string) *Criteria {
+func (ca *Criteria) AndBidIn(p []string) *Criteria {
 
 	if len(p) == 0 {
 		return ca
 	}
 
-	mName := fmt.Sprintf(NameFieldName)
+	mName := fmt.Sprintf(BidFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// @tpm-schematics:start-region("name-field-filter-section")
-// @tpm-schematics:end-region("name-field-filter-section")
+// @tpm-schematics:start-region("-bid-field-filter-section")
+// @tpm-schematics:end-region("-bid-field-filter-section")
 
 /*
  * filter-string template: scope
@@ -142,6 +143,47 @@ func (ca *Criteria) AndScopeIn(p []string) *Criteria {
 
 // @tpm-schematics:start-region("scope-field-filter-section")
 // @tpm-schematics:end-region("scope-field-filter-section")
+
+/*
+ * filter-string template: _et
+ */
+
+// AndEtEqTo No Remarks
+func (ca *Criteria) AndEtEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(EtFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// AndEtIsNullOrUnset No Remarks
+func (ca *Criteria) AndEtIsNullOrUnset() *Criteria {
+
+	mName := fmt.Sprintf(EtFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndEtIn(p []string) *Criteria {
+
+	if len(p) == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(EtFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:start-region("-et-field-filter-section")
+// @tpm-schematics:end-region("-et-field-filter-section")
 
 /*
  * filter-string template: category

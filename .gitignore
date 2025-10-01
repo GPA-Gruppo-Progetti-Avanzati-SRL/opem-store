@@ -39,3 +39,4 @@ sonar-scan.sh
 /local-files/
 
 /scripts/pcweb-data-sets/mysql/sql-tables/
+/scripts/pcweb-data-sets/mongodb/exports/
