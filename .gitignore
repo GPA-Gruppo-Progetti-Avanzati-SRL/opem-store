@@ -38,3 +38,4 @@ sonar-scan.sh
 .DS_Store
 /local-files/
 
+/scripts/pcweb-data-sets/mysql/sql-tables/
