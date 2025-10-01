@@ -9,9 +9,9 @@ package site
 
 const (
 	OIdFieldName                = "_id"
-	CodeFieldName               = "code"
+	BidFieldName                = "_bid"
 	DomainFieldName             = "domain"
-	ObjTypeFieldName            = "obj_type"
+	EtFieldName                 = "_et"
 	NameFieldName               = "name"
 	DescriptionFieldName        = "description"
 	BookmarkFieldName           = "bookmark"

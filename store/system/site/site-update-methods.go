@@ -31,9 +31,9 @@ type UnsetOption func(uopt *UnsetOptions)
 type UnsetOptions struct {
 	DefaultMode UnsetMode
 	OId         UnsetMode
-	Code        UnsetMode
+	Bid         UnsetMode
 	Domain      UnsetMode
-	ObjType     UnsetMode
+	Et          UnsetMode
 	Name        UnsetMode
 	Description UnsetMode
 	Bookmark    UnsetMode
@@ -60,9 +60,9 @@ func WithOIdUnsetMode(m UnsetMode) UnsetOption {
 		uopt.OId = m
 	}
 }
-func WithCodeUnsetMode(m UnsetMode) UnsetOption {
+func WithBidUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.Code = m
+		uopt.Bid = m
 	}
 }
 func WithDomainUnsetMode(m UnsetMode) UnsetOption {
@@ -70,9 +70,9 @@ func WithDomainUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Domain = m
 	}
 }
-func WithObjTypeUnsetMode(m UnsetMode) UnsetOption {
+func WithEtUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.ObjType = m
+		uopt.Et = m
 	}
 }
 func WithNameUnsetMode(m UnsetMode) UnsetOption {
@@ -131,9 +131,9 @@ func GetUpdateDocument(obj *Site, opts ...UnsetOption) UpdateDocument {
 	}
 
 	ud := UpdateDocument{}
-	ud.setOrUnsetCode(obj.Code, uo.ResolveUnsetMode(uo.Code))
+	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnsetDomain(obj.Domain, uo.ResolveUnsetMode(uo.Domain))
-	ud.setOrUnsetObj_type(obj.ObjType, uo.ResolveUnsetMode(uo.ObjType))
+	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
 	ud.setOrUnsetDescription(obj.Description, uo.ResolveUnsetMode(uo.Description))
 	ud.setOrUnsetBookmark(obj.Bookmark, uo.ResolveUnsetMode(uo.Bookmark))
@@ -180,51 +180,51 @@ func (ud *UpdateDocument) setOrUnsetOId(p primitive.ObjectID, um UnsetMode) {
 // @tpm-schematics:start-region("o-id-field-update-section")
 // @tpm-schematics:end-region("o-id-field-update-section")
 
-// SetCode No Remarks
-func (ud *UpdateDocument) SetCode(p string) *UpdateDocument {
-	mName := fmt.Sprintf(CodeFieldName)
+// Set_bid No Remarks
+func (ud *UpdateDocument) Set_bid(p string) *UpdateDocument {
+	mName := fmt.Sprintf(BidFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetCode No Remarks
-func (ud *UpdateDocument) UnsetCode() *UpdateDocument {
-	mName := fmt.Sprintf(CodeFieldName)
+// Unset_bid No Remarks
+func (ud *UpdateDocument) Unset_bid() *UpdateDocument {
+	mName := fmt.Sprintf(BidFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetCode No Remarks
-func (ud *UpdateDocument) setOrUnsetCode(p string, um UnsetMode) {
+// setOrUnset_bid No Remarks
+func (ud *UpdateDocument) setOrUnset_bid(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetCode(p)
+		ud.Set_bid(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetCode()
+			ud.Unset_bid()
 		case SetData2Default:
-			ud.UnsetCode()
+			ud.Unset_bid()
 		}
 	}
 }
 
-func UpdateWithCode(p string) UpdateOption {
+func UpdateWith_bid(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetCode(p)
+			ud.Set_bid(p)
 		} else {
-			ud.UnsetCode()
+			ud.Unset_bid()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("code-field-update-section")
-// @tpm-schematics:end-region("code-field-update-section")
+// @tpm-schematics:start-region("-bid-field-update-section")
+// @tpm-schematics:end-region("-bid-field-update-section")
 
 // SetDomain No Remarks
 func (ud *UpdateDocument) SetDomain(p string) *UpdateDocument {
@@ -272,51 +272,51 @@ func UpdateWithDomain(p string) UpdateOption {
 // @tpm-schematics:start-region("domain-field-update-section")
 // @tpm-schematics:end-region("domain-field-update-section")
 
-// SetObj_type No Remarks
-func (ud *UpdateDocument) SetObj_type(p string) *UpdateDocument {
-	mName := fmt.Sprintf(ObjTypeFieldName)
+// Set_et No Remarks
+func (ud *UpdateDocument) Set_et(p string) *UpdateDocument {
+	mName := fmt.Sprintf(EtFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetObj_type No Remarks
-func (ud *UpdateDocument) UnsetObj_type() *UpdateDocument {
-	mName := fmt.Sprintf(ObjTypeFieldName)
+// Unset_et No Remarks
+func (ud *UpdateDocument) Unset_et() *UpdateDocument {
+	mName := fmt.Sprintf(EtFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetObj_type No Remarks
-func (ud *UpdateDocument) setOrUnsetObj_type(p string, um UnsetMode) {
+// setOrUnset_et No Remarks
+func (ud *UpdateDocument) setOrUnset_et(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetObj_type(p)
+		ud.Set_et(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetObj_type()
+			ud.Unset_et()
 		case SetData2Default:
-			ud.UnsetObj_type()
+			ud.Unset_et()
 		}
 	}
 }
 
-func UpdateWithObj_type(p string) UpdateOption {
+func UpdateWith_et(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetObj_type(p)
+			ud.Set_et(p)
 		} else {
-			ud.UnsetObj_type()
+			ud.Unset_et()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("obj-type-field-update-section")
-// @tpm-schematics:end-region("obj-type-field-update-section")
+// @tpm-schematics:start-region("-et-field-update-section")
+// @tpm-schematics:end-region("-et-field-update-section")
 
 // SetName No Remarks
 func (ud *UpdateDocument) SetName(p string) *UpdateDocument {

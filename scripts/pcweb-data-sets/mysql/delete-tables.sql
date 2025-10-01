@@ -1,4 +1,16 @@
 
+DELETE FROM tb_applications;
+DELETE FROM tb_cards;
+DELETE FROM tb_persons;
+DELETE FROM tb_addresses;
+
+DELETE FROM tb_file_header_errors;
+DELETE FROM tb_file_header_records;
+
+DELETE FROM tb_file_err;
+DELETE FROM tb_file_records;
+DELETE FROM tb_file_headers;
+
 DELETE FROM tb_mag_card;
 DELETE FROM tb_mag_param;
 
@@ -19,3 +31,4 @@ DELETE FROM companies;
 DELETE FROM tb_comuni;
 DELETE FROM tb_province;
 DELETE FROM tb_nazioni;
+

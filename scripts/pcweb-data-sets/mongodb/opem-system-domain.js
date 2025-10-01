@@ -1,5 +1,5 @@
 const opemDbName = "opem"
-const opemCollectionName = "apicore_domain"
+const opemCollectionName = "opem_system"
 
 let conn = db.getMongo();
 let db = conn.getDB(opemDbName);
@@ -8,15 +8,12 @@ let c = db[opemCollectionName]
 if (!c)  {
     db.createCollection(opemCollectionName)
 }
-else
-{
-    c.deleteMany({});
-}
+
 
 db[opemCollectionName].insertOne(
     {
-        "code" : "root",
-        "obj_type": "domain",
+        "_bid" : "root",
+        "_et": "DOMAIN",
         "name" : "Master Domain",
         "description" : "the master of domains",
         "langs": "it",
@@ -52,8 +49,8 @@ db[opemCollectionName].insertOne(
 
 db[opemCollectionName].insertOne(
     {
-        "code" : "card",
-        "obj_type": "domain",
+        "_bid" : "card",
+        "_et": "DOMAIN",
         "name" : "OpeM Front Door",
         "description" : "OPeM FrontDoor",
         "langs": "it",

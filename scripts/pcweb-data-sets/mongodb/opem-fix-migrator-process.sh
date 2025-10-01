@@ -4,7 +4,7 @@ export mongoServer=mongodb+srv://marioimperato:Y7csjKg4l4c1egiA@maidevfundamenta
 
 mongosh $mongoServer --file fix-migrator-drop-rel-mig-indexes.js
 
-mongosh $mongoServer  --file apicore-domain.js
+mongosh $mongoServer  --file opem-system-domain.js
 mongosh $mongoServer  --file apicore-user.js
 mongosh $mongoServer  --file opem-system-kv.js
 mongosh $mongoServer  --file apicore-session.js
