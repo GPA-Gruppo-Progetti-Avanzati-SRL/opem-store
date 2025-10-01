@@ -4,12 +4,17 @@ import "go.mongodb.org/mongo-driver/bson/primitive"
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
+const (
+	EntityType   = "DOMAIN"
+	CollectionId = "domain"
+)
+
 // @tpm-schematics:end-region("top-file-section")
 
 type Domain struct {
 	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
-	Code        string             `json:"code,omitempty" bson:"code,omitempty" yaml:"code,omitempty"`
-	ObjType     string             `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
+	Bid         string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
+	Et          string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Name        string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Description string             `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
 	Langs       string             `json:"langs,omitempty" bson:"langs,omitempty" yaml:"langs,omitempty"`
@@ -22,7 +27,7 @@ type Domain struct {
 }
 
 func (s Domain) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Code == "" && s.ObjType == "" && s.Name == "" && s.Description == "" && s.Langs == "" && len(s.Members) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
+	return s.OId == primitive.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Description == "" && s.Langs == "" && len(s.Members) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

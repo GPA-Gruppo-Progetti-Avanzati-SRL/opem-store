@@ -9,8 +9,8 @@ package domain
 
 const (
 	OIdFieldName                = "_id"
-	CodeFieldName               = "code"
-	ObjTypeFieldName            = "obj_type"
+	BidFieldName                = "_bid"
+	EtFieldName                 = "_et"
 	NameFieldName               = "name"
 	DescriptionFieldName        = "description"
 	LangsFieldName              = "langs"
