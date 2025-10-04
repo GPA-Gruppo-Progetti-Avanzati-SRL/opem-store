@@ -62,6 +62,40 @@ func CriteriaGoInfo() string {
 	return i
 }
 
+type ProjectionOptions struct {
+	document bson.D
+}
+
+type ProjectionOption func(sops *ProjectionOptions)
+
+func (pops ProjectionOptions) Build() bson.D {
+	return pops.document
+}
+
+func WithNoId() ProjectionOption {
+	return func(sops *ProjectionOptions) {
+		sops.document = append(sops.document, bson.E{Key: "_id", Value: 0})
+	}
+}
+
+func WithTextSearchRanking(fn string) ProjectionOption {
+	return func(sops *ProjectionOptions) {
+		sops.document = append(sops.document, bson.E{Key: fn, Value: bson.E{Key: "$meta", Value: "textScore"}})
+	}
+}
+
+func WithIncludeField(fn string) ProjectionOption {
+	return func(sops *ProjectionOptions) {
+		sops.document = append(sops.document, bson.E{Key: "fn", Value: 1})
+	}
+}
+
+func WithExcludeField(fn string) ProjectionOption {
+	return func(sops *ProjectionOptions) {
+		sops.document = append(sops.document, bson.E{Key: "fn", Value: 0})
+	}
+}
+
 const (
 	Text                   string = "$text"
 	Regex                  string = "$regex"

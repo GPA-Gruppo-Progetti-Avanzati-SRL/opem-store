@@ -13,7 +13,7 @@ attributes:
 - name: _et
   type: string
   options: with-filter
-- name: code
+- name: _bid
   type: string
   options: with-filter
 - name: name
@@ -24,7 +24,8 @@ attributes:
   type: string
 - name: code_catastale
   type: string
-- name: status
-  type: string
-- name: order
-  type: int
+- name: sys_info
+  struct-ref:
+    name: SysInfo
+  type: struct
+

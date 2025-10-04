@@ -14,7 +14,7 @@ const (
 type Provincia struct {
 	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Et          string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
-	Code        string             `json:"code,omitempty" bson:"code,omitempty" yaml:"code,omitempty"`
+	Bid         string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Name        string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	CodeNazione string             `json:"code_nazione,omitempty" bson:"code_nazione,omitempty" yaml:"code_nazione,omitempty"`
 	SysInfo     commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
@@ -24,7 +24,7 @@ type Provincia struct {
 }
 
 func (s Provincia) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Et == "" && s.Code == "" && s.Name == "" && s.CodeNazione == "" && s.SysInfo.IsZero()
+	return s.OId == primitive.NilObjectID && s.Et == "" && s.Bid == "" && s.Name == "" && s.CodeNazione == "" && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

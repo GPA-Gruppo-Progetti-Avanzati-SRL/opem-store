@@ -10,7 +10,7 @@ package provincia
 const (
 	OIdFieldName                = "_id"
 	EtFieldName                 = "_et"
-	CodeFieldName               = "code"
+	BidFieldName                = "_bid"
 	NameFieldName               = "name"
 	CodeNazioneFieldName        = "code_nazione"
 	SysInfoFieldName            = "sys_info"

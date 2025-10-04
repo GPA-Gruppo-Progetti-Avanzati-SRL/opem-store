@@ -29,14 +29,17 @@ const (
 type UnsetOption func(uopt *UnsetOptions)
 
 type UnsetOptions struct {
-	DefaultMode UnsetMode
-	OId         UnsetMode
-	Domain      UnsetMode
-	Site        UnsetMode
-	Bid         UnsetMode
-	Et          UnsetMode
-	OfficerName UnsetMode
-	SysInfo     UnsetMode
+	DefaultMode  UnsetMode
+	OId          UnsetMode
+	Domain       UnsetMode
+	Site         UnsetMode
+	Bid          UnsetMode
+	Et           UnsetMode
+	OfficerName  UnsetMode
+	ExtendedName UnsetMode
+	ReducedName  UnsetMode
+	Address      UnsetMode
+	SysInfo      UnsetMode
 }
 
 func (uo *UnsetOptions) ResolveUnsetMode(um UnsetMode) UnsetMode {
@@ -82,6 +85,21 @@ func WithOfficerNameUnsetMode(m UnsetMode) UnsetOption {
 		uopt.OfficerName = m
 	}
 }
+func WithExtendedNameUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.ExtendedName = m
+	}
+}
+func WithReducedNameUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.ReducedName = m
+	}
+}
+func WithAddressUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Address = m
+	}
+}
 func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.SysInfo = m
@@ -118,6 +136,9 @@ func GetUpdateDocument(obj *FocalPoint, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnsetOfficer_name(obj.OfficerName, uo.ResolveUnsetMode(uo.OfficerName))
+	ud.setOrUnsetExtended_name(obj.ExtendedName, uo.ResolveUnsetMode(uo.ExtendedName))
+	ud.setOrUnsetReduced_name(obj.ReducedName, uo.ResolveUnsetMode(uo.ReducedName))
+	ud.setOrUnsetAddress(&obj.Address, uo.ResolveUnsetMode(uo.Address))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
@@ -388,6 +409,144 @@ func UpdateWithOfficer_name(p string) UpdateOption {
 
 // @tpm-schematics:start-region("officer-name-field-update-section")
 // @tpm-schematics:end-region("officer-name-field-update-section")
+
+// SetExtended_name No Remarks
+func (ud *UpdateDocument) SetExtended_name(p string) *UpdateDocument {
+	mName := fmt.Sprintf(ExtendedNameFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetExtended_name No Remarks
+func (ud *UpdateDocument) UnsetExtended_name() *UpdateDocument {
+	mName := fmt.Sprintf(ExtendedNameFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetExtended_name No Remarks
+func (ud *UpdateDocument) setOrUnsetExtended_name(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetExtended_name(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetExtended_name()
+		case SetData2Default:
+			ud.UnsetExtended_name()
+		}
+	}
+}
+
+func UpdateWithExtended_name(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetExtended_name(p)
+		} else {
+			ud.UnsetExtended_name()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("extended-name-field-update-section")
+// @tpm-schematics:end-region("extended-name-field-update-section")
+
+// SetReduced_name No Remarks
+func (ud *UpdateDocument) SetReduced_name(p string) *UpdateDocument {
+	mName := fmt.Sprintf(ReducedNameFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetReduced_name No Remarks
+func (ud *UpdateDocument) UnsetReduced_name() *UpdateDocument {
+	mName := fmt.Sprintf(ReducedNameFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetReduced_name No Remarks
+func (ud *UpdateDocument) setOrUnsetReduced_name(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetReduced_name(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetReduced_name()
+		case SetData2Default:
+			ud.UnsetReduced_name()
+		}
+	}
+}
+
+func UpdateWithReduced_name(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetReduced_name(p)
+		} else {
+			ud.UnsetReduced_name()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("reduced-name-field-update-section")
+// @tpm-schematics:end-region("reduced-name-field-update-section")
+
+// SetAddress No Remarks
+func (ud *UpdateDocument) SetAddress(p *commons.Address) *UpdateDocument {
+	mName := fmt.Sprintf(AddressFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetAddress No Remarks
+func (ud *UpdateDocument) UnsetAddress() *UpdateDocument {
+	mName := fmt.Sprintf(AddressFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetAddress No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetAddress(p *commons.Address, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetAddress(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetAddress()
+		case SetData2Default:
+			ud.UnsetAddress()
+		}
+	}
+}
+
+func UpdateWithAddress(p *commons.Address) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != nil && !p.IsZero() {
+			ud.SetAddress(p)
+		} else {
+			ud.UnsetAddress()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("address-field-update-section")
+// @tpm-schematics:end-region("address-field-update-section")
 
 // SetSys_info No Remarks
 func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {

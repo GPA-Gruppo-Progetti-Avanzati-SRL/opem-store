@@ -12,20 +12,23 @@ const (
 // @tpm-schematics:end-region("top-file-section")
 
 type FocalPoint struct {
-	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
-	Domain      string             `json:"domain,omitempty" bson:"domain,omitempty" yaml:"domain,omitempty"`
-	Site        string             `json:"site,omitempty" bson:"site,omitempty" yaml:"site,omitempty"`
-	Bid         string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
-	Et          string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
-	OfficerName string             `json:"officer_name,omitempty" bson:"officer_name,omitempty" yaml:"officer_name,omitempty"`
-	SysInfo     commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
+	OId          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	Domain       string             `json:"domain,omitempty" bson:"domain,omitempty" yaml:"domain,omitempty"`
+	Site         string             `json:"site,omitempty" bson:"site,omitempty" yaml:"site,omitempty"`
+	Bid          string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
+	Et           string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
+	OfficerName  string             `json:"officer_name,omitempty" bson:"officer_name,omitempty" yaml:"officer_name,omitempty"`
+	ExtendedName string             `json:"extended_name,omitempty" bson:"extended_name,omitempty" yaml:"extended_name,omitempty"`
+	ReducedName  string             `json:"reduced_name,omitempty" bson:"reduced_name,omitempty" yaml:"reduced_name,omitempty"`
+	Address      commons.Address    `json:"address,omitempty" bson:"address,omitempty" yaml:"address,omitempty"`
+	SysInfo      commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s FocalPoint) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.OfficerName == "" && s.SysInfo.IsZero()
+	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.OfficerName == "" && s.ExtendedName == "" && s.ReducedName == "" && s.Address.IsZero() && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

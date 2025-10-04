@@ -2,9 +2,8 @@ package provincia
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/bson"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -105,45 +104,45 @@ func (ca *Criteria) AndEtIn(p []string) *Criteria {
 // @tpm-schematics:end-region("-et-field-filter-section")
 
 /*
- * filter-string template: code
+ * filter-string template: _bid
  */
 
-// AndCodeEqTo No Remarks
-func (ca *Criteria) AndCodeEqTo(p string) *Criteria {
+// AndBidEqTo No Remarks
+func (ca *Criteria) AndBidEqTo(p string) *Criteria {
 
 	if p == "" {
 		return ca
 	}
 
-	mName := fmt.Sprintf(CodeFieldName)
+	mName := fmt.Sprintf(BidFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// AndCodeIsNullOrUnset No Remarks
-func (ca *Criteria) AndCodeIsNullOrUnset() *Criteria {
+// AndBidIsNullOrUnset No Remarks
+func (ca *Criteria) AndBidIsNullOrUnset() *Criteria {
 
-	mName := fmt.Sprintf(CodeFieldName)
+	mName := fmt.Sprintf(BidFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-func (ca *Criteria) AndCodeIn(p []string) *Criteria {
+func (ca *Criteria) AndBidIn(p []string) *Criteria {
 
 	if len(p) == 0 {
 		return ca
 	}
 
-	mName := fmt.Sprintf(CodeFieldName)
+	mName := fmt.Sprintf(BidFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// @tpm-schematics:start-region("code-field-filter-section")
-// @tpm-schematics:end-region("code-field-filter-section")
+// @tpm-schematics:start-region("-bid-field-filter-section")
+// @tpm-schematics:end-region("-bid-field-filter-section")
 
 /*
  * filter-string template: code_nazione

@@ -24,6 +24,14 @@ attributes:
   options: with-filter
 - name: officer_name
   type: string
+- name: extended_name
+  type: string
+- name: reduced_name
+  type: string
+- name: address
+  struct-ref:
+    name: Address
+  type: struct
 - name: sys_info
   struct-ref:
     name: SysInfo

@@ -32,7 +32,7 @@ type UnsetOptions struct {
 	DefaultMode UnsetMode
 	OId         UnsetMode
 	Et          UnsetMode
-	Code        UnsetMode
+	Bid         UnsetMode
 	Name        UnsetMode
 	CodeNazione UnsetMode
 	SysInfo     UnsetMode
@@ -61,9 +61,9 @@ func WithEtUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Et = m
 	}
 }
-func WithCodeUnsetMode(m UnsetMode) UnsetOption {
+func WithBidUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.Code = m
+		uopt.Bid = m
 	}
 }
 func WithNameUnsetMode(m UnsetMode) UnsetOption {
@@ -108,7 +108,7 @@ func GetUpdateDocument(obj *Provincia, opts ...UnsetOption) UpdateDocument {
 
 	ud := UpdateDocument{}
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
-	ud.setOrUnsetCode(obj.Code, uo.ResolveUnsetMode(uo.Code))
+	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
 	ud.setOrUnsetCode_nazione(obj.CodeNazione, uo.ResolveUnsetMode(uo.CodeNazione))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
@@ -198,51 +198,51 @@ func UpdateWith_et(p string) UpdateOption {
 // @tpm-schematics:start-region("-et-field-update-section")
 // @tpm-schematics:end-region("-et-field-update-section")
 
-// SetCode No Remarks
-func (ud *UpdateDocument) SetCode(p string) *UpdateDocument {
-	mName := fmt.Sprintf(CodeFieldName)
+// Set_bid No Remarks
+func (ud *UpdateDocument) Set_bid(p string) *UpdateDocument {
+	mName := fmt.Sprintf(BidFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetCode No Remarks
-func (ud *UpdateDocument) UnsetCode() *UpdateDocument {
-	mName := fmt.Sprintf(CodeFieldName)
+// Unset_bid No Remarks
+func (ud *UpdateDocument) Unset_bid() *UpdateDocument {
+	mName := fmt.Sprintf(BidFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetCode No Remarks
-func (ud *UpdateDocument) setOrUnsetCode(p string, um UnsetMode) {
+// setOrUnset_bid No Remarks
+func (ud *UpdateDocument) setOrUnset_bid(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetCode(p)
+		ud.Set_bid(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetCode()
+			ud.Unset_bid()
 		case SetData2Default:
-			ud.UnsetCode()
+			ud.Unset_bid()
 		}
 	}
 }
 
-func UpdateWithCode(p string) UpdateOption {
+func UpdateWith_bid(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetCode(p)
+			ud.Set_bid(p)
 		} else {
-			ud.UnsetCode()
+			ud.Unset_bid()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("code-field-update-section")
-// @tpm-schematics:end-region("code-field-update-section")
+// @tpm-schematics:start-region("-bid-field-update-section")
+// @tpm-schematics:end-region("-bid-field-update-section")
 
 // SetName No Remarks
 func (ud *UpdateDocument) SetName(p string) *UpdateDocument {

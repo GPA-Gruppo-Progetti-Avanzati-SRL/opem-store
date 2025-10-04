@@ -22,12 +22,14 @@ attributes:
   type: string
 - name: cap2
   type: string
-- name: code_provincia
-  type: string
-  options: with-filter
-- name: code_uic_nazione
-  type: string
-  options: with-filter
+- name: provincia
+  struct-ref:
+    name: BidTextPair
+  type: struct
+- name: nazione
+  struct-ref:
+    name: BidTextPair
+  type: struct
 - name: code_istat
   type: string
 - name: code_catastale

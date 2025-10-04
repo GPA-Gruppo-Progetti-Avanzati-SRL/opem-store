@@ -6,4 +6,5 @@ db["mag_boxes"].createIndex({ "_bid": 1, "_et": 1 }, { unique: true });
 db["mag_magazzini"].createIndex({ "_bid": 1, "_et": 1 }, { unique: true });
 db["org_organizzazione"].createIndex({ "_bid": 1, "_et": 1 }, { unique: true });
 db["prd_prodotto"].createIndex({ "_bid": 1, "_et": 1 }, { unique: true });
+db["opem_system"].createIndex({ "_bid": 1, "_et": 1 }, { unique: false });
 
