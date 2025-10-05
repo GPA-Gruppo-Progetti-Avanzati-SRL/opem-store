@@ -108,7 +108,7 @@ func FindByNazioneAndProvinciaAndStatus(collection *mongo.Collection, code_nazio
 	const semLogContext = "comune::find-by-code_nazione_uic-provincia-status"
 	log.Trace().Str("cod_nazione_uic", code_nazione_uic).Str("provincia", provincia).Str("status", status).Msg(semLogContext)
 	f := Filter{}
-	f.Or().AndEtEqTo(EntityType).AndCodeUicNazioneEqTo(code_nazione_uic).AndCodeProvinciaEqTo(provincia).AndStatusEqTo(status)
+	f.Or().AndEtEqTo(EntityType).AndNazioneEqTo(code_nazione_uic).AndProvinciaEqTo(provincia).AndStatusEqTo(status)
 	return Find(collection, &f, withCount, findOptions)
 }
 

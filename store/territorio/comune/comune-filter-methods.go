@@ -145,89 +145,31 @@ func (ca *Criteria) AndEtIn(p []string) *Criteria {
 // @tpm-schematics:start-region("-et-field-filter-section")
 // @tpm-schematics:end-region("-et-field-filter-section")
 
-/*
- * filter-string template: code_provincia
- */
-
-// AndCodeProvinciaEqTo No Remarks
-func (ca *Criteria) AndCodeProvinciaEqTo(p string) *Criteria {
-
-	if p == "" {
-		return ca
-	}
-
-	mName := fmt.Sprintf(CodeProvinciaFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: p} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-// AndCodeProvinciaIsNullOrUnset No Remarks
-func (ca *Criteria) AndCodeProvinciaIsNullOrUnset() *Criteria {
-
-	mName := fmt.Sprintf(CodeProvinciaFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-func (ca *Criteria) AndCodeProvinciaIn(p []string) *Criteria {
-
-	if len(p) == 0 {
-		return ca
-	}
-
-	mName := fmt.Sprintf(CodeProvinciaFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-// @tpm-schematics:start-region("code-provincia-field-filter-section")
-// @tpm-schematics:end-region("code-provincia-field-filter-section")
-
-/*
- * filter-string template: code_uic_nazione
- */
-
-// AndCodeUicNazioneEqTo No Remarks
-func (ca *Criteria) AndCodeUicNazioneEqTo(p string) *Criteria {
-
-	if p == "" {
-		return ca
-	}
-
-	mName := fmt.Sprintf(CodeUicNazioneFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: p} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-// AndCodeUicNazioneIsNullOrUnset No Remarks
-func (ca *Criteria) AndCodeUicNazioneIsNullOrUnset() *Criteria {
-
-	mName := fmt.Sprintf(CodeUicNazioneFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-func (ca *Criteria) AndCodeUicNazioneIn(p []string) *Criteria {
-
-	if len(p) == 0 {
-		return ca
-	}
-
-	mName := fmt.Sprintf(CodeUicNazioneFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-// @tpm-schematics:start-region("code-uic-nazione-field-filter-section")
-// @tpm-schematics:end-region("code-uic-nazione-field-filter-section")
-
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (ca *Criteria) AndNazioneEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(Nazione_BidFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndProvinciaEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(Provincia_BidFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
 
 func (ca *Criteria) AndStatusEqTo(p string) *Criteria {
 

@@ -5,6 +5,9 @@ import (
 	"errors"
 	"time"
 
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/magazzino"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/bson"
@@ -107,7 +110,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 
 // @tpm-schematics:start-region("bottom-file-section")
 
-func FindOneByAggregationView(collection *mongo.Collection, dominio, site, bidMagazzino, bidBox string, mustFind bool, findOneOptions *options.FindOneOptions) (*Box, bool, error) {
+func FindOneByAggregationView(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, dominio, site, bidMagazzino, bidBox string, mustFind bool, findOneOptions *options.FindOneOptions) (*Box, bool, error) {
 	const semLogContext = "box::find-one-by-aggregation-view"
 
 	findOptions := options.FindOptions{}
@@ -118,7 +121,7 @@ func FindOneByAggregationView(collection *mongo.Collection, dominio, site, bidMa
 	fd := f.Build()
 	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
 
-	qr, err := FindByAggregationView(collection, &f, false, &findOptions)
+	qr, err := FindByAggregationView(collection, collectionsCfg, &f, false, &findOptions)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext)
 		return nil, false, err
@@ -135,8 +138,17 @@ func FindOneByAggregationView(collection *mongo.Collection, dominio, site, bidMa
 	return &b, true, nil
 }
 
-func FindByAggregationView(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
+func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
 	const semLogContext = "box::find-by-aggregation-view"
+
+	magazzinoCollectionCfg := collectionsCfg[magazzino.CollectionId]
+	prodottoCollectionCfg := collectionsCfg[prodotto.CollectionId]
+	if magazzinoCollectionCfg.Name == "" || prodottoCollectionCfg.Name == "" {
+		err := errors.New("cannot resolve collections name for magazzino or prodotto")
+		log.Error().Err(err).Str("magazzino-collection-id", magazzino.CollectionId).Str("prodotto-collection-id", prodotto.CollectionId).Msg(semLogContext)
+		return QueryResult{}, err
+	}
+
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -172,7 +184,7 @@ func FindByAggregationView(collection *mongo.Collection, f *Filter, withCount bo
 	}
 	pipeline = append(pipeline, bson.D{
 		{"$lookup", bson.D{
-			{"from", "mag_magazzini"},
+			{"from", magazzinoCollectionCfg.Name},
 			{"let", bson.D{{"et", "MAGAZZINO"}, {"bid", "$magazzino.bid"}}},
 			{"pipeline", bson.A{
 				bson.D{
@@ -193,7 +205,7 @@ func FindByAggregationView(collection *mongo.Collection, f *Filter, withCount bo
 	})
 	pipeline = append(pipeline, bson.D{
 		{"$lookup", bson.D{
-			{"from", "prd_prodotto"},
+			{"from", prodottoCollectionCfg.Name},
 			{"let", bson.D{{"et", "PRODOTTO"}, {"bid", "$prodotto.bid"}}},
 			{"pipeline", bson.A{
 				bson.D{

@@ -19,7 +19,7 @@ c.insertOne(
         "description": "Aspetto UI di amministrazione",
         "inherit": false
         ,"properties": [
-            { "key": "theme", "value": "theme-12", "order": 0, "kind": "string" },
+            { "key": "theme", "value": "pi", "order": 0, "kind": "string" },
         ],
         "sys_info": {
             "created_at": new Date(),
@@ -37,13 +37,12 @@ c.insertOne(
         "description": "Apps disponibili",
         "inherit": false
         ,"properties": [
-            { "key": "app-home",        "value": "home,/ui-admin/{0}/{1}/{2}/app-home,Home",                "order": 0, "kind": "record:icon,url,hint" },
-            { "key": "app-cards",       "value": "credit_cards,/ui-admin/{0}/{1}/{2}/app-cards,Carte",  "order": 0, "kind": "record:icon,url,hint" },
-            { "key": "app-magazzino",   "value": "warehouse,/ui-admin/{0}/{1}/{2}/app-magazzino,Magazzino",  "order": 0, "kind": "record:icon,url,hint" },
-            { "key": "app-flussi",      "value": "folder_open,/ui-admin/{0}/{1}/{2}/app-flussi,Flussi",  "order": 0, "kind": "record:icon,url,hint" },
-            { "key": "app-org",         "value": "groups,/ui-admin/{0}/{1}/{2}/app-org,Organizzazione",  "order": 0, "kind": "record:icon,url,hint" },
-            { "key": "app-products",    "value": "credit_card_gears,/ui-admin/{0}/{1}/{2}/app-products,Organizzazione",  "order": 0, "kind": "record:icon,url,hint" },
-
+            { "key": "app-home",        "status": "active",   "name": "Home",           "description": "description of Home",           "icon": "home",              "value": "/ui-admin/{0}/{1}/{2}/app-home",       "order": 0, "kind": "string" },
+            { "key": "app-cards",       "status": "disabled", "name": "Carte",          "description": "description of Carte",          "icon": "credit_cards",      "value": "/ui-admin/{0}/{1}/{2}/app-cards",      "order": 0, "kind": "string" },
+            { "key": "app-magazzino",   "status": "active",   "name": "Magazzino",      "description": "description of Magazzino",      "icon": "warehouse",         "value": "/ui-admin/{0}/{1}/{2}/app-magazzino",  "order": 0, "kind": "string" },
+            { "key": "app-flussi",      "status": "disabled", "name": "Flussi",         "description": "description of Flussi",         "icon": "folder_open",       "value": "/ui-admin/{0}/{1}/{2}/app-flussi",     "order": 0, "kind": "string" },
+            { "key": "app-org",         "status": "disabled", "name": "Organizzazione", "description": "description of Organizzazione", "icon": "groups",            "value": "/ui-admin/{0}/{1}/{2}/app-org",        "order": 0, "kind": "string" },
+            { "key": "app-products",    "status": "disabled", "name": "Prodotti",       "description": "description of Prodotti",       "icon": "credit_card_gears", "value": "/ui-admin/{0}/{1}/{2}/app-products",   "order": 0, "kind": "string" }
         ],
         "sys_info": {
             "created_at": new Date(),
@@ -62,7 +61,7 @@ c.insertOne(
         "description": "Aspetto UI di amministrazione",
         "inherit": false
         ,"properties": [
-            { "key": "theme", "value": "theme-12", "order": 0, "kind": "string" },
+            { "key": "theme", "value": "pi", "order": 0, "kind": "string" },
         ],
         "sys_info": {
             "created_at": new Date(),

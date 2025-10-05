@@ -8,3 +8,14 @@ attributes:
   type: int
 - name: kind
   type: string
+- name: name
+  type: string
+- name: description
+  type: string
+- name: hint
+  type: string
+- name: icon
+  type: string
+- name: status
+  type: string
+

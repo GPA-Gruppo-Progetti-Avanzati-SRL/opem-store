@@ -1,6 +1,7 @@
 package nazione
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
+import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 const (
@@ -13,20 +14,19 @@ const (
 type Nazione struct {
 	OId           primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Et            string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
-	Code          string             `json:"code,omitempty" bson:"code,omitempty" yaml:"code,omitempty"`
+	Bid           string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Name          string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	CodeUic       string             `json:"code_uic,omitempty" bson:"code_uic,omitempty" yaml:"code_uic,omitempty"`
 	CodeIso3      string             `json:"code_iso3,omitempty" bson:"code_iso3,omitempty" yaml:"code_iso3,omitempty"`
 	CodeCatastale string             `json:"code_catastale,omitempty" bson:"code_catastale,omitempty" yaml:"code_catastale,omitempty"`
-	Status        string             `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
-	Order         int32              `json:"order,omitempty" bson:"order,omitempty" yaml:"order,omitempty"`
+	SysInfo       commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s Nazione) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Et == "" && s.Code == "" && s.Name == "" && s.CodeUic == "" && s.CodeIso3 == "" && s.CodeCatastale == "" && s.Status == "" && s.Order == 0
+	return s.OId == primitive.NilObjectID && s.Et == "" && s.Bid == "" && s.Name == "" && s.CodeUic == "" && s.CodeIso3 == "" && s.CodeCatastale == "" && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

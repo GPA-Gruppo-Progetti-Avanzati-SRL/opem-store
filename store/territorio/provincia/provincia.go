@@ -12,19 +12,19 @@ const (
 // @tpm-schematics:end-region("top-file-section")
 
 type Provincia struct {
-	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
-	Et          string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
-	Bid         string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
-	Name        string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
-	CodeNazione string             `json:"code_nazione,omitempty" bson:"code_nazione,omitempty" yaml:"code_nazione,omitempty"`
-	SysInfo     commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
+	OId     primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	Et      string              `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
+	Bid     string              `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
+	Name    string              `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
+	Nazione commons.BidTextPair `json:"nazione,omitempty" bson:"nazione,omitempty" yaml:"nazione,omitempty"`
+	SysInfo commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s Provincia) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Et == "" && s.Bid == "" && s.Name == "" && s.CodeNazione == "" && s.SysInfo.IsZero()
+	return s.OId == primitive.NilObjectID && s.Et == "" && s.Bid == "" && s.Name == "" && s.Nazione.IsZero() && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

@@ -34,7 +34,7 @@ type UnsetOptions struct {
 	Et          UnsetMode
 	Bid         UnsetMode
 	Name        UnsetMode
-	CodeNazione UnsetMode
+	Nazione     UnsetMode
 	SysInfo     UnsetMode
 }
 
@@ -71,9 +71,9 @@ func WithNameUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Name = m
 	}
 }
-func WithCodeNazioneUnsetMode(m UnsetMode) UnsetOption {
+func WithNazioneUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.CodeNazione = m
+		uopt.Nazione = m
 	}
 }
 func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
@@ -110,7 +110,7 @@ func GetUpdateDocument(obj *Provincia, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
-	ud.setOrUnsetCode_nazione(obj.CodeNazione, uo.ResolveUnsetMode(uo.CodeNazione))
+	ud.setOrUnsetNazione(&obj.Nazione, uo.ResolveUnsetMode(uo.Nazione))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
@@ -290,51 +290,51 @@ func UpdateWithName(p string) UpdateOption {
 // @tpm-schematics:start-region("name-field-update-section")
 // @tpm-schematics:end-region("name-field-update-section")
 
-// SetCode_nazione No Remarks
-func (ud *UpdateDocument) SetCode_nazione(p string) *UpdateDocument {
-	mName := fmt.Sprintf(CodeNazioneFieldName)
+// SetNazione No Remarks
+func (ud *UpdateDocument) SetNazione(p *commons.BidTextPair) *UpdateDocument {
+	mName := fmt.Sprintf(NazioneFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetCode_nazione No Remarks
-func (ud *UpdateDocument) UnsetCode_nazione() *UpdateDocument {
-	mName := fmt.Sprintf(CodeNazioneFieldName)
+// UnsetNazione No Remarks
+func (ud *UpdateDocument) UnsetNazione() *UpdateDocument {
+	mName := fmt.Sprintf(NazioneFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetCode_nazione No Remarks
-func (ud *UpdateDocument) setOrUnsetCode_nazione(p string, um UnsetMode) {
-	if p != "" {
-		ud.SetCode_nazione(p)
+// setOrUnsetNazione No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetNazione(p *commons.BidTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetNazione(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetCode_nazione()
+			ud.UnsetNazione()
 		case SetData2Default:
-			ud.UnsetCode_nazione()
+			ud.UnsetNazione()
 		}
 	}
 }
 
-func UpdateWithCode_nazione(p string) UpdateOption {
+func UpdateWithNazione(p *commons.BidTextPair) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if p != "" {
-			ud.SetCode_nazione(p)
+		if p != nil && !p.IsZero() {
+			ud.SetNazione(p)
 		} else {
-			ud.UnsetCode_nazione()
+			ud.UnsetNazione()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("code-nazione-field-update-section")
-// @tpm-schematics:end-region("code-nazione-field-update-section")
+// @tpm-schematics:start-region("nazione-field-update-section")
+// @tpm-schematics:end-region("nazione-field-update-section")
 
 // SetSys_info No Remarks
 func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {

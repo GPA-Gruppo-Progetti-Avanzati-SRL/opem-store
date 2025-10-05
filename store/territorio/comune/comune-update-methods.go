@@ -29,19 +29,19 @@ const (
 type UnsetOption func(uopt *UnsetOptions)
 
 type UnsetOptions struct {
-	DefaultMode    UnsetMode
-	OId            UnsetMode
-	Bid            UnsetMode
-	Et             UnsetMode
-	Name           UnsetMode
-	Cap1           UnsetMode
-	Cap2           UnsetMode
-	CodeProvincia  UnsetMode
-	CodeUicNazione UnsetMode
-	CodeIstat      UnsetMode
-	CodeCatastale  UnsetMode
-	Cab            UnsetMode
-	SysInfo        UnsetMode
+	DefaultMode   UnsetMode
+	OId           UnsetMode
+	Bid           UnsetMode
+	Et            UnsetMode
+	Name          UnsetMode
+	Cap1          UnsetMode
+	Cap2          UnsetMode
+	Provincia     UnsetMode
+	Nazione       UnsetMode
+	CodeIstat     UnsetMode
+	CodeCatastale UnsetMode
+	Cab           UnsetMode
+	SysInfo       UnsetMode
 }
 
 func (uo *UnsetOptions) ResolveUnsetMode(um UnsetMode) UnsetMode {
@@ -87,14 +87,14 @@ func WithCap2UnsetMode(m UnsetMode) UnsetOption {
 		uopt.Cap2 = m
 	}
 }
-func WithCodeProvinciaUnsetMode(m UnsetMode) UnsetOption {
+func WithProvinciaUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.CodeProvincia = m
+		uopt.Provincia = m
 	}
 }
-func WithCodeUicNazioneUnsetMode(m UnsetMode) UnsetOption {
+func WithNazioneUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.CodeUicNazione = m
+		uopt.Nazione = m
 	}
 }
 func WithCodeIstatUnsetMode(m UnsetMode) UnsetOption {
@@ -148,8 +148,8 @@ func GetUpdateDocument(obj *Comune, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
 	ud.setOrUnsetCap1(obj.Cap1, uo.ResolveUnsetMode(uo.Cap1))
 	ud.setOrUnsetCap2(obj.Cap2, uo.ResolveUnsetMode(uo.Cap2))
-	ud.setOrUnsetCode_provincia(obj.CodeProvincia, uo.ResolveUnsetMode(uo.CodeProvincia))
-	ud.setOrUnsetCode_uic_nazione(obj.CodeUicNazione, uo.ResolveUnsetMode(uo.CodeUicNazione))
+	ud.setOrUnsetProvincia(&obj.Provincia, uo.ResolveUnsetMode(uo.Provincia))
+	ud.setOrUnsetNazione(&obj.Nazione, uo.ResolveUnsetMode(uo.Nazione))
 	ud.setOrUnsetCode_istat(obj.CodeIstat, uo.ResolveUnsetMode(uo.CodeIstat))
 	ud.setOrUnsetCode_catastale(obj.CodeCatastale, uo.ResolveUnsetMode(uo.CodeCatastale))
 	ud.setOrUnsetCab(obj.Cab, uo.ResolveUnsetMode(uo.Cab))
@@ -424,97 +424,97 @@ func UpdateWithCap2(p string) UpdateOption {
 // @tpm-schematics:start-region("cap2-field-update-section")
 // @tpm-schematics:end-region("cap2-field-update-section")
 
-// SetCode_provincia No Remarks
-func (ud *UpdateDocument) SetCode_provincia(p string) *UpdateDocument {
-	mName := fmt.Sprintf(CodeProvinciaFieldName)
+// SetProvincia No Remarks
+func (ud *UpdateDocument) SetProvincia(p *commons.BidTextPair) *UpdateDocument {
+	mName := fmt.Sprintf(ProvinciaFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetCode_provincia No Remarks
-func (ud *UpdateDocument) UnsetCode_provincia() *UpdateDocument {
-	mName := fmt.Sprintf(CodeProvinciaFieldName)
+// UnsetProvincia No Remarks
+func (ud *UpdateDocument) UnsetProvincia() *UpdateDocument {
+	mName := fmt.Sprintf(ProvinciaFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetCode_provincia No Remarks
-func (ud *UpdateDocument) setOrUnsetCode_provincia(p string, um UnsetMode) {
-	if p != "" {
-		ud.SetCode_provincia(p)
+// setOrUnsetProvincia No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetProvincia(p *commons.BidTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetProvincia(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetCode_provincia()
+			ud.UnsetProvincia()
 		case SetData2Default:
-			ud.UnsetCode_provincia()
+			ud.UnsetProvincia()
 		}
 	}
 }
 
-func UpdateWithCode_provincia(p string) UpdateOption {
+func UpdateWithProvincia(p *commons.BidTextPair) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if p != "" {
-			ud.SetCode_provincia(p)
+		if p != nil && !p.IsZero() {
+			ud.SetProvincia(p)
 		} else {
-			ud.UnsetCode_provincia()
+			ud.UnsetProvincia()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("code-provincia-field-update-section")
-// @tpm-schematics:end-region("code-provincia-field-update-section")
+// @tpm-schematics:start-region("provincia-field-update-section")
+// @tpm-schematics:end-region("provincia-field-update-section")
 
-// SetCode_uic_nazione No Remarks
-func (ud *UpdateDocument) SetCode_uic_nazione(p string) *UpdateDocument {
-	mName := fmt.Sprintf(CodeUicNazioneFieldName)
+// SetNazione No Remarks
+func (ud *UpdateDocument) SetNazione(p *commons.BidTextPair) *UpdateDocument {
+	mName := fmt.Sprintf(NazioneFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetCode_uic_nazione No Remarks
-func (ud *UpdateDocument) UnsetCode_uic_nazione() *UpdateDocument {
-	mName := fmt.Sprintf(CodeUicNazioneFieldName)
+// UnsetNazione No Remarks
+func (ud *UpdateDocument) UnsetNazione() *UpdateDocument {
+	mName := fmt.Sprintf(NazioneFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetCode_uic_nazione No Remarks
-func (ud *UpdateDocument) setOrUnsetCode_uic_nazione(p string, um UnsetMode) {
-	if p != "" {
-		ud.SetCode_uic_nazione(p)
+// setOrUnsetNazione No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetNazione(p *commons.BidTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetNazione(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetCode_uic_nazione()
+			ud.UnsetNazione()
 		case SetData2Default:
-			ud.UnsetCode_uic_nazione()
+			ud.UnsetNazione()
 		}
 	}
 }
 
-func UpdateWithCode_uic_nazione(p string) UpdateOption {
+func UpdateWithNazione(p *commons.BidTextPair) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if p != "" {
-			ud.SetCode_uic_nazione(p)
+		if p != nil && !p.IsZero() {
+			ud.SetNazione(p)
 		} else {
-			ud.UnsetCode_uic_nazione()
+			ud.UnsetNazione()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("code-uic-nazione-field-update-section")
-// @tpm-schematics:end-region("code-uic-nazione-field-update-section")
+// @tpm-schematics:start-region("nazione-field-update-section")
+// @tpm-schematics:end-region("nazione-field-update-section")
 
 // SetCode_istat No Remarks
 func (ud *UpdateDocument) SetCode_istat(p string) *UpdateDocument {

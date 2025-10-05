@@ -21,10 +21,10 @@ db[opemCollectionName].insertOne(
             {
                 "id": "app-home"
                 ,"obj_type": "app-admin"
-                ,"name": "opem-fe-magazzino"
+                ,"name": "opem-fe-home"
                 ,"description": "Applicazione Home"
                 ,"version": "latest"
-                ,"path": "opem-fe-magazzino/snapshot/index.html"
+                ,"path": "opem-fe-home/snapshot/index.html"
             },
             {
                 "id": "app-magazzino"
@@ -51,17 +51,17 @@ db[opemCollectionName].insertOne(
     {
         "_bid" : "card",
         "_et": "DOMAIN",
-        "name" : "OpeM Front Door",
-        "description" : "OPeM FrontDoor",
+        "name" : "PCWeb Reloaded",
+        "description" : "PCWeb Reloaded",
         "langs": "it",
         "apps": [
             {
                 "id": "app-home"
                 ,"obj_type": "app-admin"
-                ,"name": "opem-fe-magazzino"
+                ,"name": "opem-fe-home"
                 ,"description": "Applicazione Home"
                 ,"version": "latest"
-                ,"path": "opem-fe-magazzino/latest/index.html"
+                ,"path": "opem-fe-home/latest/index.html"
             },
             {
                 "id": "app-magazzino"

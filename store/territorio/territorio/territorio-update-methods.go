@@ -1,4 +1,4 @@
-package nazione
+package territorio
 
 import (
 	"fmt"
@@ -37,6 +37,12 @@ type UnsetOptions struct {
 	CodeUic       UnsetMode
 	CodeIso3      UnsetMode
 	CodeCatastale UnsetMode
+	Nazione       UnsetMode
+	Cap1          UnsetMode
+	Cap2          UnsetMode
+	Provincia     UnsetMode
+	CodeIstat     UnsetMode
+	Cab           UnsetMode
 	SysInfo       UnsetMode
 }
 
@@ -88,6 +94,36 @@ func WithCodeCatastaleUnsetMode(m UnsetMode) UnsetOption {
 		uopt.CodeCatastale = m
 	}
 }
+func WithNazioneUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Nazione = m
+	}
+}
+func WithCap1UnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Cap1 = m
+	}
+}
+func WithCap2UnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Cap2 = m
+	}
+}
+func WithProvinciaUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Provincia = m
+	}
+}
+func WithCodeIstatUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.CodeIstat = m
+	}
+}
+func WithCabUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Cab = m
+	}
+}
 func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.SysInfo = m
@@ -111,7 +147,7 @@ func GetUpdateDocumentFromOptions(opts ...UpdateOption) UpdateDocument {
 // Convenience method to create an Update Document from the values of the top fields of the object. The convenience is in the handling
 // the unset because if I pass an empty struct to the update it generates an empty object anyway in the db. Handling the unset eliminates
 // the issue and delete an existing value without creating an empty struct.
-func GetUpdateDocument(obj *Nazione, opts ...UnsetOption) UpdateDocument {
+func GetUpdateDocument(obj *Territorio, opts ...UnsetOption) UpdateDocument {
 
 	uo := &UnsetOptions{DefaultMode: KeepCurrent}
 	for _, o := range opts {
@@ -125,6 +161,12 @@ func GetUpdateDocument(obj *Nazione, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetCode_uic(obj.CodeUic, uo.ResolveUnsetMode(uo.CodeUic))
 	ud.setOrUnsetCode_iso3(obj.CodeIso3, uo.ResolveUnsetMode(uo.CodeIso3))
 	ud.setOrUnsetCode_catastale(obj.CodeCatastale, uo.ResolveUnsetMode(uo.CodeCatastale))
+	ud.setOrUnsetNazione(&obj.Nazione, uo.ResolveUnsetMode(uo.Nazione))
+	ud.setOrUnsetCap1(obj.Cap1, uo.ResolveUnsetMode(uo.Cap1))
+	ud.setOrUnsetCap2(obj.Cap2, uo.ResolveUnsetMode(uo.Cap2))
+	ud.setOrUnsetProvincia(&obj.Provincia, uo.ResolveUnsetMode(uo.Provincia))
+	ud.setOrUnsetCode_istat(obj.CodeIstat, uo.ResolveUnsetMode(uo.CodeIstat))
+	ud.setOrUnsetCab(obj.Cab, uo.ResolveUnsetMode(uo.Cab))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
@@ -441,6 +483,282 @@ func UpdateWithCode_catastale(p string) UpdateOption {
 
 // @tpm-schematics:start-region("code-catastale-field-update-section")
 // @tpm-schematics:end-region("code-catastale-field-update-section")
+
+// SetNazione No Remarks
+func (ud *UpdateDocument) SetNazione(p *commons.BidTextPair) *UpdateDocument {
+	mName := fmt.Sprintf(NazioneFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetNazione No Remarks
+func (ud *UpdateDocument) UnsetNazione() *UpdateDocument {
+	mName := fmt.Sprintf(NazioneFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetNazione No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetNazione(p *commons.BidTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetNazione(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetNazione()
+		case SetData2Default:
+			ud.UnsetNazione()
+		}
+	}
+}
+
+func UpdateWithNazione(p *commons.BidTextPair) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != nil && !p.IsZero() {
+			ud.SetNazione(p)
+		} else {
+			ud.UnsetNazione()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("nazione-field-update-section")
+// @tpm-schematics:end-region("nazione-field-update-section")
+
+// SetCap1 No Remarks
+func (ud *UpdateDocument) SetCap1(p string) *UpdateDocument {
+	mName := fmt.Sprintf(Cap1FieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetCap1 No Remarks
+func (ud *UpdateDocument) UnsetCap1() *UpdateDocument {
+	mName := fmt.Sprintf(Cap1FieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetCap1 No Remarks
+func (ud *UpdateDocument) setOrUnsetCap1(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetCap1(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetCap1()
+		case SetData2Default:
+			ud.UnsetCap1()
+		}
+	}
+}
+
+func UpdateWithCap1(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetCap1(p)
+		} else {
+			ud.UnsetCap1()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("cap1-field-update-section")
+// @tpm-schematics:end-region("cap1-field-update-section")
+
+// SetCap2 No Remarks
+func (ud *UpdateDocument) SetCap2(p string) *UpdateDocument {
+	mName := fmt.Sprintf(Cap2FieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetCap2 No Remarks
+func (ud *UpdateDocument) UnsetCap2() *UpdateDocument {
+	mName := fmt.Sprintf(Cap2FieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetCap2 No Remarks
+func (ud *UpdateDocument) setOrUnsetCap2(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetCap2(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetCap2()
+		case SetData2Default:
+			ud.UnsetCap2()
+		}
+	}
+}
+
+func UpdateWithCap2(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetCap2(p)
+		} else {
+			ud.UnsetCap2()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("cap2-field-update-section")
+// @tpm-schematics:end-region("cap2-field-update-section")
+
+// SetProvincia No Remarks
+func (ud *UpdateDocument) SetProvincia(p *commons.BidTextPair) *UpdateDocument {
+	mName := fmt.Sprintf(ProvinciaFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetProvincia No Remarks
+func (ud *UpdateDocument) UnsetProvincia() *UpdateDocument {
+	mName := fmt.Sprintf(ProvinciaFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetProvincia No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetProvincia(p *commons.BidTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetProvincia(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetProvincia()
+		case SetData2Default:
+			ud.UnsetProvincia()
+		}
+	}
+}
+
+func UpdateWithProvincia(p *commons.BidTextPair) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != nil && !p.IsZero() {
+			ud.SetProvincia(p)
+		} else {
+			ud.UnsetProvincia()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("provincia-field-update-section")
+// @tpm-schematics:end-region("provincia-field-update-section")
+
+// SetCode_istat No Remarks
+func (ud *UpdateDocument) SetCode_istat(p string) *UpdateDocument {
+	mName := fmt.Sprintf(CodeIstatFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetCode_istat No Remarks
+func (ud *UpdateDocument) UnsetCode_istat() *UpdateDocument {
+	mName := fmt.Sprintf(CodeIstatFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetCode_istat No Remarks
+func (ud *UpdateDocument) setOrUnsetCode_istat(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetCode_istat(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetCode_istat()
+		case SetData2Default:
+			ud.UnsetCode_istat()
+		}
+	}
+}
+
+func UpdateWithCode_istat(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetCode_istat(p)
+		} else {
+			ud.UnsetCode_istat()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("code-istat-field-update-section")
+// @tpm-schematics:end-region("code-istat-field-update-section")
+
+// SetCab No Remarks
+func (ud *UpdateDocument) SetCab(p string) *UpdateDocument {
+	mName := fmt.Sprintf(CabFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetCab No Remarks
+func (ud *UpdateDocument) UnsetCab() *UpdateDocument {
+	mName := fmt.Sprintf(CabFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetCab No Remarks
+func (ud *UpdateDocument) setOrUnsetCab(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetCab(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetCab()
+		case SetData2Default:
+			ud.UnsetCab()
+		}
+	}
+}
+
+func UpdateWithCab(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetCab(p)
+		} else {
+			ud.UnsetCab()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("cab-field-update-section")
+// @tpm-schematics:end-region("cab-field-update-section")
 
 // SetSys_info No Remarks
 func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {

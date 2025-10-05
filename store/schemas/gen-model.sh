@@ -28,6 +28,7 @@ tpm-morphia-cli gen entity --schema-file ./apicore/schema.yml --name keyValuePac
 tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name nazione --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name provincia --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name comune --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name territorio --out-dir ../.. --with-format
 
 tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name prodotto --out-dir ../.. --with-format
 

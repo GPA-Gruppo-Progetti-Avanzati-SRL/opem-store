@@ -1,13 +1,14 @@
-package nazione
+package territorio
 
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -15,9 +16,9 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, findOptions *options.FindOneOptions) (*Nazione, bool, error) {
+func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, findOptions *options.FindOneOptions) (*Territorio, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
-	const semLogContext = "nazione::find-by-pk"
+	const semLogContext = "territorio::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
@@ -26,7 +27,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	ent := Nazione{}
+	ent := Territorio{}
 
 	f := Filter{}
 	// @tpm-schematics:start-region("filter-section")
@@ -57,7 +58,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
-	const semLogContext = "nazione::find"
+	const semLogContext = "territorio::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -86,7 +87,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	}
 
 	for cur.Next(context.Background()) {
-		dto := Nazione{}
+		dto := Territorio{}
 		err = cur.Decode(&dto)
 		if err != nil {
 			return qr, err

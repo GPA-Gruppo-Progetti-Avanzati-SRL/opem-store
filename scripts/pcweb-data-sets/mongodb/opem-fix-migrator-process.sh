@@ -13,6 +13,7 @@ mongosh $mongoServer  --file apicore-session.js
 mongosh $mongoServer --file fix-migrator-companies.js
 mongosh $mongoServer --file fix-migrator-focal-point.js
 mongosh $mongoServer --file fix-migrator-tb-dom-param.js
+mongosh $mongoServer --file fix-migrator-tb-prod-param.js
 mongosh $mongoServer --file fix-migrator-summary.js
 
 
