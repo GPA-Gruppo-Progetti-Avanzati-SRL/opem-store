@@ -1,6 +1,7 @@
 #!/bin/sh
 # export mongoServer=mongodb://localhost:27017/opem
-export mongoServer=mongodb+srv://marioimperato:Y7csjKg4l4c1egiA@maidevfundamentalsclust.x5i5iii.mongodb.net/opem
+# export mongoServer=mongodb+srv://marioimperato:Y7csjKg4l4c1egiA@maidevfundamentalsclust.x5i5iii.mongodb.net/opem
+export mongoServer=$1
 
 mongosh $mongoServer --file drop-collections.js
 
@@ -17,6 +18,6 @@ mongoimport --collection=mag_magazzini      --db=opem  --uri=$mongoServer      -
 echo ##### org_organizzazione
 mongoimport --collection=org_organizzazione --db=opem  --uri=$mongoServer      --file=exports/org_organizzazione.json
 echo ##### opem_prodotto
-mongoimport --collection=prd_prodotto       --db=opem  --uri=$mongoServer      --file=exports/opem_prodotto.json
+mongoimport --collection=opem_prodotto       --db=opem  --uri=$mongoServer      --file=exports/opem_prodotto.json
 
 mongosh $mongoServer --file create-indexes.js

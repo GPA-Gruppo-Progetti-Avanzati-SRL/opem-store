@@ -1,4 +1,4 @@
-let crs = db["opem_prodotto_prod_param"].aggregate(
+let crs = db["opem_prodotto_funct"].aggregate(
     [
         {
             "$lookup":
@@ -6,6 +6,7 @@ let crs = db["opem_prodotto_prod_param"].aggregate(
                     "from": "opem_prodotto",
                     "let": {
                         "et": "PRODOTTO",
+                        "bid": "$product.bid",
                         "idCompany": { "$toString": "$idCompany"},
                         "productCode": "$productCode",
                     },
@@ -18,7 +19,7 @@ let crs = db["opem_prodotto_prod_param"].aggregate(
                                             "$eq": ["$_et", "$$et"]
                                         },
                                         {
-                                            "$eq": ["$_bid", { "$concat" : [ "ISTITUTO-", "$$idCompany", "_", "$$productCode"] }]
+                                            "$eq": ["$_bid", "$$bid"]
                                         }
                                     ]
                                 }
@@ -42,7 +43,7 @@ let crs = db["opem_prodotto_prod_param"].aggregate(
 
 while ( crs.hasNext() ) {
     doc = crs.next()
-    db.opem_prodotto.updateOne({ "_et": "PRODOTTO", "_bid": doc.prodotto._bid}, { "$push": { "params.func" : doc.func, "params.value": doc.valParam, "params.mysql.prog_param": doc.progParam } })
+    db.opem_prodotto.updateOne({ "_et": "PRODOTTO", "_bid": doc.prodotto._bid}, { "$push": { "params": {"params.func" : doc.func, "params.value": doc.valParam, "params.mysql.prog_param": doc.progParam }} })
 }
 
 db.opem_prodotto_prod_param.drop();
