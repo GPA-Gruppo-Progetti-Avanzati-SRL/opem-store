@@ -3,11 +3,12 @@ package provincia
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -15,7 +16,7 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOptions *options.FindOneOptions) (*Provincia, bool, error) {
+func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Provincia, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
 	const semLogContext = "provincia::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
@@ -55,7 +56,7 @@ func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOpti
 	return &ent, true, nil
 }
 
-func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
+func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
 	const semLogContext = "provincia::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -68,8 +69,8 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	defer cancel()
 
 	if withCount {
-		countDocsOptions := options.CountOptions{}
-		nr, err := collection.CountDocuments(ctx, fd, &countDocsOptions)
+		countDocsOptions := options.Count()
+		nr, err := collection.CountDocuments(ctx, fd, countDocsOptions)
 		if err != nil {
 			evtErrLog.Err(err).Msg(semLogContext)
 			return qr, err
@@ -103,7 +104,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 
 // @tpm-schematics:start-region("bottom-file-section")
 
-func FindByNazioneAndStatus(collection *mongo.Collection, code_nazione_uic string, status string, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
+func FindByNazioneAndStatus(collection *mongo.Collection, code_nazione_uic string, status string, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
 	const semLogContext = "provincia::find-by-code_nazione_uic-status"
 	evtTraceLog := log.Trace().Str("cod_nazione_uic", code_nazione_uic).Str("status", status)
 	// evtTraceErr := log.Error().Str("cod_nazione_uic", code_nazione_uic).Str("status", status)

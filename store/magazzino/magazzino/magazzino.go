@@ -1,6 +1,6 @@
 package magazzino
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import "go.mongodb.org/mongo-driver/v2/bson"
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
@@ -12,7 +12,7 @@ const (
 // @tpm-schematics:end-region("top-file-section")
 
 type Magazzino struct {
-	OId        primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	OId        bson.ObjectID       `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Domain     string              `json:"domain,omitempty" bson:"domain,omitempty" yaml:"domain,omitempty"`
 	Site       string              `json:"site,omitempty" bson:"site,omitempty" yaml:"site,omitempty"`
 	Bid        string              `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
@@ -25,7 +25,7 @@ type Magazzino struct {
 }
 
 func (s Magazzino) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.FocalPoint.IsZero() && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.FocalPoint.IsZero() && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

@@ -1,6 +1,6 @@
 package comune
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import "go.mongodb.org/mongo-driver/v2/bson"
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
@@ -12,7 +12,7 @@ const (
 // @tpm-schematics:end-region("top-file-section")
 
 type Comune struct {
-	OId           primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	OId           bson.ObjectID       `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Bid           string              `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Et            string              `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Name          string              `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
@@ -30,7 +30,7 @@ type Comune struct {
 }
 
 func (s Comune) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Cap1 == "" && s.Cap2 == "" && s.Provincia.IsZero() && s.Nazione.IsZero() && s.CodeIstat == "" && s.CodeCatastale == "" && s.Cab == "" && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Cap1 == "" && s.Cap2 == "" && s.Provincia.IsZero() && s.Nazione.IsZero() && s.CodeIstat == "" && s.CodeCatastale == "" && s.Cab == "" && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

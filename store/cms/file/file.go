@@ -1,14 +1,13 @@
 package file
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
-import "go.mongodb.org/mongo-driver/bson"
+import "go.mongodb.org/mongo-driver/v2/bson"
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 // @tpm-schematics:end-region("top-file-section")
 
 type File struct {
-	OId      primitive.ObjectID    `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	OId      bson.ObjectID         `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Fn       string                `json:"fn,omitempty" bson:"fn,omitempty" yaml:"fn,omitempty"`
 	Descr    string                `json:"descr,omitempty" bson:"descr,omitempty" yaml:"descr,omitempty"`
 	Role     string                `json:"role,omitempty" bson:"role,omitempty" yaml:"role,omitempty"`
@@ -22,7 +21,7 @@ type File struct {
 }
 
 func (s File) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Fn == "" && s.Descr == "" && s.Role == "" && len(s.EntRefs) == 0 && len(s.Metadata) == 0 && len(s.Vrnts) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Fn == "" && s.Descr == "" && s.Role == "" && len(s.EntRefs) == 0 && len(s.Metadata) == 0 && len(s.Vrnts) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

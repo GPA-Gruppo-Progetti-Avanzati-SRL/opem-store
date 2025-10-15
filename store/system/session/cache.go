@@ -1,10 +1,11 @@
 package session
 
 import (
+	"time"
+
 	"github.com/patrickmn/go-cache"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"time"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
 type CacheResolver interface {

@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 //func Find(collection *mongo.Collection, f Filter, findOptions *options.FindOptions, withCount bool) (QueryResult, error) {
@@ -56,7 +56,7 @@ import (
 //	return qr, nil
 //}
 
-func FindByNickname(collection *mongo.Collection, nickname string, mustFind bool, findOptions *options.FindOneOptions) (*User, error) {
+func FindByNickname(collection *mongo.Collection, nickname string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*User, error) {
 	const semLogContext = "mdb-user::find-by-nickname"
 
 	log.Trace().Str("nickname", nickname).Msg(semLogContext)
@@ -82,7 +82,7 @@ func FindByNickname(collection *mongo.Collection, nickname string, mustFind bool
 	return &ent, nil
 }
 
-func FindByHexOid(collection *mongo.Collection, userId string, mustFind bool, findOptions *options.FindOneOptions) (*User, error) {
+func FindByHexOid(collection *mongo.Collection, userId string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*User, error) {
 
 	const SemLogContext = "r3ds9-core/user/find-by-object-id"
 	log.Trace().Str("userId", userId).Msg(SemLogContext)

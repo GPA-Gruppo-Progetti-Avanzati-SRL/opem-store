@@ -1,6 +1,6 @@
 package provincia
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import "go.mongodb.org/mongo-driver/v2/bson"
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
@@ -12,7 +12,7 @@ const (
 // @tpm-schematics:end-region("top-file-section")
 
 type Provincia struct {
-	OId     primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	OId     bson.ObjectID       `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Et      string              `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Bid     string              `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Name    string              `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
@@ -24,7 +24,7 @@ type Provincia struct {
 }
 
 func (s Provincia) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Et == "" && s.Bid == "" && s.Name == "" && s.Nazione.IsZero() && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Et == "" && s.Bid == "" && s.Name == "" && s.Nazione.IsZero() && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

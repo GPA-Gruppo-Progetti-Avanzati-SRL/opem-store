@@ -3,11 +3,12 @@ package prodotto
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -15,14 +16,13 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptions) (*Prodotto, bool, error) {
+func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Prodotto, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
 	const semLogContext = "prodotto::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
 	// @tpm-schematics:end-region("log-event-section")
-	evtTraceLog.Msg(semLogContext)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -34,7 +34,7 @@ func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind b
 	f.Or().AndEtEqTo(EntityType).AndDomainEqTo(domain).AndSiteIn([]string{site, "*"}).AndBidEqTo(bid)
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
-	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
+	evtTraceLog = evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	err := collection.FindOne(ctx, fd, findOptions).Decode(&ent)
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		evtErrLog.Err(err).Msg(semLogContext)
@@ -56,7 +56,7 @@ func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind b
 	return &ent, true, nil
 }
 
-func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
+func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
 	const semLogContext = "prodotto::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -69,8 +69,8 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	defer cancel()
 
 	if withCount {
-		countDocsOptions := options.CountOptions{}
-		nr, err := collection.CountDocuments(ctx, fd, &countDocsOptions)
+		countDocsOptions := options.Count()
+		nr, err := collection.CountDocuments(ctx, fd, countDocsOptions)
 		if err != nil {
 			evtErrLog.Err(err).Msg(semLogContext)
 			return qr, err

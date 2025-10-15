@@ -5,11 +5,11 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-func findByDomainAndSiteAndStatus(collection *mongo.Collection, domain string, site string, status string, findOptions *options.FindOptions) ([]Prodotto, error) {
+func findByDomainAndSiteAndStatus(collection *mongo.Collection, domain string, site string, status string, findOptions *options.FindOptionsBuilder) ([]Prodotto, error) {
 	const semLogContext = "prodotto::find-by-domain-site-status"
 
 	log.Trace().Str("domain", domain).Str("site", site).Str("status", status).Msg(semLogContext)

@@ -5,11 +5,11 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-//func Find(collection *mongo.Collection, f Filter, findOptions *options.FindOptions, withCount bool) (QueryResult, error) {
+//func Find(collection *mongo.Collection, f Filter, findOptions *.FindOptions, withCount bool) (QueryResult, error) {
 //	const semLogContext = "mdb-site::find"
 //
 //	qr := QueryResult{}
@@ -22,7 +22,7 @@ import (
 //	fd := f.Build()
 //
 //	if withCount {
-//		countDocsOptions := options.CountOptions{}
+//		countDocsOptions := .CountOptions{}
 //		nr, err := collection.CountDocuments(ctx, fd, &countDocsOptions)
 //		if err != nil {
 //			log.Error().Err(err).Msg(semLogContext)
@@ -55,7 +55,7 @@ import (
 //	return qr, nil
 //}
 
-func FindByDomainAndCode(collection *mongo.Collection, domain, code string, mustFind bool, findOptions *options.FindOneOptions) (*Site, bool, error) {
+func FindByDomainAndCode(collection *mongo.Collection, domain, code string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Site, bool, error) {
 	const semLogContext = "mdb-site::find-by-domain-and-code"
 
 	log.Trace().Str("domain", code).Msg(semLogContext)

@@ -2,11 +2,11 @@ package usercard
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
 	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 func UpdateMethodsGoInfo() string {
@@ -106,7 +106,7 @@ func GetUpdateDocument(obj *UserCard, opts ...UnsetOption) UpdateDocument {
 //----- oId - object-id -  [oId]
 
 // SetOId No Remarks
-func (ud *UpdateDocument) SetOId(p primitive.ObjectID) *UpdateDocument {
+func (ud *UpdateDocument) SetOId(p bson.ObjectID) *UpdateDocument {
 	mName := fmt.Sprintf(OID)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -124,7 +124,7 @@ func (ud *UpdateDocument) UnsetOId() *UpdateDocument {
 }
 
 // setOrUnsetOId No Remarks
-func (ud *UpdateDocument) setOrUnsetOId(p primitive.ObjectID, um UnsetMode) {
+func (ud *UpdateDocument) setOrUnsetOId(p bson.ObjectID, um UnsetMode) {
 	if !p.IsZero() {
 		ud.SetOId(p)
 	} else {

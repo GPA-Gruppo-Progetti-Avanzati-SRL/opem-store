@@ -2,12 +2,13 @@ package session_test
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"os"
 	"testing"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo/readpref"
 )
 
 const (
@@ -19,16 +20,12 @@ const (
 var collection *mongo.Collection
 
 func TestMain(m *testing.M) {
-	client, err := mongo.NewClient(options.Client().ApplyURI(instance))
+	client, err := mongo.Connect(options.Client().ApplyURI(instance))
 	if err != nil {
 		panic(err)
 	}
 
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	err = client.Connect(ctx)
-	if err != nil {
-		panic(err)
-	}
 	defer client.Disconnect(ctx)
 
 	err = client.Ping(ctx, readpref.Primary())

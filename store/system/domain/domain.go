@@ -1,6 +1,6 @@
 package domain
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import "go.mongodb.org/mongo-driver/v2/bson"
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
@@ -12,22 +12,22 @@ const (
 // @tpm-schematics:end-region("top-file-section")
 
 type Domain struct {
-	OId         primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
-	Bid         string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
-	Et          string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
-	Name        string             `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
-	Description string             `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
-	Langs       string             `json:"langs,omitempty" bson:"langs,omitempty" yaml:"langs,omitempty"`
-	Members     []Member           `json:"members,omitempty" bson:"members,omitempty" yaml:"members,omitempty"`
-	Apps        []commons.App      `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
-	SysInfo     commons.SysInfo    `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
+	OId         bson.ObjectID   `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	Bid         string          `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
+	Et          string          `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
+	Name        string          `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
+	Description string          `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
+	Langs       string          `json:"langs,omitempty" bson:"langs,omitempty" yaml:"langs,omitempty"`
+	Members     []Member        `json:"members,omitempty" bson:"members,omitempty" yaml:"members,omitempty"`
+	Apps        []commons.App   `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
+	SysInfo     commons.SysInfo `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s Domain) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Description == "" && s.Langs == "" && len(s.Members) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Description == "" && s.Langs == "" && len(s.Members) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

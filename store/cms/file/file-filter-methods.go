@@ -2,8 +2,7 @@ package file
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
 )
 
@@ -34,9 +33,9 @@ func (ca *Criteria) AndTextSearch(ssearch string) *Criteria {
  */
 
 // AndOIdEqTo No Remarks
-func (ca *Criteria) AndOIdEqTo(oId primitive.ObjectID) *Criteria {
+func (ca *Criteria) AndOIdEqTo(oId bson.ObjectID) *Criteria {
 
-	if oId == primitive.NilObjectID {
+	if oId == bson.NilObjectID {
 		return ca
 	}
 
@@ -46,7 +45,7 @@ func (ca *Criteria) AndOIdEqTo(oId primitive.ObjectID) *Criteria {
 	return ca
 }
 
-func (ca *Criteria) AndOIdIn(p []primitive.ObjectID) *Criteria {
+func (ca *Criteria) AndOIdIn(p []bson.ObjectID) *Criteria {
 
 	if len(p) == 0 {
 		return ca

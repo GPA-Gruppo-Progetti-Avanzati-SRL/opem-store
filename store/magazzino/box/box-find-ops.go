@@ -10,9 +10,9 @@ import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -20,14 +20,13 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection, dominio, site, bidMagazzino, bidBox string, mustFind bool, findOptions *options.FindOneOptions) (*Box, bool, error) {
+func FindByPk(collection *mongo.Collection, dominio, site, bidMagazzino, bidBox string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Box, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
 	const semLogContext = "box::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
 	// @tpm-schematics:end-region("log-event-section")
-	evtTraceLog.Msg(semLogContext)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -40,7 +39,7 @@ func FindByPk(collection *mongo.Collection, dominio, site, bidMagazzino, bidBox 
 	f.Or().AndEtEqTo(EntityType).AndBidEqTo(bidBox).AndBidMagazzinoEqTo(bidMagazzino).AndDomainEqTo(dominio).AndSiteEqTo(site)
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
-	evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
+	evtTraceLog = evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	err := collection.FindOne(ctx, fd, findOptions).Decode(&ent)
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		evtErrLog.Err(err).Msg(semLogContext)
@@ -62,7 +61,7 @@ func FindByPk(collection *mongo.Collection, dominio, site, bidMagazzino, bidBox 
 	return &ent, true, nil
 }
 
-func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
+func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
 	const semLogContext = "box::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -75,8 +74,8 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	defer cancel()
 
 	if withCount {
-		countDocsOptions := options.CountOptions{}
-		nr, err := collection.CountDocuments(ctx, fd, &countDocsOptions)
+		countDocsOptions := options.Count()
+		nr, err := collection.CountDocuments(ctx, fd, countDocsOptions)
 		if err != nil {
 			evtErrLog.Err(err).Msg(semLogContext)
 			return qr, err
@@ -110,11 +109,13 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 
 // @tpm-schematics:start-region("bottom-file-section")
 
-func FindOneByAggregationView(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, dominio, site, bidMagazzino, bidBox string, mustFind bool, findOneOptions *options.FindOneOptions) (*Box, bool, error) {
+func FindOneByAggregationView(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, dominio, site, bidMagazzino, bidBox string, mustFind bool) (*Box, bool, error) {
 	const semLogContext = "box::find-one-by-aggregation-view"
 
-	findOptions := options.FindOptions{}
-	findOptions.SetLimit(1)
+	limit := int64(1)
+	findOptions := options.FindOptions{
+		Limit: &limit,
+	}
 
 	f := Filter{}
 	f.Or().AndEtEqTo(EntityType).AndBidEqTo(bidBox).AndBidMagazzinoEqTo(bidMagazzino).AndDomainEqTo(dominio).AndSiteEqTo(site)
@@ -162,8 +163,8 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 	//defer cancel()
 
 	if withCount {
-		countDocsOptions := options.CountOptions{}
-		nr, err := collection.CountDocuments(ctx, fd, &countDocsOptions)
+		countDocsOptions := options.Count()
+		nr, err := collection.CountDocuments(ctx, fd, countDocsOptions)
 		if err != nil {
 			evtErrLog.Err(err).Msg(semLogContext)
 			return qr, err
@@ -258,7 +259,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 		}},
 	})
 
-	opts := &options.AggregateOptions{}
+	opts := options.Aggregate()
 	cur, err := collection.Aggregate(ctx, pipeline, opts)
 	if err != nil {
 		evtErrLog.Err(err).Msg(semLogContext)

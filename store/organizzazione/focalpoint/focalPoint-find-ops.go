@@ -3,11 +3,12 @@ package focalpoint
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -15,7 +16,7 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptions) (*FocalPoint, bool, error) {
+func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*FocalPoint, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
 	const semLogContext = "focal-point::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
@@ -56,7 +57,7 @@ func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind b
 	return &ent, true, nil
 }
 
-func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
+func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
 	const semLogContext = "focal-point::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -69,8 +70,8 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	defer cancel()
 
 	if withCount {
-		countDocsOptions := options.CountOptions{}
-		nr, err := collection.CountDocuments(ctx, fd, &countDocsOptions)
+		countDocsOptions := options.Count()
+		nr, err := collection.CountDocuments(ctx, fd, countDocsOptions)
 		if err != nil {
 			evtErrLog.Err(err).Msg(semLogContext)
 			return qr, err

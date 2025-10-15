@@ -1,14 +1,14 @@
 package commons
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import "go.mongodb.org/mongo-driver/v2/bson"
 
 // @tpm-schematics:start-region("top-file-section")
 // @tpm-schematics:end-region("top-file-section")
 
 type SysInfo struct {
-	Status     string             `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
-	CreatedAt  primitive.DateTime `json:"created_at,omitempty" bson:"created_at,omitempty" yaml:"created_at,omitempty"`
-	ModifiedAt primitive.DateTime `json:"modified_at,omitempty" bson:"modified_at,omitempty" yaml:"modified_at,omitempty"`
+	Status     string        `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	CreatedAt  bson.DateTime `json:"created_at,omitempty" bson:"created_at,omitempty" yaml:"created_at,omitempty"`
+	ModifiedAt bson.DateTime `json:"modified_at,omitempty" bson:"modified_at,omitempty" yaml:"modified_at,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")

@@ -1,14 +1,17 @@
 package territorio
 
 import (
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
+	"go.mongodb.org/mongo-driver/v2/bson"
+)
+
+// @tpm-schematics:start-region("top-file-section")
+
+import (
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/territorio/comune"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/territorio/nazione"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/territorio/provincia"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
-
-// @tpm-schematics:start-region("top-file-section")
 
 var EntityTypes = []string{nazione.EntityType, provincia.EntityType, comune.EntityType}
 
@@ -19,7 +22,7 @@ const (
 // @tpm-schematics:end-region("top-file-section")
 
 type Territorio struct {
-	OId           primitive.ObjectID  `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	OId           bson.ObjectID       `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Et            string              `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Bid           string              `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Name          string              `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
@@ -39,7 +42,7 @@ type Territorio struct {
 }
 
 func (s Territorio) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Et == "" && s.Bid == "" && s.Name == "" && s.CodeUic == "" && s.CodeIso3 == "" && s.CodeCatastale == "" && s.Nazione.IsZero() && s.Cap1 == "" && s.Cap2 == "" && s.Provincia.IsZero() && s.CodeIstat == "" && s.Cab == "" && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Et == "" && s.Bid == "" && s.Name == "" && s.CodeUic == "" && s.CodeIso3 == "" && s.CodeCatastale == "" && s.Nazione.IsZero() && s.Cap1 == "" && s.Cap2 == "" && s.Provincia.IsZero() && s.CodeIstat == "" && s.Cab == "" && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

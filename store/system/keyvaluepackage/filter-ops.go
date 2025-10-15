@@ -6,9 +6,9 @@ import (
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 func FindByDomainSiteName(c *mongo.Collection, domain, site, pkgName string) (KeyValuePackage, bool, error) {

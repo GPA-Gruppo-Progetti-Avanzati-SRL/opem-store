@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 //func Find(collection *mongo.Collection, f Filter, findOptions *options.FindOptions, withCount bool) (QueryResult, error) {
@@ -55,7 +55,7 @@ import (
 //	return qr, nil
 //}
 
-func FindByCode(collection *mongo.Collection, code string, mustFind bool, findOptions *options.FindOneOptions) (*Domain, bool, error) {
+func FindByCode(collection *mongo.Collection, code string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Domain, bool, error) {
 	const semLogContext = "mdb-domain::find-by-code"
 
 	log.Trace().Str("domain", code).Msg(semLogContext)

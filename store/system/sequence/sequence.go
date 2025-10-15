@@ -1,6 +1,6 @@
 package sequence
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import "go.mongodb.org/mongo-driver/v2/bson"
 
 // @tpm-schematics:start-region("top-file-section")
 
@@ -12,17 +12,17 @@ const (
 // @tpm-schematics:end-region("top-file-section")
 
 type Sequence struct {
-	OId   primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
-	Bid   string             `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
-	Et    string             `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
-	Value int32              `json:"value,omitempty" bson:"value,omitempty" yaml:"value,omitempty"`
+	OId   bson.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	Bid   string        `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
+	Et    string        `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
+	Value int32         `json:"value,omitempty" bson:"value,omitempty" yaml:"value,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s Sequence) IsZero() bool {
-	return s.OId == primitive.NilObjectID && s.Bid == "" && s.Et == "" && s.Value == 0
+	return s.OId == bson.NilObjectID && s.Bid == "" && s.Et == "" && s.Value == 0
 }
 
 type QueryResult struct {

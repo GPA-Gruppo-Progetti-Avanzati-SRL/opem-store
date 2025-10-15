@@ -2,8 +2,9 @@ package usercard
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 func CriteriaGoInfo() string {

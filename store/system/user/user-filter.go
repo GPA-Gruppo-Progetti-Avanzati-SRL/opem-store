@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -70,6 +70,40 @@ func WithSortByTextSearchRankingDesc(fn string) SortOption {
 func CriteriaGoInfo() string {
 	i := fmt.Sprintf("tpm_morphia query filter support generated for %s package on %s", "author", time.Now().String())
 	return i
+}
+
+type ProjectionOptions struct {
+	document bson.D
+}
+
+type ProjectionOption func(sops *ProjectionOptions)
+
+func (pops ProjectionOptions) Build() bson.D {
+	return pops.document
+}
+
+func WithNoId() ProjectionOption {
+	return func(sops *ProjectionOptions) {
+		sops.document = append(sops.document, bson.E{Key: "_id", Value: 0})
+	}
+}
+
+func WithTextSearchRanking(fn string) ProjectionOption {
+	return func(sops *ProjectionOptions) {
+		sops.document = append(sops.document, bson.E{Key: fn, Value: bson.E{Key: "$meta", Value: "textScore"}})
+	}
+}
+
+func WithIncludeField(fn string) ProjectionOption {
+	return func(sops *ProjectionOptions) {
+		sops.document = append(sops.document, bson.E{Key: "fn", Value: 1})
+	}
+}
+
+func WithExcludeField(fn string) ProjectionOption {
+	return func(sops *ProjectionOptions) {
+		sops.document = append(sops.document, bson.E{Key: "fn", Value: 0})
+	}
 }
 
 const (
@@ -139,39 +173,4 @@ func (f *Filter) Build() bson.D {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
-
-type ProjectionOptions struct {
-	document bson.D
-}
-
-type ProjectionOption func(sops *ProjectionOptions)
-
-func (pops ProjectionOptions) Build() bson.D {
-	return pops.document
-}
-
-func WithNoId() ProjectionOption {
-	return func(sops *ProjectionOptions) {
-		sops.document = append(sops.document, bson.E{Key: "_id", Value: 0})
-	}
-}
-
-func WithTextSearchRanking(fn string) ProjectionOption {
-	return func(sops *ProjectionOptions) {
-		sops.document = append(sops.document, bson.E{Key: fn, Value: bson.E{Key: "$meta", Value: "textScore"}})
-	}
-}
-
-func WithIncludeField(fn string) ProjectionOption {
-	return func(sops *ProjectionOptions) {
-		sops.document = append(sops.document, bson.E{Key: "fn", Value: 1})
-	}
-}
-
-func WithExcludeField(fn string) ProjectionOption {
-	return func(sops *ProjectionOptions) {
-		sops.document = append(sops.document, bson.E{Key: "fn", Value: 0})
-	}
-}
-
 // @tpm-schematics:end-region("bottom-file-section")

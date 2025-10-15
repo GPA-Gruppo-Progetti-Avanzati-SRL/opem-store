@@ -2,10 +2,9 @@ package user
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -40,9 +39,9 @@ func (ca *Criteria) AndTextSearch(ssearch string) *Criteria {
  */
 
 // AndOIdEqTo No Remarks
-func (ca *Criteria) AndOIdEqTo(oId primitive.ObjectID) *Criteria {
+func (ca *Criteria) AndOIdEqTo(oId bson.ObjectID) *Criteria {
 
-	if oId == primitive.NilObjectID {
+	if oId == bson.NilObjectID {
 		return ca
 	}
 
@@ -52,7 +51,7 @@ func (ca *Criteria) AndOIdEqTo(oId primitive.ObjectID) *Criteria {
 	return ca
 }
 
-func (ca *Criteria) AndOIdIn(p []primitive.ObjectID) *Criteria {
+func (ca *Criteria) AndOIdIn(p []bson.ObjectID) *Criteria {
 
 	if len(p) == 0 {
 		return ca
@@ -116,7 +115,7 @@ func (ca *Criteria) AndHexOIdEqTo(oId string) *Criteria {
 		return ca
 	}
 
-	objId, err := primitive.ObjectIDFromHex(oId)
+	objId, err := bson.ObjectIDFromHex(oId)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext)
 		return ca

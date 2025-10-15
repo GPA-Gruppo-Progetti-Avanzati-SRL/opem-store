@@ -7,8 +7,8 @@ import (
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -16,7 +16,7 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, findOptions *options.FindOneOptions) (*User, bool, error) {
+func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*User, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
 	const semLogContext = "user::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
@@ -57,7 +57,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	return &ent, true, nil
 }
 
-func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
+func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
 	const semLogContext = "user::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -70,8 +70,8 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	defer cancel()
 
 	if withCount {
-		countDocsOptions := options.CountOptions{}
-		nr, err := collection.CountDocuments(ctx, fd, &countDocsOptions)
+		countDocsOptions := options.Count()
+		nr, err := collection.CountDocuments(ctx, fd, countDocsOptions)
 		if err != nil {
 			evtErrLog.Err(err).Msg(semLogContext)
 			return qr, err

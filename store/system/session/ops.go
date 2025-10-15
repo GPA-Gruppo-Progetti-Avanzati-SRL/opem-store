@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-func FindBySId(collection *mongo.Collection, sid string, mustFind bool, findOptions *options.FindOneOptions) (*Session, error) {
+func FindBySId(collection *mongo.Collection, sid string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Session, error) {
 
 	const SemLogContext = "r3ds9-core/session/find-by-sid"
 	log.Trace().Str("sid", sid).Msg(SemLogContext)
@@ -46,15 +46,15 @@ func Insert(ctx context.Context, aCollection *mongo.Collection, s *Session) (str
 
 	now := time.Now()
 	s.SysInfo.Status = "active"
-	s.SysInfo.CreatedAt = primitive.NewDateTimeFromTime(now)
-	s.SysInfo.ModifiedAt = primitive.NewDateTimeFromTime(now)
+	s.SysInfo.CreatedAt = bson.NewDateTimeFromTime(now)
+	s.SysInfo.ModifiedAt = bson.NewDateTimeFromTime(now)
 	r, err := aCollection.InsertOne(ctx, s)
 
 	if err != nil {
 		return "", err
 	}
 
-	s.OId = r.InsertedID.(primitive.ObjectID)
+	s.OId = r.InsertedID.(bson.ObjectID)
 	sid := s.SessionId()
 	log.Trace().Str("sid", sid).Msg(SemLogContext)
 
@@ -68,8 +68,8 @@ func Remove(ctx context.Context, aCollection *mongo.Collection, sid string, must
 
 	f := Filter{}
 	f.Or().AndSessionIdEqTo(sid)
-	var opts []*options.DeleteOptions
-	r, err := aCollection.DeleteOne(ctx, f.Build(), opts...)
+	opts := options.DeleteOne()
+	r, err := aCollection.DeleteOne(ctx, f.Build(), opts)
 	if err != nil {
 		return 0, err
 	}
@@ -94,8 +94,8 @@ func UpdateBySid(ctx context.Context, aCollection *mongo.Collection, sid string,
 
 	f := Filter{}
 	f.Or().AndSessionIdEqTo(sid)
-	var uopts []*options.UpdateOptions
-	r, err := aCollection.UpdateOne(ctx, f.Build(), ud.Build(), uopts...)
+	uopts := options.UpdateOne()
+	r, err := aCollection.UpdateOne(ctx, f.Build(), ud.Build(), uopts)
 	if err != nil {
 		return 0, err
 	}

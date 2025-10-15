@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -103,7 +101,7 @@ func GetUpdateDocument(obj *Sequence, opts ...UnsetOption) UpdateDocument {
 }
 
 // SetOId No Remarks
-func (ud *UpdateDocument) SetOId(p primitive.ObjectID) *UpdateDocument {
+func (ud *UpdateDocument) SetOId(p bson.ObjectID) *UpdateDocument {
 	mName := fmt.Sprintf(OIdFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -121,7 +119,7 @@ func (ud *UpdateDocument) UnsetOId() *UpdateDocument {
 }
 
 // setOrUnsetOId No Remarks
-func (ud *UpdateDocument) setOrUnsetOId(p primitive.ObjectID, um UnsetMode) {
+func (ud *UpdateDocument) setOrUnsetOId(p bson.ObjectID, um UnsetMode) {
 	if !p.IsZero() {
 		ud.SetOId(p)
 	} else {
