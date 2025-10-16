@@ -50,4 +50,4 @@ while ( crs.hasNext() ) {
     doc = crs.next()
     db["org_organizzazione"].updateOne({"_et": "FOCAL-POINT", "_bid": doc._bid}, { "$set": { "address.townhall.bid": doc.bid_comune } })
 }
-print("....cursor eof");
+print("...cursor eof");

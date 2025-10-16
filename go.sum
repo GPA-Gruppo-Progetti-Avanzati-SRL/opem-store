@@ -2,6 +2,8 @@ github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.85 h1:qtAy8lveC6ScNm
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.85/go.mod h1:Q456LEsf8ywWb9GU1sIesWakRSIWe6MisfM2Q5lDJlw=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.0-RC2 h1:F/FqWBFFuhxowzeTigL/DCsRz+Yh46A3vb0jfdb0Leg=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.0-RC2/go.mod h1:Xo+b9n6q0XSefcQzqU+we6z1YMHOFAbIMjPC4Iq/DFo=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.1-RC3 h1:gyS7+whA4fqmHvkJJL6FbRc3La9uUCf0/ZHFejy2eAE=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.1-RC3/go.mod h1:C4sSBHwM4L9OiCci1C8K0jv/BjPKKK/8yh8mWqb65A8=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=

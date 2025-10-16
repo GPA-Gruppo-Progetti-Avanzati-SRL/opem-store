@@ -1,7 +1,10 @@
 let crs = db["opem_prodotto_funct"].find();
 while ( crs.hasNext() ) {
     doc = crs.next()
-    db.opem_prodotto.updateOne({ "_et": "PRODOTTO", "_bid": doc.prodotto._bid}, { "$push": { "params": {"params.func" : doc.func, "params.value": doc.valParam, "params.mysql.prog_param": doc.progParam }} })
+    db.opem_prodotto.updateOne(
+        { "_et": "PRODOTTO", "_bid": doc.product.bid, "site": doc.site, "domain": doc.domain },
+        { "$push": { "apps": doc.app } }
+    )
 }
 
-db.opem_prodotto_prod_param.drop();
+db.opem_prodotto_funct.drop();

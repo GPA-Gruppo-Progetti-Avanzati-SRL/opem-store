@@ -186,13 +186,19 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 	pipeline = append(pipeline, bson.D{
 		{"$lookup", bson.D{
 			{"from", magazzinoCollectionCfg.Name},
-			{"let", bson.D{{"et", "MAGAZZINO"}, {"bid", "$magazzino.bid"}}},
+			{"let", bson.D{
+				{"domain", "$domain"}, {"site", "$site"},
+				{"et", "MAGAZZINO"}, {"bid", "$magazzino.bid"},
+			},
+			},
 			{"pipeline", bson.A{
 				bson.D{
 					{"$match", bson.D{
 						{"$expr", bson.D{
 							{"$and",
 								bson.A{
+									bson.D{{"$eq", bson.A{"$domain", "$$domain"}}},
+									bson.D{{"$eq", bson.A{"$site", "$$site"}}},
 									bson.D{{"$eq", bson.A{"$_et", "$$et"}}},
 									bson.D{{"$eq", bson.A{"$_bid", "$$bid"}}},
 								},
@@ -207,12 +213,18 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 	pipeline = append(pipeline, bson.D{
 		{"$lookup", bson.D{
 			{"from", prodottoCollectionCfg.Name},
-			{"let", bson.D{{"et", "PRODOTTO"}, {"bid", "$prodotto.bid"}}},
+			{"let", bson.D{
+				{"domain", "$domain"}, {"site", "$site"},
+				{"et", "PRODOTTO"}, {"bid", "$prodotto.bid"},
+			},
+			},
 			{"pipeline", bson.A{
 				bson.D{
 					{"$match", bson.D{
 						{"$expr", bson.D{
 							{"$and", bson.A{
+								bson.D{{"$eq", bson.A{"$domain", "$$domain"}}},
+								bson.D{{"$eq", bson.A{"$site", "$$site"}}},
 								bson.D{{"$eq", bson.A{"$_et", "$$et"}}},
 								bson.D{{"$eq", bson.A{"$_bid", "$$bid"}}},
 							}},
