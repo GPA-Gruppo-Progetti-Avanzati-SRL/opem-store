@@ -16,7 +16,7 @@ import (
 var EntityTypes = []string{nazione.EntityType, provincia.EntityType, comune.EntityType}
 
 const (
-	CollectionId = "trt_territorio"
+	CollectionId = "territorio"
 )
 
 // @tpm-schematics:end-region("top-file-section")

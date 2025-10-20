@@ -5,8 +5,8 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 const (
-	EntityType   = "MAGAZZINO"
-	CollectionId = "mag_magazzini"
+	EntityType   = "magazzino"
+	CollectionId = "magazzino"
 )
 
 // @tpm-schematics:end-region("top-file-section")

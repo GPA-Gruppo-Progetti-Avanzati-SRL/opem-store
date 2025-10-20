@@ -3,7 +3,7 @@ let conn = db.getMongo();
 let db = conn.getDB(opemDbName);
 
 db["opem_system"].updateMany(
-    { "_et": "SITE" },
+    { "_et": "site" },
     { $set: {
             "langs": "it",
             "apps": [

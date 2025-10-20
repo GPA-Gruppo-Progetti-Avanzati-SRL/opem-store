@@ -16,5 +16,15 @@ attributes:
 - name: _et
   type: string
   options: with-filter
+- name: domain
+  type: string
+  options: with-filter
+- name: site
+  type: string
+  options: with-filter
 - name: value
   type: int
+- name: format
+  type: string
+- name: prefix
+  type: string

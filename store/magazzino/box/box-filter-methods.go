@@ -239,4 +239,16 @@ func (ca *Criteria) AndBidMagazzinoEqTo(p string) *Criteria {
 	return ca
 }
 
+func (ca *Criteria) AndStatusEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(Status_StatusFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

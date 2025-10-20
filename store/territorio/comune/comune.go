@@ -5,8 +5,8 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 const (
-	EntityType   = "COMUNE"
-	CollectionId = "trt_territorio"
+	EntityType   = "comune"
+	CollectionId = "territorio"
 )
 
 // @tpm-schematics:end-region("top-file-section")

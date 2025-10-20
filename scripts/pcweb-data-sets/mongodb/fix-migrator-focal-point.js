@@ -1,11 +1,11 @@
-let crs = db["org_organizzazione"].aggregate(
+let crs = db["opem_organizzazione"].aggregate(
 [
     {
         "$lookup":
             {
-                "from": "opem_system",
+                "from": "opem_territorio",
                 "let": {
-                    "et": "COMUNE",
+                    "et": "comune",
                     "bid": "$address.townhall.text"
                 },
                 "pipeline": [
@@ -48,6 +48,6 @@ let crs = db["org_organizzazione"].aggregate(
 
 while ( crs.hasNext() ) {
     doc = crs.next()
-    db["org_organizzazione"].updateOne({"_et": "FOCAL-POINT", "_bid": doc._bid}, { "$set": { "address.townhall.bid": doc.bid_comune } })
+    db["opem_organizzazione"].updateOne({"_et": "focal-point", "_bid": doc._bid}, { "$set": { "address.townhall.bid": doc.bid_comune } })
 }
 print("...cursor eof");

@@ -6,7 +6,10 @@ entities:
 - file-name: ./prodotto.yml
   document: true
   package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto
-
+- file-name: ./app-definition.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto
+- file-name: ./app-number-definition.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto
 
 # @tpm-schematics:start-region("bottom-file-section")
 # @tpm-schematics:end-region("bottom-file-section")

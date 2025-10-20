@@ -31,6 +31,8 @@ tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name comune -
 tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name territorio --out-dir ../.. --with-format
 
 tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name prodotto --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name appDefinition --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name appNumberDefinition --out-dir ../.. --with-format
 
 tpm-morphia-cli gen entity --schema-file ./organizzazione/schema.yml --name focalPoint --out-dir ../.. --with-format
 

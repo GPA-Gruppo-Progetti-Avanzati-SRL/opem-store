@@ -26,7 +26,7 @@ let kv_cursor = db["opem_system_dom_param"].aggregate(
              */
                 {
                     _bid: "$_id",
-                    _et: "KV",
+                    _et: "kv",
                     scope: "root/card",
                     inherited: false,
                     description: "$_id",

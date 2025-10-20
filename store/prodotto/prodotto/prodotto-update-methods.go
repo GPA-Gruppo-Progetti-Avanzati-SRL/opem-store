@@ -2,9 +2,8 @@ package prodotto
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -37,8 +36,10 @@ type UnsetOptions struct {
 	Et           UnsetMode
 	Name         UnsetMode
 	PrimaryFunct UnsetMode
-	Code         UnsetMode
 	ExpirationAt UnsetMode
+	PersBureau   UnsetMode
+	Properties   UnsetMode
+	Apps         UnsetMode
 	SysInfo      UnsetMode
 }
 
@@ -90,14 +91,24 @@ func WithPrimaryFunctUnsetMode(m UnsetMode) UnsetOption {
 		uopt.PrimaryFunct = m
 	}
 }
-func WithCodeUnsetMode(m UnsetMode) UnsetOption {
-	return func(uopt *UnsetOptions) {
-		uopt.Code = m
-	}
-}
 func WithExpirationAtUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.ExpirationAt = m
+	}
+}
+func WithPersBureauUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.PersBureau = m
+	}
+}
+func WithPropertiesUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Properties = m
+	}
+}
+func WithAppsUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Apps = m
 	}
 }
 func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
@@ -137,8 +148,10 @@ func GetUpdateDocument(obj *Prodotto, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
 	ud.setOrUnsetPrimary_funct(obj.PrimaryFunct, uo.ResolveUnsetMode(uo.PrimaryFunct))
-	ud.setOrUnsetCode(obj.Code, uo.ResolveUnsetMode(uo.Code))
 	ud.setOrUnsetExpiration_at(obj.ExpirationAt, uo.ResolveUnsetMode(uo.ExpirationAt))
+	ud.setOrUnsetPers_bureau(obj.PersBureau, uo.ResolveUnsetMode(uo.PersBureau))
+	ud.setOrUnsetProperties(obj.Properties, uo.ResolveUnsetMode(uo.Properties))
+	ud.setOrUnsetApps(obj.Apps, uo.ResolveUnsetMode(uo.Apps))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
@@ -456,52 +469,6 @@ func UpdateWithPrimary_funct(p string) UpdateOption {
 // @tpm-schematics:start-region("primary-funct-field-update-section")
 // @tpm-schematics:end-region("primary-funct-field-update-section")
 
-// SetCode No Remarks
-func (ud *UpdateDocument) SetCode(p string) *UpdateDocument {
-	mName := fmt.Sprintf(CodeFieldName)
-	ud.Set().Add(func() bson.E {
-		return bson.E{Key: mName, Value: p}
-	})
-	return ud
-}
-
-// UnsetCode No Remarks
-func (ud *UpdateDocument) UnsetCode() *UpdateDocument {
-	mName := fmt.Sprintf(CodeFieldName)
-	ud.Unset().Add(func() bson.E {
-		return bson.E{Key: mName, Value: ""}
-	})
-	return ud
-}
-
-// setOrUnsetCode No Remarks
-func (ud *UpdateDocument) setOrUnsetCode(p string, um UnsetMode) {
-	if p != "" {
-		ud.SetCode(p)
-	} else {
-		switch um {
-		case KeepCurrent:
-		case UnsetData:
-			ud.UnsetCode()
-		case SetData2Default:
-			ud.UnsetCode()
-		}
-	}
-}
-
-func UpdateWithCode(p string) UpdateOption {
-	return func(ud *UpdateDocument) {
-		if p != "" {
-			ud.SetCode(p)
-		} else {
-			ud.UnsetCode()
-		}
-	}
-}
-
-// @tpm-schematics:start-region("code-field-update-section")
-// @tpm-schematics:end-region("code-field-update-section")
-
 // SetExpiration_at No Remarks
 func (ud *UpdateDocument) SetExpiration_at(p string) *UpdateDocument {
 	mName := fmt.Sprintf(ExpirationAtFieldName)
@@ -547,6 +514,144 @@ func UpdateWithExpiration_at(p string) UpdateOption {
 
 // @tpm-schematics:start-region("expiration-at-field-update-section")
 // @tpm-schematics:end-region("expiration-at-field-update-section")
+
+// SetPers_bureau No Remarks
+func (ud *UpdateDocument) SetPers_bureau(p string) *UpdateDocument {
+	mName := fmt.Sprintf(PersBureauFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetPers_bureau No Remarks
+func (ud *UpdateDocument) UnsetPers_bureau() *UpdateDocument {
+	mName := fmt.Sprintf(PersBureauFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetPers_bureau No Remarks
+func (ud *UpdateDocument) setOrUnsetPers_bureau(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetPers_bureau(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetPers_bureau()
+		case SetData2Default:
+			ud.UnsetPers_bureau()
+		}
+	}
+}
+
+func UpdateWithPers_bureau(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetPers_bureau(p)
+		} else {
+			ud.UnsetPers_bureau()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("pers-bureau-field-update-section")
+// @tpm-schematics:end-region("pers-bureau-field-update-section")
+
+// SetProperties No Remarks
+func (ud *UpdateDocument) SetProperties(p bson.M) *UpdateDocument {
+	mName := fmt.Sprintf(PropertiesFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetProperties No Remarks
+func (ud *UpdateDocument) UnsetProperties() *UpdateDocument {
+	mName := fmt.Sprintf(PropertiesFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetProperties No Remarks
+func (ud *UpdateDocument) setOrUnsetProperties(p bson.M, um UnsetMode) {
+	if len(p) != 0 {
+		ud.SetProperties(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetProperties()
+		case SetData2Default:
+			ud.UnsetProperties()
+		}
+	}
+}
+
+func UpdateWithProperties(p bson.M) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if len(p) != 0 {
+			ud.SetProperties(p)
+		} else {
+			ud.UnsetProperties()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("properties-field-update-section")
+// @tpm-schematics:end-region("properties-field-update-section")
+
+// SetApps No Remarks
+func (ud *UpdateDocument) SetApps(p []AppDefinition) *UpdateDocument {
+	mName := fmt.Sprintf(AppsFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetApps No Remarks
+func (ud *UpdateDocument) UnsetApps() *UpdateDocument {
+	mName := fmt.Sprintf(AppsFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetApps No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetApps(p []AppDefinition, um UnsetMode) {
+	if len(p) > 0 {
+		ud.SetApps(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetApps()
+		case SetData2Default:
+			ud.UnsetApps()
+		}
+	}
+}
+
+func UpdateWithApps(p []AppDefinition) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if len(p) > 0 {
+			ud.SetApps(p)
+		} else {
+			ud.UnsetApps()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("apps-field-update-section")
+// @tpm-schematics:end-region("apps-field-update-section")
 
 // SetSys_info No Remarks
 func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {

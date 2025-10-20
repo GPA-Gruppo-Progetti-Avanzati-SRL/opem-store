@@ -1,0 +1,17 @@
+name: AppDefinition
+attributes:
+  - name: func
+    type: string
+  - name: is_custom
+    type: bool
+  - name: id
+    type: string
+  - name: name
+    type: string
+  - name: tag
+    type: string
+  - name: app_number
+    struct-ref:
+      name: AppNumberDefinition
+    type: struct
+

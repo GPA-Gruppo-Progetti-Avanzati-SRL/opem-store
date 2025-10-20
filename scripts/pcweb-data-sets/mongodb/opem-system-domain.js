@@ -13,7 +13,7 @@ if (!c)  {
 db[opemCollectionName].insertOne(
     {
         "_bid" : "root",
-        "_et": "DOMAIN",
+        "_et": "domain",
         "name" : "Master Domain",
         "description" : "the master of domains",
         "langs": "it",
@@ -50,7 +50,7 @@ db[opemCollectionName].insertOne(
 db[opemCollectionName].insertOne(
     {
         "_bid" : "card",
-        "_et": "DOMAIN",
+        "_et": "domain",
         "name" : "PCWeb Reloaded",
         "description" : "PCWeb Reloaded",
         "langs": "it",

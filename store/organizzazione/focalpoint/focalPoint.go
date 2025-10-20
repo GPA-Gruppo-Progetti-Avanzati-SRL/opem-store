@@ -5,8 +5,8 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 const (
-	EntityType   = "FOCAL-POINT"
-	CollectionId = "org_organizzazione"
+	EntityType   = "focal-point"
+	CollectionId = "focal-point"
 )
 
 // @tpm-schematics:end-region("top-file-section")

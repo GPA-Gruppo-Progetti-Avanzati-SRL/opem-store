@@ -8,10 +8,14 @@ package sequence
 // @tpm-schematics:end-region("top-file-section")
 
 const (
-	OIdFieldName   = "_id"
-	BidFieldName   = "_bid"
-	EtFieldName    = "_et"
-	ValueFieldName = "value"
+	OIdFieldName    = "_id"
+	BidFieldName    = "_bid"
+	EtFieldName     = "_et"
+	DomainFieldName = "domain"
+	SiteFieldName   = "site"
+	ValueFieldName  = "value"
+	FormatFieldName = "format"
+	PrefixFieldName = "prefix"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

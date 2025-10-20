@@ -5,7 +5,7 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
 const (
-	EntityType   = "DOMAIN"
+	EntityType   = "domain"
 	CollectionId = "domain"
 )
 

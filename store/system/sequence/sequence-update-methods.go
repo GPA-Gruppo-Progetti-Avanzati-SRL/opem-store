@@ -2,9 +2,8 @@ package sequence
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -31,7 +30,11 @@ type UnsetOptions struct {
 	OId         UnsetMode
 	Bid         UnsetMode
 	Et          UnsetMode
+	Domain      UnsetMode
+	Site        UnsetMode
 	Value       UnsetMode
+	Format      UnsetMode
+	Prefix      UnsetMode
 }
 
 func (uo *UnsetOptions) ResolveUnsetMode(um UnsetMode) UnsetMode {
@@ -62,9 +65,29 @@ func WithEtUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Et = m
 	}
 }
+func WithDomainUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Domain = m
+	}
+}
+func WithSiteUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Site = m
+	}
+}
 func WithValueUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.Value = m
+	}
+}
+func WithFormatUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Format = m
+	}
+}
+func WithPrefixUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Prefix = m
 	}
 }
 
@@ -95,7 +118,11 @@ func GetUpdateDocument(obj *Sequence, opts ...UnsetOption) UpdateDocument {
 	ud := UpdateDocument{}
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
+	ud.setOrUnsetDomain(obj.Domain, uo.ResolveUnsetMode(uo.Domain))
+	ud.setOrUnsetSite(obj.Site, uo.ResolveUnsetMode(uo.Site))
 	ud.setOrUnsetValue(obj.Value, uo.ResolveUnsetMode(uo.Value))
+	ud.setOrUnsetFormat(obj.Format, uo.ResolveUnsetMode(uo.Format))
+	ud.setOrUnsetPrefix(obj.Prefix, uo.ResolveUnsetMode(uo.Prefix))
 
 	return ud
 }
@@ -228,6 +255,98 @@ func UpdateWith_et(p string) UpdateOption {
 // @tpm-schematics:start-region("-et-field-update-section")
 // @tpm-schematics:end-region("-et-field-update-section")
 
+// SetDomain No Remarks
+func (ud *UpdateDocument) SetDomain(p string) *UpdateDocument {
+	mName := fmt.Sprintf(DomainFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetDomain No Remarks
+func (ud *UpdateDocument) UnsetDomain() *UpdateDocument {
+	mName := fmt.Sprintf(DomainFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetDomain No Remarks
+func (ud *UpdateDocument) setOrUnsetDomain(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetDomain(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetDomain()
+		case SetData2Default:
+			ud.UnsetDomain()
+		}
+	}
+}
+
+func UpdateWithDomain(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetDomain(p)
+		} else {
+			ud.UnsetDomain()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("domain-field-update-section")
+// @tpm-schematics:end-region("domain-field-update-section")
+
+// SetSite No Remarks
+func (ud *UpdateDocument) SetSite(p string) *UpdateDocument {
+	mName := fmt.Sprintf(SiteFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetSite No Remarks
+func (ud *UpdateDocument) UnsetSite() *UpdateDocument {
+	mName := fmt.Sprintf(SiteFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetSite No Remarks
+func (ud *UpdateDocument) setOrUnsetSite(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetSite(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetSite()
+		case SetData2Default:
+			ud.UnsetSite()
+		}
+	}
+}
+
+func UpdateWithSite(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetSite(p)
+		} else {
+			ud.UnsetSite()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("site-field-update-section")
+// @tpm-schematics:end-region("site-field-update-section")
+
 // SetValue No Remarks
 func (ud *UpdateDocument) SetValue(p int32) *UpdateDocument {
 	mName := fmt.Sprintf(ValueFieldName)
@@ -290,6 +409,98 @@ func UpdateWithIncrementValue(increment int32) UpdateOption {
 }
 
 // @tpm-schematics:end-region("value-field-update-section")
+
+// SetFormat No Remarks
+func (ud *UpdateDocument) SetFormat(p string) *UpdateDocument {
+	mName := fmt.Sprintf(FormatFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetFormat No Remarks
+func (ud *UpdateDocument) UnsetFormat() *UpdateDocument {
+	mName := fmt.Sprintf(FormatFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetFormat No Remarks
+func (ud *UpdateDocument) setOrUnsetFormat(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetFormat(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetFormat()
+		case SetData2Default:
+			ud.UnsetFormat()
+		}
+	}
+}
+
+func UpdateWithFormat(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetFormat(p)
+		} else {
+			ud.UnsetFormat()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("format-field-update-section")
+// @tpm-schematics:end-region("format-field-update-section")
+
+// SetPrefix No Remarks
+func (ud *UpdateDocument) SetPrefix(p string) *UpdateDocument {
+	mName := fmt.Sprintf(PrefixFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetPrefix No Remarks
+func (ud *UpdateDocument) UnsetPrefix() *UpdateDocument {
+	mName := fmt.Sprintf(PrefixFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetPrefix No Remarks
+func (ud *UpdateDocument) setOrUnsetPrefix(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetPrefix(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetPrefix()
+		case SetData2Default:
+			ud.UnsetPrefix()
+		}
+	}
+}
+
+func UpdateWithPrefix(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetPrefix(p)
+		} else {
+			ud.UnsetPrefix()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("prefix-field-update-section")
+// @tpm-schematics:end-region("prefix-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

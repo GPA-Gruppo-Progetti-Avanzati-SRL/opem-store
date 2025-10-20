@@ -1,0 +1,7 @@
+name: AppNumberDefinition
+attributes:
+  - name: type
+    type: string
+  - name: spec
+    type: string
+

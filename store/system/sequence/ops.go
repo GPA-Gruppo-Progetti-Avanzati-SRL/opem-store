@@ -9,7 +9,21 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-func NextVal(collection *mongo.Collection, nextValOpts ...NextValOption) (int, error) {
+func SprintfNextVal(collection *mongo.Collection, domain, site string, nextValOpts ...NextValOption) (string, error) {
+	const semLogContext = "sequence::formatted-next-val"
+	rng, err := NextVal(collection, domain, site, nextValOpts...)
+	if err != nil {
+		return "", err
+	}
+
+	if rng.From != rng.To {
+		log.Warn().Interface("range", rng).Msg(semLogContext + " - call not appropriate for ranges")
+	}
+
+	return fmt.Sprintf(rng.Format, rng.To), nil
+}
+
+func NextVal(collection *mongo.Collection, domain, site string, nextValOpts ...NextValOption) (Range, error) {
 	const semLogContext = "sequence::next-val"
 
 	opts := NextValOptions{CreateIfMissing: true, Increment: 1}
@@ -22,10 +36,10 @@ func NextVal(collection *mongo.Collection, nextValOpts ...NextValOption) (int, e
 	}
 
 	f := Filter{}
-	f.Or().AndBidEqTo(opts.SeqId).AndEtEqTo(EntityType)
+	f.Or().AndBidEqTo(opts.SeqId).AndEtEqTo(EntityType).AndDomainEqTo(domain).AndSiteEqTo(site)
 	fd := f.Build()
 
-	updOpts := []UpdateOption{UpdateWithIncrementValue(opts.Increment), UpdateWith_bid(opts.SeqId), UpdateWith_et(EntityType)}
+	updOpts := []UpdateOption{UpdateWithIncrementValue(opts.Increment), UpdateWith_bid(opts.SeqId), UpdateWith_et(EntityType), UpdateWithDomain(domain), UpdateWithSite(site)}
 	upd := GetUpdateDocumentFromOptions(updOpts...)
 	findOneAndUpdateOpts := options.FindOneAndUpdate()
 	if opts.CreateIfMissing {
@@ -35,15 +49,15 @@ func NextVal(collection *mongo.Collection, nextValOpts ...NextValOption) (int, e
 	res := collection.FindOneAndUpdate(context.Background(), fd, upd.Build(), findOneAndUpdateOpts)
 	if res.Err() != nil {
 		log.Error().Err(res.Err()).Msg(semLogContext)
-		return 0, res.Err()
+		return Range{}, res.Err()
 	}
 
 	var seq Sequence
 	err := res.Decode(&seq)
 	if err != nil {
 		log.Error().Err(err).Msg(semLogContext)
-		return 0, err
+		return Range{}, err
 	}
 
-	return int(seq.Value), nil
+	return Range{From: seq.Value - opts.Increment + 1, To: seq.Value, Format: seq.FormatSpecifier()}, nil
 }

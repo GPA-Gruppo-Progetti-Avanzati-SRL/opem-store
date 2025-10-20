@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	EntityType   = "KV"
+	EntityType   = "kv"
 	CollectionId = "key-value-package"
 )
 

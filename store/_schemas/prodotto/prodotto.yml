@@ -26,11 +26,19 @@ attributes:
   type: string
 - name: primary_funct
   type: string
-- name: code
-  type: string
 - name: expiration_at
   type: string
   options: with-filter
+- name: pers_bureau
+  type: string
+- name: properties
+  type: document
+- name: apps
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: AppDefinition
 - name: sys_info
   struct-ref:
     name: SysInfo
