@@ -1,14 +1,6 @@
-const opemDbName = "opem"
+print(new Date() + " #################### - fix-mig-04-domain.js")
+
 const opemCollectionName = "opem_system"
-
-let conn = db.getMongo();
-let db = conn.getDB(opemDbName);
-
-let c = db[opemCollectionName]
-if (!c)  {
-    db.createCollection(opemCollectionName)
-}
-
 
 db[opemCollectionName].insertOne(
     {

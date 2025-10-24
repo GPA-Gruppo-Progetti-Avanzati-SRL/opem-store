@@ -40,3 +40,4 @@ sonar-scan.sh
 
 /scripts/pcweb-data-sets/mysql/sql-tables/
 /scripts/pcweb-data-sets/mongodb/exports/
+/scripts/pcweb-data-sets/mongodb/backups/

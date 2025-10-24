@@ -1,3 +1,4 @@
+print(new Date() + " #################### - fix-mig-10-tb-dom-param.js")
 let kv_cursor = db["opem_system_dom_param"].aggregate(
     [
         {

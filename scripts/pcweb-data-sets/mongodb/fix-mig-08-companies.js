@@ -1,6 +1,4 @@
-const opemDbName = "opem"
-let conn = db.getMongo();
-let db = conn.getDB(opemDbName);
+print(new Date() + " #################### - fix-mig-08-companies.js")
 
 db["opem_system"].updateMany(
     { "_et": "site" },

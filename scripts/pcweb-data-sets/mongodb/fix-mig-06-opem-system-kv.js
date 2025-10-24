@@ -1,16 +1,10 @@
-const opemDbName = "opem"
+print(new Date() + " #################### - fix-mig-06-opem-system-kv.js")
+
 const opemCollectionName = "opem_system"
 
-let conn = db.getMongo();
-let db = conn.getDB(opemDbName);
-
-let c = db[opemCollectionName]
-if (!c)  {
-    db.createCollection(opemCollectionName)
-}
 
 // Root level packages.
-c.insertOne(
+db[opemCollectionName].insertOne(
     {
         "scope": "root",
         "_bid": "theme",
@@ -28,7 +22,7 @@ c.insertOne(
         }
     });
 
-c.insertOne(
+db[opemCollectionName].insertOne(
     {
         "scope": "root",
         "_bid": "apps",
@@ -52,7 +46,7 @@ c.insertOne(
     });
 
 // Override for CVF
-c.insertOne(
+db[opemCollectionName].insertOne(
     {
         "scope": "root/card",
         "_bid": "theme",

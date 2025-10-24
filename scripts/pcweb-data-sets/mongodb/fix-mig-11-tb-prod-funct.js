@@ -1,3 +1,4 @@
+print(new Date() + " #################### - fix-mig-11-tb-prod-funct.js")
 let crs = db["opem_prodotto_funct"].find();
 while ( crs.hasNext() ) {
     doc = crs.next()

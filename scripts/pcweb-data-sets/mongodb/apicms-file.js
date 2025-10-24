@@ -1,17 +1,7 @@
-const opemDbName = "opem"
+
 const opemCollectionName = "apicms_file"
+db[opemCollectionName].deleteMany({});
 
-let conn = db.getMongo();
-let db = conn.getDB(opemDbName);
-
-let c = db[opemCollectionName]
-if (!c)  {
-    db.createCollection(opemCollectionName)
-}
-else
-{
-    c.deleteMany({});
-}
 
 // let cCore = db["apicore_user"]
 // let crs = cCore.find()

@@ -1,6 +1,3 @@
-const opemDbName = "opem"
-let conn = db.getMongo();
-let db = conn.getDB(opemDbName);
 
 db["opem_addresses"].drop();
 db["opem_boxes"].drop();
@@ -13,3 +10,7 @@ db["opem_system"].drop();
 db["opem_system_dom_param"].drop();
 db["opem_territorio"].drop();
 db["opem_jobs"].drop();
+db["opem_user"].drop();
+db["opem_addresses"].drop();
+db["opem_card_apps"].drop();
+
