@@ -3,7 +3,7 @@ module github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
 go 1.25
 
 require (
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.1-RC3
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.1-RC7
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1

@@ -13,7 +13,7 @@ attributes:
 - name: nickname
   type: string
   options: with-filter
-- name: obj_type
+- name: _et
   type: string
 - name: firstname
   type: string

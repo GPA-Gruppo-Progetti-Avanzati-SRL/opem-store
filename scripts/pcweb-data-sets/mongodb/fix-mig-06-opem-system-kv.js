@@ -8,7 +8,7 @@ db[opemCollectionName].insertOne(
     {
         "scope": "root",
         "_bid": "theme",
-        "_et": "KV",
+        "_et": "kv",
         "category": "admin-app-general",
         "description": "Aspetto UI di amministrazione",
         "inherit": false
@@ -26,7 +26,7 @@ db[opemCollectionName].insertOne(
     {
         "scope": "root",
         "_bid": "apps",
-        "_et": "KV",
+        "_et": "kv",
         "category": "admin-app-general",
         "description": "Apps disponibili",
         "inherit": false
@@ -50,7 +50,7 @@ db[opemCollectionName].insertOne(
     {
         "scope": "root/card",
         "_bid": "theme",
-        "_et": "KV",
+        "_et": "kv",
         "category": "admin-app-general",
         "description": "Aspetto UI di amministrazione",
         "inherit": false

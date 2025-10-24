@@ -10,7 +10,7 @@ package user
 const (
 	OIdFieldName                     = "_id"
 	NicknameFieldName                = "nickname"
-	ObjTypeFieldName                 = "obj_type"
+	EtFieldName                      = "_et"
 	FirstnameFieldName               = "firstname"
 	LastnameFieldName                = "lastname"
 	EmailFieldName                   = "email"

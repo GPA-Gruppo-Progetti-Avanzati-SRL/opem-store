@@ -7,7 +7,7 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 import "github.com/rs/zerolog/log"
 
 const (
-	ObjectType    = "user"
+	EntityType    = "user"
 	StatusActive  = "active"
 	StatusBlocked = "blocked"
 )
@@ -17,7 +17,7 @@ const (
 type User struct {
 	OId            bson.ObjectID         `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
 	Nickname       string                `json:"nickname,omitempty" bson:"nickname,omitempty" yaml:"nickname,omitempty"`
-	ObjType        string                `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
+	Et             string                `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Firstname      string                `json:"firstname,omitempty" bson:"firstname,omitempty" yaml:"firstname,omitempty"`
 	Lastname       string                `json:"lastname,omitempty" bson:"lastname,omitempty" yaml:"lastname,omitempty"`
 	Email          string                `json:"email,omitempty" bson:"email,omitempty" yaml:"email,omitempty"`
@@ -31,7 +31,7 @@ type User struct {
 }
 
 func (s User) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Nickname == "" && s.ObjType == "" && s.Firstname == "" && s.Lastname == "" && s.Email == "" && s.Password == "" && len(s.Roles) == 0 && s.SysInfo.IsZero() && s.ProfilePicture.IsZero()
+	return s.OId == bson.NilObjectID && s.Nickname == "" && s.Et == "" && s.Firstname == "" && s.Lastname == "" && s.Email == "" && s.Password == "" && len(s.Roles) == 0 && s.SysInfo.IsZero() && s.ProfilePicture.IsZero()
 }
 
 type QueryResult struct {

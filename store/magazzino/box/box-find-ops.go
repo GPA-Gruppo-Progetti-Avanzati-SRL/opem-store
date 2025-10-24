@@ -3,6 +3,7 @@ package box
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/magazzino"
@@ -146,7 +147,10 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 	prodottoCollectionCfg := collectionsCfg[prodotto.CollectionId]
 	if magazzinoCollectionCfg.Name == "" || prodottoCollectionCfg.Name == "" {
 		err := errors.New("cannot resolve collections name for magazzino or prodotto")
-		log.Error().Err(err).Str("magazzino-collection-id", magazzino.CollectionId).Str("prodotto-collection-id", prodotto.CollectionId).Msg(semLogContext)
+		log.Error().Err(err).
+			Str("magazzino-collection-id", magazzino.CollectionId).Str("magazzino-collection-name", magazzinoCollectionCfg.Name).
+			Str("prodotto-collection-id", prodotto.CollectionId).Str("prodotto-collection-name", prodottoCollectionCfg.Name).
+			Msg(semLogContext)
 		return QueryResult{}, err
 	}
 
@@ -188,7 +192,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"from", magazzinoCollectionCfg.Name},
 			{"let", bson.D{
 				{"domain", "$domain"}, {"site", "$site"},
-				{"et", "MAGAZZINO"}, {"bid", "$magazzino.bid"},
+				{"et", magazzino.EntityType}, {"bid", "$magazzino.bid"},
 			},
 			},
 			{"pipeline", bson.A{
@@ -215,7 +219,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"from", prodottoCollectionCfg.Name},
 			{"let", bson.D{
 				{"domain", "$domain"}, {"site", "$site"},
-				{"et", "PRODOTTO"}, {"bid", "$prodotto.bid"},
+				{"et", prodotto.EntityType}, {"bid", "$prodotto.bid"},
 			},
 			},
 			{"pipeline", bson.A{
@@ -276,6 +280,13 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 	if err != nil {
 		evtErrLog.Err(err).Msg(semLogContext)
 		return qr, err
+	}
+
+	for _, stage := range pipeline {
+		b, err := bson.MarshalExtJSON(stage, true, true)
+		if err == nil {
+			fmt.Println(string(b))
+		}
 	}
 
 	for cur.Next(context.Background()) {

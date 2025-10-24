@@ -2,9 +2,8 @@ package user
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -32,7 +31,7 @@ type UnsetOptions struct {
 	DefaultMode    UnsetMode
 	OId            UnsetMode
 	Nickname       UnsetMode
-	ObjType        UnsetMode
+	Et             UnsetMode
 	Firstname      UnsetMode
 	Lastname       UnsetMode
 	Email          UnsetMode
@@ -65,9 +64,9 @@ func WithNicknameUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Nickname = m
 	}
 }
-func WithObjTypeUnsetMode(m UnsetMode) UnsetOption {
+func WithEtUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.ObjType = m
+		uopt.Et = m
 	}
 }
 func WithFirstnameUnsetMode(m UnsetMode) UnsetOption {
@@ -132,7 +131,7 @@ func GetUpdateDocument(obj *User, opts ...UnsetOption) UpdateDocument {
 
 	ud := UpdateDocument{}
 	ud.setOrUnsetNickname(obj.Nickname, uo.ResolveUnsetMode(uo.Nickname))
-	ud.setOrUnsetObj_type(obj.ObjType, uo.ResolveUnsetMode(uo.ObjType))
+	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnsetFirstname(obj.Firstname, uo.ResolveUnsetMode(uo.Firstname))
 	ud.setOrUnsetLastname(obj.Lastname, uo.ResolveUnsetMode(uo.Lastname))
 	ud.setOrUnsetEmail(obj.Email, uo.ResolveUnsetMode(uo.Email))
@@ -226,51 +225,51 @@ func UpdateWithNickname(p string) UpdateOption {
 // @tpm-schematics:start-region("nickname-field-update-section")
 // @tpm-schematics:end-region("nickname-field-update-section")
 
-// SetObj_type No Remarks
-func (ud *UpdateDocument) SetObj_type(p string) *UpdateDocument {
-	mName := fmt.Sprintf(ObjTypeFieldName)
+// Set_et No Remarks
+func (ud *UpdateDocument) Set_et(p string) *UpdateDocument {
+	mName := fmt.Sprintf(EtFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetObj_type No Remarks
-func (ud *UpdateDocument) UnsetObj_type() *UpdateDocument {
-	mName := fmt.Sprintf(ObjTypeFieldName)
+// Unset_et No Remarks
+func (ud *UpdateDocument) Unset_et() *UpdateDocument {
+	mName := fmt.Sprintf(EtFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetObj_type No Remarks
-func (ud *UpdateDocument) setOrUnsetObj_type(p string, um UnsetMode) {
+// setOrUnset_et No Remarks
+func (ud *UpdateDocument) setOrUnset_et(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetObj_type(p)
+		ud.Set_et(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetObj_type()
+			ud.Unset_et()
 		case SetData2Default:
-			ud.UnsetObj_type()
+			ud.Unset_et()
 		}
 	}
 }
 
-func UpdateWithObj_type(p string) UpdateOption {
+func UpdateWith_et(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetObj_type(p)
+			ud.Set_et(p)
 		} else {
-			ud.UnsetObj_type()
+			ud.Unset_et()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("obj-type-field-update-section")
-// @tpm-schematics:end-region("obj-type-field-update-section")
+// @tpm-schematics:start-region("-et-field-update-section")
+// @tpm-schematics:end-region("-et-field-update-section")
 
 // SetFirstname No Remarks
 func (ud *UpdateDocument) SetFirstname(p string) *UpdateDocument {
