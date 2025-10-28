@@ -1,0 +1,17 @@
+name: BirthInfo
+attributes:
+  - name: date
+    type: date
+  - name: country
+    struct-ref:
+      name: BidTextPair
+    type: struct
+  - name: county
+    struct-ref:
+      name: BidTextPair
+    type: struct
+  - name: townhall
+    struct-ref:
+      name: BidTextPair
+    type: struct
+

@@ -13,13 +13,14 @@ type KeyValue struct {
 	Hint        string `json:"hint,omitempty" bson:"hint,omitempty" yaml:"hint,omitempty"`
 	Icon        string `json:"icon,omitempty" bson:"icon,omitempty" yaml:"icon,omitempty"`
 	Status      string `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	SysName     string `json:"sys_name,omitempty" bson:"sys_name,omitempty" yaml:"sys_name,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s KeyValue) IsZero() bool {
-	return s.Key == "" && s.Value == "" && s.Order == 0 && s.Kind == "" && s.Name == "" && s.Description == "" && s.Hint == "" && s.Icon == "" && s.Status == ""
+	return s.Key == "" && s.Value == "" && s.Order == 0 && s.Kind == "" && s.Name == "" && s.Description == "" && s.Hint == "" && s.Icon == "" && s.Status == "" && s.SysName == ""
 }
 
 // @tpm-schematics:start-region("bottom-file-section")

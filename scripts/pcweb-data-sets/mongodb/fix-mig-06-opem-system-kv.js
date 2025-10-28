@@ -31,12 +31,13 @@ db[opemCollectionName].insertOne(
         "description": "Apps disponibili",
         "inherit": false
         ,"properties": [
-            { "key": "app-home",        "status": "active",   "name": "Home",           "description": "description of Home",           "icon": "home",              "value": "/ui-admin/{0}/{1}/{2}/app-home",       "order": 0, "kind": "string" },
-            { "key": "app-cards",       "status": "disabled", "name": "Carte",          "description": "description of Carte",          "icon": "credit_cards",      "value": "/ui-admin/{0}/{1}/{2}/app-cards",      "order": 0, "kind": "string" },
-            { "key": "app-magazzino",   "status": "active",   "name": "Magazzino",      "description": "description of Magazzino",      "icon": "warehouse",         "value": "/ui-admin/{0}/{1}/{2}/app-magazzino",  "order": 0, "kind": "string" },
-            { "key": "app-flussi",      "status": "disabled", "name": "Flussi",         "description": "description of Flussi",         "icon": "folder_open",       "value": "/ui-admin/{0}/{1}/{2}/app-flussi",     "order": 0, "kind": "string" },
-            { "key": "app-org",         "status": "disabled", "name": "Organizzazione", "description": "description of Organizzazione", "icon": "groups",            "value": "/ui-admin/{0}/{1}/{2}/app-org",        "order": 0, "kind": "string" },
-            { "key": "app-products",    "status": "disabled", "name": "Prodotti",       "description": "description of Prodotti",       "icon": "credit_card_gears", "value": "/ui-admin/{0}/{1}/{2}/app-products",   "order": 0, "kind": "string" }
+            { "key": "app-home",        "sys_name": "opem-fe-home", "status": "active",   "name": "Home",           "description": "description of Home",           "icon": "home",              "value": "/ui-admin/{0}/{1}/{2}/app-home",       "order": 0, "kind": "string" },
+            { "key": "app-cards",       "sys_name": "opem-fe-cards", "status": "disabled", "name": "Carte",          "description": "description of Carte",          "icon": "credit_cards",      "value": "/ui-admin/{0}/{1}/{2}/app-cards",      "order": 0, "kind": "string" },
+            { "key": "app-magazzino",   "sys_name": "opem-fe-magazzino", "status": "active",   "name": "Magazzino",      "description": "description of Magazzino",      "icon": "warehouse",         "value": "/ui-admin/{0}/{1}/{2}/app-magazzino",  "order": 0, "kind": "string" },
+            { "key": "app-flussi",      "sys_name": "opem-fe-flussi", "status": "disabled", "name": "Flussi",         "description": "description of Flussi",         "icon": "folder_open",       "value": "/ui-admin/{0}/{1}/{2}/app-flussi",     "order": 0, "kind": "string" },
+            { "key": "app-org",         "sys_name": "opem-fe-org", "status": "disabled", "name": "Organizzazione", "description": "description of Organizzazione", "icon": "groups",            "value": "/ui-admin/{0}/{1}/{2}/app-org",        "order": 0, "kind": "string" },
+            { "key": "app-products",    "sys_name": "opem-fe-prodotto", "status": "disabled", "name": "Prodotti",       "description": "description of Prodotti",       "icon": "credit_card_gears", "value": "/ui-admin/{0}/{1}/{2}/app-products",   "order": 0, "kind": "string" },
+            { "key": "app-system",      "sys_name": "opem-fe-system", "status": "disabled", "name": "Sistema",       "description": "description of Sistema",       "icon": "settings", "value": "/ui-admin/{0}/{1}/{2}/app-system",   "order": 0, "kind": "string" }
         ],
         "sys_info": {
             "created_at": new Date(),

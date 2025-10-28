@@ -44,6 +44,22 @@ db["opem_system"].updateMany(
                     ,"description": "Organizzazione"
                     ,"version": "latest"
                     ,"path": "opem-fe-magazzino/latest/index.html"
+                },
+                {
+                    "id": "app-products"
+                    ,"obj_type": "app-admin"
+                    ,"name": "opem-fe-prodotto"
+                    ,"description": "Prodotti"
+                    ,"version": "latest"
+                    ,"path": "opem-fe-prodotto/latest/index.html"
+                },
+                {
+                    "id": "app-system"
+                    ,"obj_type": "app-admin"
+                    ,"name": "opem-fe-system"
+                    ,"description": "Sistema"
+                    ,"version": "latest"
+                    ,"path": "opem-fe-system/latest/index.html"
                 }
             ]
         }

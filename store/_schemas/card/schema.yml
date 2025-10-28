@@ -1,0 +1,19 @@
+module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
+package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card
+imports:
+  - ../commons/schema.yml
+entities:
+- file-name: ./card.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/card
+- file-name: ./person.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/person
+- file-name: ./card-app.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/card
+- file-name: ./card-holder.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/card
+- file-name: ./birth-info.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/person
+# @tpm-schematics:start-region("bottom-file-section")
+# @tpm-schematics:end-region("bottom-file-section")

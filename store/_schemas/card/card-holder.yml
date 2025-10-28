@@ -1,0 +1,8 @@
+name: CardHolder
+attributes:
+  - name: bid
+    type: string
+  - name: embossing_name
+    type: string
+  - name: registration_id
+    type: string

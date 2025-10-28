@@ -7,6 +7,9 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 const (
 	EntityType   = "box"
 	CollectionId = "box"
+
+	StatusDaGenerare         = "CX"
+	StatusInAttesaDiConferma = "C1"
 )
 
 // @tpm-schematics:end-region("top-file-section")

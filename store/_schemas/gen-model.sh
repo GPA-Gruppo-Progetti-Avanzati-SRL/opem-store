@@ -41,3 +41,9 @@ tpm-morphia-cli gen entity --schema-file ./magazzino/schema.yml --name magazzino
 tpm-morphia-cli gen entity --schema-file ./magazzino/schema.yml --name Info --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./magazzino/schema.yml --name Status --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./magazzino/schema.yml --name box --out-dir ../.. --with-format
+
+tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name card --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name CardApp --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name CardHolder --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name Person --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name BirthInfo --out-dir ../.. --with-format
