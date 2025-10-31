@@ -35,6 +35,10 @@ attributes:
   struct-ref:
     name: BirthInfo
   type: struct
+- name: id_document
+  struct-ref:
+    name: IdentityCard
+  type: struct
 - name: country
   struct-ref:
     name: BidTextPair

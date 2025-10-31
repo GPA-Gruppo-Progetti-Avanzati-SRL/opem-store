@@ -15,5 +15,7 @@ entities:
   package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/card
 - file-name: ./birth-info.yml
   package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/person
+- file-name: ./identity-card.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/person
 # @tpm-schematics:start-region("bottom-file-section")
 # @tpm-schematics:end-region("bottom-file-section")

@@ -1,18 +1,20 @@
-name: Address
+name: IdentityCard
 attributes:
   - name: type
     type: string
-  - name: county
-    struct-ref:
-      name: BidTextPair
-    type: struct
+  - name: code
+    type: string
+  - name: issue_date
+    type: date
   - name: townhall
     struct-ref:
       name: BidTextPair
     type: struct
-  - name: zip_code
+  - name: county
+    struct-ref:
+      name: BidTextPair
+    type: struct
+  - name: issuer
     type: string
-  - name: address
-    type: string
-  - name: attn_to
-    type: string
+  - name: expires_at
+    type: date

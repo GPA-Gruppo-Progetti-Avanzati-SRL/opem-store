@@ -2,8 +2,9 @@ package card
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -17,6 +18,7 @@ type QueryOptions struct {
 	SearchTerm    string `form:"ssearch" query:"ssearch" json:"ssearch,omitempty" bson:"ssearch,omitempty" yaml:"ssearch,omitempty"`
 	WithCount     bool   `form:"withCount" query:"withCount" json:"withCount,omitempty" bson:"withCount,omitempty" yaml:"withCount,omitempty"`
 	// @tpm-schematics:start-region("query-options-struct-section")
+	SearchType string `form:"searchType" query:"searchType" json:"searchType,omitempty" bson:"searchType,omitempty" yaml:"searchType,omitempty"`
 	// @tpm-schematics:end-region("query-options-struct-section")
 }
 

@@ -7,7 +7,7 @@ type Address struct {
 	Type     string      `json:"type,omitempty" bson:"type,omitempty" yaml:"type,omitempty"`
 	County   BidTextPair `json:"county,omitempty" bson:"county,omitempty" yaml:"county,omitempty"`
 	Townhall BidTextPair `json:"townhall,omitempty" bson:"townhall,omitempty" yaml:"townhall,omitempty"`
-	Zipcode  string      `json:"zipcode,omitempty" bson:"zipcode,omitempty" yaml:"zipcode,omitempty"`
+	ZipCode  string      `json:"zip_code,omitempty" bson:"zip_code,omitempty" yaml:"zip_code,omitempty"`
 	Address  string      `json:"address,omitempty" bson:"address,omitempty" yaml:"address,omitempty"`
 	AttnTo   string      `json:"attn_to,omitempty" bson:"attn_to,omitempty" yaml:"attn_to,omitempty"`
 
@@ -16,7 +16,7 @@ type Address struct {
 }
 
 func (s Address) IsZero() bool {
-	return s.Type == "" && s.County.IsZero() && s.Townhall.IsZero() && s.Zipcode == "" && s.Address == "" && s.AttnTo == ""
+	return s.Type == "" && s.County.IsZero() && s.Townhall.IsZero() && s.ZipCode == "" && s.Address == "" && s.AttnTo == ""
 }
 
 // @tpm-schematics:start-region("bottom-file-section")

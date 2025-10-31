@@ -2,8 +2,9 @@ package card
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -389,4 +390,41 @@ func (ca *Criteria) AndEnvelopeNumberIn(p []string) *Criteria {
 // @tpm-schematics:end-region("envelope-number-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (ca *Criteria) AndHolderRegistrationIdEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(Holder_RegistrationIdFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndHolderEmbossingNameEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(Holder_EmbossingNameFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndAppsAppNumberEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(AppsAPpNumberFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

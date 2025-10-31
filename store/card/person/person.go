@@ -22,6 +22,7 @@ type Person struct {
 	Cf         string              `json:"cf,omitempty" bson:"cf,omitempty" yaml:"cf,omitempty"`
 	MaleFemale string              `json:"male_female,omitempty" bson:"male_female,omitempty" yaml:"male_female,omitempty"`
 	Birth      BirthInfo           `json:"birth,omitempty" bson:"birth,omitempty" yaml:"birth,omitempty"`
+	IdDocument IdentityCard        `json:"id_document,omitempty" bson:"id_document,omitempty" yaml:"id_document,omitempty"`
 	Country    commons.BidTextPair `json:"country,omitempty" bson:"country,omitempty" yaml:"country,omitempty"`
 	Addresses  []commons.Address   `json:"addresses,omitempty" bson:"addresses,omitempty" yaml:"addresses,omitempty"`
 	SysInfo    commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
@@ -31,7 +32,7 @@ type Person struct {
 }
 
 func (s Person) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.FirstName == "" && s.LastName == "" && s.Cf == "" && s.MaleFemale == "" && s.Birth.IsZero() && s.Country.IsZero() && len(s.Addresses) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.FirstName == "" && s.LastName == "" && s.Cf == "" && s.MaleFemale == "" && s.Birth.IsZero() && s.IdDocument.IsZero() && s.Country.IsZero() && len(s.Addresses) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

@@ -47,3 +47,4 @@ tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name CardApp --out-
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name CardHolder --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name Person --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name BirthInfo --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name IdentityCard --out-dir ../.. --with-format

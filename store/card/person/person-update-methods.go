@@ -2,9 +2,8 @@ package person
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -39,7 +38,8 @@ type UnsetOptions struct {
 	LastName    UnsetMode
 	Cf          UnsetMode
 	MaleFemale  UnsetMode
-	BirthInfo   UnsetMode
+	Birth       UnsetMode
+	IdDocument  UnsetMode
 	Country     UnsetMode
 	Addresses   UnsetMode
 	SysInfo     UnsetMode
@@ -103,9 +103,14 @@ func WithMaleFemaleUnsetMode(m UnsetMode) UnsetOption {
 		uopt.MaleFemale = m
 	}
 }
-func WithBirthInfoUnsetMode(m UnsetMode) UnsetOption {
+func WithBirthUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.BirthInfo = m
+		uopt.Birth = m
+	}
+}
+func WithIdDocumentUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.IdDocument = m
 	}
 }
 func WithCountryUnsetMode(m UnsetMode) UnsetOption {
@@ -157,7 +162,8 @@ func GetUpdateDocument(obj *Person, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetLast_name(obj.LastName, uo.ResolveUnsetMode(uo.LastName))
 	ud.setOrUnsetCf(obj.Cf, uo.ResolveUnsetMode(uo.Cf))
 	ud.setOrUnsetMale_female(obj.MaleFemale, uo.ResolveUnsetMode(uo.MaleFemale))
-	ud.setOrUnsetBirth_info(&obj.Birth, uo.ResolveUnsetMode(uo.BirthInfo))
+	ud.setOrUnsetBirth(&obj.Birth, uo.ResolveUnsetMode(uo.Birth))
+	ud.setOrUnsetId_document(&obj.IdDocument, uo.ResolveUnsetMode(uo.IdDocument))
 	ud.setOrUnsetCountry(&obj.Country, uo.ResolveUnsetMode(uo.Country))
 	ud.setOrUnsetAddresses(obj.Addresses, uo.ResolveUnsetMode(uo.Addresses))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
@@ -569,51 +575,97 @@ func UpdateWithMale_female(p string) UpdateOption {
 // @tpm-schematics:start-region("male-female-field-update-section")
 // @tpm-schematics:end-region("male-female-field-update-section")
 
-// SetBirth_info No Remarks
-func (ud *UpdateDocument) SetBirth_info(p *BirthInfo) *UpdateDocument {
-	mName := fmt.Sprintf(BirthInfoFieldName)
+// SetBirth No Remarks
+func (ud *UpdateDocument) SetBirth(p *BirthInfo) *UpdateDocument {
+	mName := fmt.Sprintf(BirthFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetBirth_info No Remarks
-func (ud *UpdateDocument) UnsetBirth_info() *UpdateDocument {
-	mName := fmt.Sprintf(BirthInfoFieldName)
+// UnsetBirth No Remarks
+func (ud *UpdateDocument) UnsetBirth() *UpdateDocument {
+	mName := fmt.Sprintf(BirthFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetBirth_info No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetBirth_info(p *BirthInfo, um UnsetMode) {
+// setOrUnsetBirth No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetBirth(p *BirthInfo, um UnsetMode) {
 	if p != nil && !p.IsZero() {
-		ud.SetBirth_info(p)
+		ud.SetBirth(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetBirth_info()
+			ud.UnsetBirth()
 		case SetData2Default:
-			ud.UnsetBirth_info()
+			ud.UnsetBirth()
 		}
 	}
 }
 
-func UpdateWithBirth_info(p *BirthInfo) UpdateOption {
+func UpdateWithBirth(p *BirthInfo) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil && !p.IsZero() {
-			ud.SetBirth_info(p)
+			ud.SetBirth(p)
 		} else {
-			ud.UnsetBirth_info()
+			ud.UnsetBirth()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("birth-info-field-update-section")
-// @tpm-schematics:end-region("birth-info-field-update-section")
+// @tpm-schematics:start-region("birth-field-update-section")
+// @tpm-schematics:end-region("birth-field-update-section")
+
+// SetId_document No Remarks
+func (ud *UpdateDocument) SetId_document(p *IdentityCard) *UpdateDocument {
+	mName := fmt.Sprintf(IdDocumentFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetId_document No Remarks
+func (ud *UpdateDocument) UnsetId_document() *UpdateDocument {
+	mName := fmt.Sprintf(IdDocumentFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetId_document No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetId_document(p *IdentityCard, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetId_document(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetId_document()
+		case SetData2Default:
+			ud.UnsetId_document()
+		}
+	}
+}
+
+func UpdateWithId_document(p *IdentityCard) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != nil && !p.IsZero() {
+			ud.SetId_document(p)
+		} else {
+			ud.UnsetId_document()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("id-document-field-update-section")
+// @tpm-schematics:end-region("id-document-field-update-section")
 
 // SetCountry No Remarks
 func (ud *UpdateDocument) SetCountry(p *commons.BidTextPair) *UpdateDocument {

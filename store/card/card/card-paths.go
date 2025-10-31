@@ -55,4 +55,8 @@ const (
 )
 
 // @tpm-schematics:start-region("bottom-file-section")
+const (
+	AppsAPpNumberFieldName = "apps.app_number"
+)
+
 // @tpm-schematics:end-region("bottom-file-section")
