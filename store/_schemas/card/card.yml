@@ -23,8 +23,9 @@ attributes:
   type: string
   options: with-filter
 - name: card_number
-  type: string
-  options: with-filter
+  struct-ref:
+    name: ValueTextPair
+  type: struct
 - name: card_type
   type: string
 - name: status
@@ -34,8 +35,9 @@ attributes:
   type: string
   options: with-filter
 - name: envelope_number
-  type: string
-  options: with-filter
+  struct-ref:
+    name: ValueTextPair
+  type: struct
 - name: funct
   type: string
 - name: focal_point

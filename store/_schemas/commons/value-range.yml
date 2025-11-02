@@ -1,0 +1,7 @@
+name: ValueRange
+attributes:
+- name: from
+  type: string
+- name: to
+  type: string
+

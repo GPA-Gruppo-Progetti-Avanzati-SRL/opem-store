@@ -14,6 +14,14 @@ const (
 	BidFieldName                       = "_bid"
 	EtFieldName                        = "_et"
 	CardNumberFieldName                = "card_number"
+	CardNumber_ValueFieldName          = "card_number.value"
+	EnvelopeNumber_ValueFieldName      = "envelope_number.value"
+	Apps_I_AppNumber_ValueFieldName    = "apps.%d.app_number.value"
+	Apps_AppNumber_ValueFieldName      = "apps.app_number.value"
+	CardNumber_TextFieldName           = "card_number.text"
+	EnvelopeNumber_TextFieldName       = "envelope_number.text"
+	Apps_I_AppNumber_TextFieldName     = "apps.%d.app_number.text"
+	Apps_AppNumber_TextFieldName       = "apps.app_number.text"
 	CardTypeFieldName                  = "card_type"
 	StatusFieldName                    = "status"
 	IdCardExtFieldName                 = "id_card_ext"
@@ -56,7 +64,7 @@ const (
 
 // @tpm-schematics:start-region("bottom-file-section")
 const (
-	AppsAPpNumberFieldName = "apps.app_number"
+	AppsAppNumberFieldName = "apps.app_number.value"
 )
 
 // @tpm-schematics:end-region("bottom-file-section")

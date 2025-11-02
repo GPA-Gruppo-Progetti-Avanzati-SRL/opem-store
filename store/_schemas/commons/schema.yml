@@ -8,6 +8,8 @@ entities:
 - file-name: ./file-reference.yml
 - file-name: ./address.yml
 - file-name: ./bid-text-pair.yml
+- file-name: ./value-text-pair.yml
+- file-name: ./value-range.yml
 - file-name: ./address.yml
 - file-name: ./note.yml
 - file-name: ./event.yml

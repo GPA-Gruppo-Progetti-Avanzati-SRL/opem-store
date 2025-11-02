@@ -3,5 +3,7 @@ attributes:
   - name: app_type
     type: string
   - name: app_number
-    type: string
+    struct-ref:
+       name: ValueTextPair
+    type: struct
 

@@ -9,6 +9,8 @@ tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name FileVariant
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name FileReference --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name Address --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name BidTextPair --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name ValueTextPair --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name ValueRange --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name Note --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name Event --out-dir ../.. --with-format
 # api-cms

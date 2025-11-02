@@ -206,11 +206,11 @@ func GetUpdateDocument(obj *Card, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetSite(obj.Site, uo.ResolveUnsetMode(uo.Site))
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
-	ud.setOrUnsetCard_number(obj.CardNumber, uo.ResolveUnsetMode(uo.CardNumber))
+	ud.setOrUnsetCard_number(&obj.CardNumber, uo.ResolveUnsetMode(uo.CardNumber))
 	ud.setOrUnsetCard_type(obj.CardType, uo.ResolveUnsetMode(uo.CardType))
 	ud.setOrUnsetStatus(obj.Status, uo.ResolveUnsetMode(uo.Status))
 	ud.setOrUnsetId_card_ext(obj.IdCardExt, uo.ResolveUnsetMode(uo.IdCardExt))
-	ud.setOrUnsetEnvelope_number(obj.EnvelopeNumber, uo.ResolveUnsetMode(uo.EnvelopeNumber))
+	ud.setOrUnsetEnvelope_number(&obj.EnvelopeNumber, uo.ResolveUnsetMode(uo.EnvelopeNumber))
 	ud.setOrUnsetFunct(obj.Funct, uo.ResolveUnsetMode(uo.Funct))
 	ud.setOrUnsetFocal_point(&obj.FocalPoint, uo.ResolveUnsetMode(uo.FocalPoint))
 	ud.setOrUnsetProduct(&obj.Product, uo.ResolveUnsetMode(uo.Product))
@@ -448,7 +448,7 @@ func UpdateWith_et(p string) UpdateOption {
 // @tpm-schematics:end-region("-et-field-update-section")
 
 // SetCard_number No Remarks
-func (ud *UpdateDocument) SetCard_number(p string) *UpdateDocument {
+func (ud *UpdateDocument) SetCard_number(p *commons.ValueTextPair) *UpdateDocument {
 	mName := fmt.Sprintf(CardNumberFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -465,9 +465,9 @@ func (ud *UpdateDocument) UnsetCard_number() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetCard_number No Remarks
-func (ud *UpdateDocument) setOrUnsetCard_number(p string, um UnsetMode) {
-	if p != "" {
+// setOrUnsetCard_number No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetCard_number(p *commons.ValueTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
 		ud.SetCard_number(p)
 	} else {
 		switch um {
@@ -480,9 +480,9 @@ func (ud *UpdateDocument) setOrUnsetCard_number(p string, um UnsetMode) {
 	}
 }
 
-func UpdateWithCard_number(p string) UpdateOption {
+func UpdateWithCard_number(p *commons.ValueTextPair) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if p != "" {
+		if p != nil && !p.IsZero() {
 			ud.SetCard_number(p)
 		} else {
 			ud.UnsetCard_number()
@@ -632,7 +632,7 @@ func UpdateWithId_card_ext(p string) UpdateOption {
 // @tpm-schematics:end-region("id-card-ext-field-update-section")
 
 // SetEnvelope_number No Remarks
-func (ud *UpdateDocument) SetEnvelope_number(p string) *UpdateDocument {
+func (ud *UpdateDocument) SetEnvelope_number(p *commons.ValueTextPair) *UpdateDocument {
 	mName := fmt.Sprintf(EnvelopeNumberFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -649,9 +649,9 @@ func (ud *UpdateDocument) UnsetEnvelope_number() *UpdateDocument {
 	return ud
 }
 
-// setOrUnsetEnvelope_number No Remarks
-func (ud *UpdateDocument) setOrUnsetEnvelope_number(p string, um UnsetMode) {
-	if p != "" {
+// setOrUnsetEnvelope_number No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetEnvelope_number(p *commons.ValueTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
 		ud.SetEnvelope_number(p)
 	} else {
 		switch um {
@@ -664,9 +664,9 @@ func (ud *UpdateDocument) setOrUnsetEnvelope_number(p string, um UnsetMode) {
 	}
 }
 
-func UpdateWithEnvelope_number(p string) UpdateOption {
+func UpdateWithEnvelope_number(p *commons.ValueTextPair) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if p != "" {
+		if p != nil && !p.IsZero() {
 			ud.SetEnvelope_number(p)
 		} else {
 			ud.UnsetEnvelope_number()

@@ -1,0 +1,7 @@
+name: ValueTextPair
+attributes:
+- name: value
+  type: string
+- name: text
+  type: string
+

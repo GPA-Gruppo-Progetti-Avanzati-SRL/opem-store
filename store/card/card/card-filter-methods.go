@@ -226,47 +226,6 @@ func (ca *Criteria) AndEtIn(p []string) *Criteria {
 // @tpm-schematics:end-region("-et-field-filter-section")
 
 /*
- * filter-string template: card_number
- */
-
-// AndCardNumberEqTo No Remarks
-func (ca *Criteria) AndCardNumberEqTo(p string) *Criteria {
-
-	if p == "" {
-		return ca
-	}
-
-	mName := fmt.Sprintf(CardNumberFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: p} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-// AndCardNumberIsNullOrUnset No Remarks
-func (ca *Criteria) AndCardNumberIsNullOrUnset() *Criteria {
-
-	mName := fmt.Sprintf(CardNumberFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-func (ca *Criteria) AndCardNumberIn(p []string) *Criteria {
-
-	if len(p) == 0 {
-		return ca
-	}
-
-	mName := fmt.Sprintf(CardNumberFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-// @tpm-schematics:start-region("card-number-field-filter-section")
-// @tpm-schematics:end-region("card-number-field-filter-section")
-
-/*
  * filter-string template: status
  */
 
@@ -348,48 +307,19 @@ func (ca *Criteria) AndIdCardExtIn(p []string) *Criteria {
 // @tpm-schematics:start-region("id-card-ext-field-filter-section")
 // @tpm-schematics:end-region("id-card-ext-field-filter-section")
 
-/*
- * filter-string template: envelope_number
- */
+// @tpm-schematics:start-region("bottom-file-section")
 
-// AndEnvelopeNumberEqTo No Remarks
-func (ca *Criteria) AndEnvelopeNumberEqTo(p string) *Criteria {
+func (ca *Criteria) AndCardNumberEqTo(p string) *Criteria {
 
 	if p == "" {
 		return ca
 	}
 
-	mName := fmt.Sprintf(EnvelopeNumberFieldName)
+	mName := fmt.Sprintf(CardNumber_ValueFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca
 }
-
-// AndEnvelopeNumberIsNullOrUnset No Remarks
-func (ca *Criteria) AndEnvelopeNumberIsNullOrUnset() *Criteria {
-
-	mName := fmt.Sprintf(EnvelopeNumberFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-func (ca *Criteria) AndEnvelopeNumberIn(p []string) *Criteria {
-
-	if len(p) == 0 {
-		return ca
-	}
-
-	mName := fmt.Sprintf(EnvelopeNumberFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-// @tpm-schematics:start-region("envelope-number-field-filter-section")
-// @tpm-schematics:end-region("envelope-number-field-filter-section")
-
-// @tpm-schematics:start-region("bottom-file-section")
 
 func (ca *Criteria) AndHolderRegistrationIdEqTo(p string) *Criteria {
 
@@ -421,7 +351,7 @@ func (ca *Criteria) AndAppsAppNumberEqTo(p string) *Criteria {
 		return ca
 	}
 
-	mName := fmt.Sprintf(AppsAPpNumberFieldName)
+	mName := fmt.Sprintf(AppsAppNumberFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca

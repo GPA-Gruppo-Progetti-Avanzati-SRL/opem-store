@@ -7,6 +7,9 @@ import "go.mongodb.org/mongo-driver/v2/bson"
 const (
 	CollectionId = "sequence"
 	EntityType   = "sequence"
+
+	BoxSequenceBid = "seq-mag"
+	CardSequenceId = "seq-card"
 )
 
 // @tpm-schematics:end-region("top-file-section")
