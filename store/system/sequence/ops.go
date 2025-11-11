@@ -11,19 +11,19 @@ import (
 
 func SprintfNextVal(collection *mongo.Collection, domain, site string, nextValOpts ...NextValOption) (string, error) {
 	const semLogContext = "sequence::formatted-next-val"
-	rng, err := NextVal(collection, domain, site, nextValOpts...)
+	rng, err := NextRange(collection, domain, site, nextValOpts...)
 	if err != nil {
 		return "", err
 	}
 
-	if rng.From != rng.To {
+	if rng.from != rng.to {
 		log.Warn().Interface("range", rng).Msg(semLogContext + " - call not appropriate for ranges")
 	}
 
-	return fmt.Sprintf(rng.Format, rng.To), nil
+	return fmt.Sprintf(rng.format, rng.to), nil
 }
 
-func NextVal(collection *mongo.Collection, domain, site string, nextValOpts ...NextValOption) (Range, error) {
+func NextRange(collection *mongo.Collection, domain, site string, nextValOpts ...NextValOption) (Range, error) {
 	const semLogContext = "sequence::next-val"
 
 	opts := NextValOptions{CreateIfMissing: true, Increment: 1}
@@ -59,5 +59,5 @@ func NextVal(collection *mongo.Collection, domain, site string, nextValOpts ...N
 		return Range{}, err
 	}
 
-	return Range{From: seq.Value - opts.Increment + 1, To: seq.Value, Format: seq.FormatSpecifier()}, nil
+	return Range{from: seq.Value - opts.Increment + 1, to: seq.Value, format: seq.FormatSpecifier(), current: -1}, nil
 }

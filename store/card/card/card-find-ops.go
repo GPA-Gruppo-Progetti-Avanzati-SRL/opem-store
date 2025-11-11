@@ -4,12 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/person"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
-	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -192,7 +193,8 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"from", personCollectionCfg.Name},
 			{"let", bson.D{
 				{"domain", "$domain"}, {"site", "$site"},
-				{"et", person.EntityType}, {"bid", "$holder.bid"},
+				{"et", person.EntityType},
+				{"bid", bson.D{{"$ifNull", bson.A{"$holder.bid", "ND"}}}},
 			},
 			},
 			{"pipeline", bson.A{

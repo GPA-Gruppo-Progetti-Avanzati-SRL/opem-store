@@ -2,8 +2,9 @@ package box
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -619,6 +620,18 @@ func UpdateWithStatus(p *Status) UpdateOption {
 }
 
 // @tpm-schematics:start-region("status-field-update-section")
+
+func UpdateWithStatusStatus(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			mName := fmt.Sprintf(Status_StatusFieldName)
+			ud.Set().Add(func() bson.E {
+				return bson.E{Key: mName, Value: p}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("status-field-update-section")
 
 // SetRecipient No Remarks
@@ -711,6 +724,18 @@ func UpdateWithEvents(p []commons.Event) UpdateOption {
 }
 
 // @tpm-schematics:start-region("events-field-update-section")
+
+func UpdateWithAddEvent(p commons.Event) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if !p.IsZero() {
+			mName := fmt.Sprintf(EventsFieldName)
+			ud.Push().Add(func() bson.E {
+				return bson.E{Key: mName, Value: p}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("events-field-update-section")
 
 // SetNotes No Remarks
@@ -815,6 +840,17 @@ func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 }
 
 // @tpm-schematics:start-region("sys-info-field-update-section")
+
+func UpdateWithSysInfoModifiedAt() UpdateOption {
+	return func(ud *UpdateDocument) {
+		mName := fmt.Sprintf(SysInfo_ModifiedAtFieldName)
+		ud.Set().Add(func() bson.E {
+			return bson.E{Key: mName, Value: bson.NewDateTimeFromTime(time.Now())}
+		})
+
+	}
+}
+
 // @tpm-schematics:end-region("sys-info-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")

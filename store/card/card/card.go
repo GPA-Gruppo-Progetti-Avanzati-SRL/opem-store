@@ -10,6 +10,8 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/person
 const (
 	EntityType   = "card"
 	CollectionId = "card"
+
+	StatusAMagazzinoInAttesaConferma = "ME" // value: "ME A magazzino in attesa conferma da ente/processor"
 )
 
 // @tpm-schematics:end-region("top-file-section")

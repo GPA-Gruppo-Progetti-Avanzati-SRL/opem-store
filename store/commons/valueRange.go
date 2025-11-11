@@ -1,5 +1,7 @@
 package commons
 
+import "encoding/json"
+
 // @tpm-schematics:start-region("top-file-section")
 // @tpm-schematics:end-region("top-file-section")
 
@@ -16,4 +18,14 @@ func (s ValueRange) IsZero() bool {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (s ValueRange) String() string {
+	b, err := json.Marshal(s)
+	if err != nil {
+		return err.Error()
+	}
+
+	return string(b)
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

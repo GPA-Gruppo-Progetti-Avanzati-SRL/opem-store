@@ -8,8 +8,10 @@ const (
 	EntityType   = "box"
 	CollectionId = "box"
 
-	StatusDaGenerare         = "CX"
-	StatusInAttesaDiConferma = "C1"
+	StatusDaGenerare         = "CX" // value: "magazzino da generare in stato Confermato"
+	StatusInAttesaDiConferma = "C1" // value: in attesa di conferma
+
+	EventReintegroMagazzino = "reintegro-magazzino"
 )
 
 // @tpm-schematics:end-region("top-file-section")

@@ -1,6 +1,11 @@
 package sequence
 
-import "go.mongodb.org/mongo-driver/v2/bson"
+import (
+	"errors"
+	"fmt"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
+)
 
 // @tpm-schematics:start-region("top-file-section")
 
@@ -40,10 +45,51 @@ type QueryResult struct {
 // @tpm-schematics:start-region("bottom-file-section")
 
 type Range struct {
-	From   int32
-	To     int32
-	Format string
+	from    int32
+	to      int32
+	format  string
+	current int32
 }
+
+func (r *Range) String() string {
+	return fmt.Sprintf("[%d]: from: %d, to: %d, current: %d, format: %s", r.to-r.from, r.from, r.to, r.current, r.format)
+}
+
+func (r *Range) CurrentValue() string {
+	if r.current < 0 || r.current > (r.to-r.from) {
+		return fmt.Sprintf("invalid range position: %d", r.current)
+	}
+	return fmt.Sprintf(r.format, r.from+r.current)
+}
+
+func (r *Range) HasNext() bool {
+	if r.current < 0 {
+		return true
+	}
+
+	return r.current < (r.to - r.from)
+}
+
+func (r *Range) Next() string {
+	r.current++
+	return r.CurrentValue()
+}
+
+type RangeMap map[string]*Range
+
+func (rm RangeMap) NextVal(n string) (string, error) {
+	if r, ok := rm[n]; ok {
+		if r.HasNext() {
+			v := r.Next()
+			return v, nil
+		} else {
+			return "", errors.New("range exhausted: " + r.CurrentValue())
+		}
+	}
+
+	return "", errors.New("invalid range name: " + n)
+}
+
 type NextValOptions struct {
 	SeqId           string
 	Increment       int32
