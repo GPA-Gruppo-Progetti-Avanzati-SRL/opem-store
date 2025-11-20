@@ -27,26 +27,35 @@ tpm-morphia-cli gen entity --schema-file ./apicore/schema.yml --name session --o
 tpm-morphia-cli gen entity --schema-file ./apicore/schema.yml --name keyValue --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./apicore/schema.yml --name keyValuePackage --out-dir ../.. --with-format
 
+# territorio
 tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name nazione --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name provincia --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name comune --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./territorio/schema.yml --name territorio --out-dir ../.. --with-format
 
+# prodotto
 tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name prodotto --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name appDefinition --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name appNumberDefinition --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./prodotto/schema.yml --name HostProduct --out-dir ../.. --with-format
 
+# organizzazione
 tpm-morphia-cli gen entity --schema-file ./organizzazione/schema.yml --name focalPoint --out-dir ../.. --with-format
 
+# magazzino
 tpm-morphia-cli gen entity --schema-file ./magazzino/schema.yml --name magazzino --out-dir ../.. --with-format
-
 tpm-morphia-cli gen entity --schema-file ./magazzino/schema.yml --name Info --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./magazzino/schema.yml --name Status --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./magazzino/schema.yml --name box --out-dir ../.. --with-format
 
+# card
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name card --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name CardApp --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name CardHolder --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name Person --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name BirthInfo --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name IdentityCard --out-dir ../.. --with-format
+
+# file
+tpm-morphia-cli gen entity --schema-file ./file/schema.yml --name File --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./file/schema.yml --name Stat --out-dir ../.. --with-format

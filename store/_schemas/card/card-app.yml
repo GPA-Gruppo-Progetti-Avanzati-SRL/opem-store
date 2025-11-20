@@ -4,6 +4,16 @@ attributes:
     type: string
   - name: app_number
     struct-ref:
-       name: ValueTextPair
+      name: ValueTextPair
     type: struct
+  - name: is_custom
+    type: bool
+  - name: id
+    type: string
+  - name: name
+    type: string
+  - name: tag
+    type: string
+
+
 

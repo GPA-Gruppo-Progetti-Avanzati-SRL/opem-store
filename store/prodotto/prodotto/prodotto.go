@@ -21,6 +21,7 @@ type Prodotto struct {
 	PrimaryFunct string          `json:"primary_funct,omitempty" bson:"primary_funct,omitempty" yaml:"primary_funct,omitempty"`
 	ExpirationAt string          `json:"expiration_at,omitempty" bson:"expiration_at,omitempty" yaml:"expiration_at,omitempty"`
 	PersBureau   string          `json:"pers_bureau,omitempty" bson:"pers_bureau,omitempty" yaml:"pers_bureau,omitempty"`
+	HostProduct  HostProduct     `json:"host_product,omitempty" bson:"host_product,omitempty" yaml:"host_product,omitempty"`
 	Properties   bson.M          `json:"properties,omitempty" bson:"properties,omitempty" yaml:"properties,omitempty"`
 	Apps         []AppDefinition `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
 	SysInfo      commons.SysInfo `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
@@ -30,7 +31,7 @@ type Prodotto struct {
 }
 
 func (s Prodotto) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Name == "" && s.PrimaryFunct == "" && s.ExpirationAt == "" && s.PersBureau == "" && len(s.Properties) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Name == "" && s.PrimaryFunct == "" && s.ExpirationAt == "" && s.PersBureau == "" && s.HostProduct.IsZero() && len(s.Properties) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {
@@ -39,4 +40,57 @@ type QueryResult struct {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+const (
+	Property_e3_rec60_desc = "e3_rec60_desc"
+)
+
+func (s Prodotto) BoolProperty(n string) bool {
+
+	if len(s.Properties) == 0 {
+		return false
+	}
+
+	p, ok := s.Properties[n]
+	if !ok {
+		return false
+	}
+
+	if pb, ok := p.(bool); ok {
+		return pb
+	}
+
+	return false
+}
+
+func (s Prodotto) AppDefinitionByFunc(fnc string) (AppDefinition, bool) {
+	for _, a := range s.Apps {
+		if a.Func == fnc {
+			return a, true
+		}
+	}
+
+	return AppDefinition{}, false
+}
+
+func (s Prodotto) WithReportRange() (string, bool) {
+	for _, a := range s.Apps {
+		if a.ReportRange {
+			return a.Func, true
+		}
+	}
+
+	return "", false
+}
+
+func (s Prodotto) WithReportHolder() (string, bool) {
+	for _, a := range s.Apps {
+		if a.ReportHolder {
+			return a.Func, true
+		}
+	}
+
+	return "", false
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

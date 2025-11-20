@@ -8,36 +8,44 @@ const (
 	EntityType   = "box"
 	CollectionId = "box"
 
-	StatusDaGenerare         = "CX" // value: "magazzino da generare in stato Confermato"
-	StatusInAttesaDiConferma = "C1" // value: in attesa di conferma
+	SupplyTypeNotKnown   = "not_known"
+	SupplyTypeAnonymous  = "anonymous"
+	SupplyTypeNominative = "nominative"
 
-	EventReintegroMagazzino = "reintegro-magazzino"
+	SupplyType
+	StatusDaGenerare         = "CX" // value: "magazzino da generare in stato Confermato"
+	StatusInAttesaDiInvio    = "CH" // value: in attesa di invio - Stato non esistente in PCWEB
+	StatusInAttesaDiConferma = "C1" // value: in attesa di conferma
+	EventReintegroMagazzino  = "reintegro-magazzino"
+	EventRichiestaCarte      = "richiesta-carte"
 )
 
 // @tpm-schematics:end-region("top-file-section")
 
 type Box struct {
-	OId        bson.ObjectID       `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
-	Domain     string              `json:"domain,omitempty" bson:"domain,omitempty" yaml:"domain,omitempty"`
-	Site       string              `json:"site,omitempty" bson:"site,omitempty" yaml:"site,omitempty"`
-	Bid        string              `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
-	Et         string              `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
-	Magazzino  commons.BidTextPair `json:"magazzino,omitempty" bson:"magazzino,omitempty" yaml:"magazzino,omitempty"`
-	Prodotto   commons.BidTextPair `json:"prodotto,omitempty" bson:"prodotto,omitempty" yaml:"prodotto,omitempty"`
-	FocalPoint commons.BidTextPair `json:"focal_point,omitempty" bson:"focal_point,omitempty" yaml:"focal_point,omitempty"`
-	Info       Info                `json:"info,omitempty" bson:"info,omitempty" yaml:"info,omitempty"`
-	Status     Status              `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
-	Recipient  commons.Address     `json:"recipient,omitempty" bson:"recipient,omitempty" yaml:"recipient,omitempty"`
-	Events     []commons.Event     `json:"events,omitempty" bson:"events,omitempty" yaml:"events,omitempty"`
-	Notes      []commons.Note      `json:"notes,omitempty" bson:"notes,omitempty" yaml:"notes,omitempty"`
-	SysInfo    commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
+	OId           bson.ObjectID       `json:"_id,omitempty" bson:"_id,omitempty" yaml:"_id,omitempty"`
+	Domain        string              `json:"domain,omitempty" bson:"domain,omitempty" yaml:"domain,omitempty"`
+	Site          string              `json:"site,omitempty" bson:"site,omitempty" yaml:"site,omitempty"`
+	Bid           string              `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
+	Et            string              `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
+	Magazzino     commons.BidTextPair `json:"magazzino,omitempty" bson:"magazzino,omitempty" yaml:"magazzino,omitempty"`
+	Prodotto      commons.BidTextPair `json:"prodotto,omitempty" bson:"prodotto,omitempty" yaml:"prodotto,omitempty"`
+	FocalPoint    commons.BidTextPair `json:"focal_point,omitempty" bson:"focal_point,omitempty" yaml:"focal_point,omitempty"`
+	SupplyType    string              `json:"supply_type,omitempty" bson:"supply_type,omitempty" yaml:"supply_type,omitempty"`
+	Info          Info                `json:"info,omitempty" bson:"info,omitempty" yaml:"info,omitempty"`
+	Status        Status              `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	Recipient     commons.Address     `json:"recipient,omitempty" bson:"recipient,omitempty" yaml:"recipient,omitempty"`
+	CardBidsRange commons.ValueRange  `json:"card_bids_range,omitempty" bson:"card_bids_range,omitempty" yaml:"card_bids_range,omitempty"`
+	Events        []commons.Event     `json:"events,omitempty" bson:"events,omitempty" yaml:"events,omitempty"`
+	Notes         []commons.Note      `json:"notes,omitempty" bson:"notes,omitempty" yaml:"notes,omitempty"`
+	SysInfo       commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")
 }
 
 func (s Box) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Magazzino.IsZero() && s.Prodotto.IsZero() && s.FocalPoint.IsZero() && s.Info.IsZero() && s.Status.IsZero() && s.Recipient.IsZero() && len(s.Events) == 0 && len(s.Notes) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Magazzino.IsZero() && s.Prodotto.IsZero() && s.FocalPoint.IsZero() && s.SupplyType == "" && s.Info.IsZero() && s.Status.IsZero() && s.Recipient.IsZero() && s.CardBidsRange.IsZero() && len(s.Events) == 0 && len(s.Notes) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

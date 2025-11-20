@@ -1,4 +1,4 @@
-name: Prodotto
+name: File
 attributes:
 - name: oId
   type: object-id
@@ -22,27 +22,26 @@ attributes:
 - name: _et
   type: string
   options: with-filter
-- name: name
-  type: string
-- name: primary_funct
-  type: string
-- name: expiration_at
+- name: status
   type: string
   options: with-filter
-- name: pers_bureau
-  type: string
-- name: host_product
-  type: struct
+- name: stats
   struct-ref:
-    name: HostProduct
-- name: properties
-  type: document
-- name: apps
-  type: array
-  item:
-    type: struct
-    struct-ref:
-      name: AppDefinition
+    name: Stat
+  type: struct
+- name: type
+  type: string
+- name: name
+  type: string
+  options: with-filter
+- name: blob_bucket
+  type: string
+  options: with-filter
+- name: blob_key
+  type: string
+  options: with-filter
+- name: in_out
+  type: string
 - name: sys_info
   struct-ref:
     name: SysInfo

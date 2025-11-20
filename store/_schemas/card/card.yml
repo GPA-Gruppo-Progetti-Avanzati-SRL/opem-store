@@ -48,7 +48,11 @@ attributes:
   struct-ref:
     name: BidTextPair
   type: struct
-- name: magazzino
+- name: layout_code
+  type: string
+- name: corporate_code
+  type: string
+- name: box
   struct-ref:
     name: BidTextPair
   type: struct
@@ -68,6 +72,12 @@ attributes:
     type: struct
     struct-ref:
       name: Address
+- name: events
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: Event
 - name: expires_at
   type: date
 - name: issue_date

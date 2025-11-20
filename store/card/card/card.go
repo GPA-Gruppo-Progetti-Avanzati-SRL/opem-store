@@ -12,6 +12,8 @@ const (
 	CollectionId = "card"
 
 	StatusAMagazzinoInAttesaConferma = "ME" // value: "ME A magazzino in attesa conferma da ente/processor"
+
+	EventReintegroMagazzino = "reintegro-magazzino"
 )
 
 // @tpm-schematics:end-region("top-file-section")
@@ -30,10 +32,13 @@ type Card struct {
 	Funct                 string                `json:"funct,omitempty" bson:"funct,omitempty" yaml:"funct,omitempty"`
 	FocalPoint            commons.BidTextPair   `json:"focal_point,omitempty" bson:"focal_point,omitempty" yaml:"focal_point,omitempty"`
 	Product               commons.BidTextPair   `json:"product,omitempty" bson:"product,omitempty" yaml:"product,omitempty"`
-	Magazzino             commons.BidTextPair   `json:"magazzino,omitempty" bson:"magazzino,omitempty" yaml:"magazzino,omitempty"`
+	LayoutCode            string                `json:"layout_code,omitempty" bson:"layout_code,omitempty" yaml:"layout_code,omitempty"`
+	CorporateCode         string                `json:"corporate_code,omitempty" bson:"corporate_code,omitempty" yaml:"corporate_code,omitempty"`
+	Box                   commons.BidTextPair   `json:"box,omitempty" bson:"box,omitempty" yaml:"box,omitempty"`
 	Holder                CardHolder            `json:"holder,omitempty" bson:"holder,omitempty" yaml:"holder,omitempty"`
 	Apps                  []CardApp             `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
 	Addresses             []commons.Address     `json:"addresses,omitempty" bson:"addresses,omitempty" yaml:"addresses,omitempty"`
+	Events                []commons.Event       `json:"events,omitempty" bson:"events,omitempty" yaml:"events,omitempty"`
 	ExpiresAt             bson.DateTime         `json:"expires_at,omitempty" bson:"expires_at,omitempty" yaml:"expires_at,omitempty"`
 	IssueDate             bson.DateTime         `json:"issue_date,omitempty" bson:"issue_date,omitempty" yaml:"issue_date,omitempty"`
 	IssueConfirmationDate bson.DateTime         `json:"issue_confirmation_date,omitempty" bson:"issue_confirmation_date,omitempty" yaml:"issue_confirmation_date,omitempty"`
@@ -46,7 +51,7 @@ type Card struct {
 }
 
 func (s Card) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.CardNumber.IsZero() && s.CardType == "" && s.Status == "" && s.IdCardExt == "" && s.EnvelopeNumber.IsZero() && s.Funct == "" && s.FocalPoint.IsZero() && s.Product.IsZero() && s.Magazzino.IsZero() && s.Holder.IsZero() && len(s.Apps) == 0 && len(s.Addresses) == 0 && s.ExpiresAt == 0 && s.IssueDate == 0 && s.IssueConfirmationDate == 0 && s.ActDate == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.CardNumber.IsZero() && s.CardType == "" && s.Status == "" && s.IdCardExt == "" && s.EnvelopeNumber.IsZero() && s.Funct == "" && s.FocalPoint.IsZero() && s.Product.IsZero() && s.LayoutCode == "" && s.CorporateCode == "" && s.Box.IsZero() && s.Holder.IsZero() && len(s.Apps) == 0 && len(s.Addresses) == 0 && len(s.Events) == 0 && s.ExpiresAt == 0 && s.IssueDate == 0 && s.IssueConfirmationDate == 0 && s.ActDate == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

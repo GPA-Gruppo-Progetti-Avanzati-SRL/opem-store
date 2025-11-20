@@ -14,4 +14,10 @@ attributes:
     struct-ref:
       name: AppNumberDefinition
     type: struct
+  - name: report_range
+    type: bool
+  - name: report_holder
+    type: bool
+  - name: is_envelope_number
+    type: bool
 

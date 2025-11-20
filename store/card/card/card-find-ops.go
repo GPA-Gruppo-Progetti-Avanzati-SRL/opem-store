@@ -3,10 +3,8 @@ package card
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/person"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -15,6 +13,9 @@ import (
 
 // @tpm-schematics:start-region("top-file-section")
 import (
+	"fmt"
+
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/person"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -224,13 +225,14 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"_et", 1},
 			{"card_number", 1},
 			{"card_type", 1},
+			{"corporate_code", 1},
 			{"status", 1},
 			{"id_card_ext", 1},
 			{"envelope_number", 1},
 			{"funct", 1},
 			{"focal_point", 1},
 			{"product", 1},
-			{"magazzino", 1},
+			{"box", 1},
 			{"holder", 1},
 			{"apps", 1},
 			{"addresses", 1},
@@ -239,6 +241,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"issue_confirmation_date", 1},
 			{"act_date", 1},
 			{"sys_info", 1},
+			{"events", 1},
 			{"doc_person", bson.D{{"$arrayElemAt", bson.A{"$doc_person", 0}}}},
 		}},
 	})

@@ -1,0 +1,12 @@
+module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
+package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/file
+imports:
+  - ../commons/schema.yml
+entities:
+- file-name: ./file.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/file/file
+- file-name: ./file-stat.yml
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/file/file
+# @tpm-schematics:start-region("bottom-file-section")
+# @tpm-schematics:end-region("bottom-file-section")

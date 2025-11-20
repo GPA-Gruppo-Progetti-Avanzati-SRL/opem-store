@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
@@ -225,6 +226,47 @@ func (ca *Criteria) AndEtIn(p []string) *Criteria {
 // @tpm-schematics:start-region("-et-field-filter-section")
 // @tpm-schematics:end-region("-et-field-filter-section")
 
+/*
+ * filter-string template: supply_type
+ */
+
+// AndSupplyTypeEqTo No Remarks
+func (ca *Criteria) AndSupplyTypeEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(SupplyTypeFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// AndSupplyTypeIsNullOrUnset No Remarks
+func (ca *Criteria) AndSupplyTypeIsNullOrUnset() *Criteria {
+
+	mName := fmt.Sprintf(SupplyTypeFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndSupplyTypeIn(p []string) *Criteria {
+
+	if len(p) == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(SupplyTypeFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:start-region("supply-type-field-filter-section")
+// @tpm-schematics:end-region("supply-type-field-filter-section")
+
 // @tpm-schematics:start-region("bottom-file-section")
 
 func (ca *Criteria) AndBidMagazzinoEqTo(p string) *Criteria {
@@ -247,6 +289,25 @@ func (ca *Criteria) AndStatusEqTo(p string) *Criteria {
 
 	mName := fmt.Sprintf(Status_StatusFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndCreatedAtAfter(p string) *Criteria {
+	const semLogContext = "box::and-created-at-after"
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(SysInfo_CreatedAtFieldName)
+	from, err := time.Parse("20060102", p)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return ca
+	}
+
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$gte", bson.NewDateTimeFromTime(from)}}} }
 	*ca = append(*ca, c)
 	return ca
 }

@@ -7,6 +7,9 @@ import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 const (
 	EntityType   = "nazione"
 	CollectionId = "territorio"
+
+	CodeUicITA = "086"
+	EE         = "EE"
 )
 
 // @tpm-schematics:end-region("top-file-section")

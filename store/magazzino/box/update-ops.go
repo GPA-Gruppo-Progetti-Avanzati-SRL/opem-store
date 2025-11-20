@@ -3,9 +3,12 @@ package box
 import (
 	"context"
 	"errors"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/file/file"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -54,6 +57,51 @@ func Update4ReintegroMagazzino(coll *mongo.Collection, domain, site, bidMagazzin
 		Type: EventReintegroMagazzino,
 		Who:  who,
 		Text: valueRange.String(),
+		When: bson.NewDateTimeFromTime(time.Now()),
+	}
+
+	updOpts := []UpdateOption{
+		UpdateWithAddEvent(evt),
+		UpdateWithStatusStatus(StatusInAttesaDiInvio),
+		UpdateWithSysInfoModifiedAt(),
+		UpdateWithCard_bids_range(&valueRange),
+	}
+	updDoc := GetUpdateDocumentFromOptions(updOpts...)
+	ud := updDoc.Build()
+	log.Trace().Str("add-note-update-document", util.MustToExtendedJsonString(ud, false, false)).Msg(semLogContext)
+
+	resp, err := coll.UpdateOne(context.Background(), fd, ud)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return err
+	}
+
+	if resp.ModifiedCount == 0 {
+		err = errors.New("no document updated matched")
+		log.Error().Err(err).Msg(semLogContext)
+		return err
+	}
+
+	return nil
+}
+
+func Update4RichiestaCarte(coll *mongo.Collection, domain, site, bidMagazzino, bidBox string, who string, files []file.File) error {
+	const semLogContext = "box::update-4-richiesta_carte"
+
+	f := Filter{}
+	f.Or().AndDomainEqTo(domain).AndSiteEqTo(site).AndEtEqTo(EntityType).AndBidMagazzinoEqTo(bidMagazzino).AndBidEqTo(bidBox)
+	fd := f.Build()
+	log.Trace().Str("update-4-richiesta-carte-filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	var sb strings.Builder
+	for _, f := range files {
+		sb.WriteString(fmt.Sprintf("[%s]: %s ", f.BlobBucket, f.BlobKey))
+	}
+
+	evt := commons.Event{
+		Type: EventRichiestaCarte,
+		Who:  who,
+		Text: sb.String(),
 		When: bson.NewDateTimeFromTime(time.Now()),
 	}
 

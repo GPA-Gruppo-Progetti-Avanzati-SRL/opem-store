@@ -1,10 +1,9 @@
-package box
+package file
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -18,9 +17,6 @@ type QueryOptions struct {
 	SearchTerm    string `form:"ssearch" query:"ssearch" json:"ssearch,omitempty" bson:"ssearch,omitempty" yaml:"ssearch,omitempty"`
 	WithCount     bool   `form:"withCount" query:"withCount" json:"withCount,omitempty" bson:"withCount,omitempty" yaml:"withCount,omitempty"`
 	// @tpm-schematics:start-region("query-options-struct-section")
-	BidFocalPoint string `form:"focal_point" query:"focal_point" json:"focal_point,omitempty" bson:"focal_point,omitempty" yaml:"focal_point,omitempty"`
-	Status        string `form:"status" query:"status" json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
-	StartingFrom  string `form:"starting_from" query:"starting_from" json:"starting_from,omitempty" bson:"starting_from,omitempty" yaml:"starting_from,omitempty"`
 	// @tpm-schematics:end-region("query-options-struct-section")
 }
 

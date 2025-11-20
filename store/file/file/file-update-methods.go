@@ -1,4 +1,4 @@
-package prodotto
+package file
 
 import (
 	"fmt"
@@ -28,20 +28,20 @@ const (
 type UnsetOption func(uopt *UnsetOptions)
 
 type UnsetOptions struct {
-	DefaultMode  UnsetMode
-	OId          UnsetMode
-	Domain       UnsetMode
-	Site         UnsetMode
-	Bid          UnsetMode
-	Et           UnsetMode
-	Name         UnsetMode
-	PrimaryFunct UnsetMode
-	ExpirationAt UnsetMode
-	PersBureau   UnsetMode
-	HostProduct  UnsetMode
-	Properties   UnsetMode
-	Apps         UnsetMode
-	SysInfo      UnsetMode
+	DefaultMode UnsetMode
+	OId         UnsetMode
+	Domain      UnsetMode
+	Site        UnsetMode
+	Bid         UnsetMode
+	Et          UnsetMode
+	Status      UnsetMode
+	Stats       UnsetMode
+	Type        UnsetMode
+	Name        UnsetMode
+	BlobBucket  UnsetMode
+	BlobKey     UnsetMode
+	InOut       UnsetMode
+	SysInfo     UnsetMode
 }
 
 func (uo *UnsetOptions) ResolveUnsetMode(um UnsetMode) UnsetMode {
@@ -82,39 +82,39 @@ func WithEtUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Et = m
 	}
 }
+func WithStatusUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Status = m
+	}
+}
+func WithStatsUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Stats = m
+	}
+}
+func WithTypeUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Type = m
+	}
+}
 func WithNameUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.Name = m
 	}
 }
-func WithPrimaryFunctUnsetMode(m UnsetMode) UnsetOption {
+func WithBlobBucketUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.PrimaryFunct = m
+		uopt.BlobBucket = m
 	}
 }
-func WithExpirationAtUnsetMode(m UnsetMode) UnsetOption {
+func WithBlobKeyUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.ExpirationAt = m
+		uopt.BlobKey = m
 	}
 }
-func WithPersBureauUnsetMode(m UnsetMode) UnsetOption {
+func WithInOutUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.PersBureau = m
-	}
-}
-func WithHostProductUnsetMode(m UnsetMode) UnsetOption {
-	return func(uopt *UnsetOptions) {
-		uopt.HostProduct = m
-	}
-}
-func WithPropertiesUnsetMode(m UnsetMode) UnsetOption {
-	return func(uopt *UnsetOptions) {
-		uopt.Properties = m
-	}
-}
-func WithAppsUnsetMode(m UnsetMode) UnsetOption {
-	return func(uopt *UnsetOptions) {
-		uopt.Apps = m
+		uopt.InOut = m
 	}
 }
 func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
@@ -140,7 +140,7 @@ func GetUpdateDocumentFromOptions(opts ...UpdateOption) UpdateDocument {
 // Convenience method to create an Update Document from the values of the top fields of the object. The convenience is in the handling
 // the unset because if I pass an empty struct to the update it generates an empty object anyway in the db. Handling the unset eliminates
 // the issue and delete an existing value without creating an empty struct.
-func GetUpdateDocument(obj *Prodotto, opts ...UnsetOption) UpdateDocument {
+func GetUpdateDocument(obj *File, opts ...UnsetOption) UpdateDocument {
 
 	uo := &UnsetOptions{DefaultMode: KeepCurrent}
 	for _, o := range opts {
@@ -152,13 +152,13 @@ func GetUpdateDocument(obj *Prodotto, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetSite(obj.Site, uo.ResolveUnsetMode(uo.Site))
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
+	ud.setOrUnsetStatus(obj.Status, uo.ResolveUnsetMode(uo.Status))
+	ud.setOrUnsetStats(&obj.Stats, uo.ResolveUnsetMode(uo.Stats))
+	ud.setOrUnsetType(obj.Type, uo.ResolveUnsetMode(uo.Type))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
-	ud.setOrUnsetPrimary_funct(obj.PrimaryFunct, uo.ResolveUnsetMode(uo.PrimaryFunct))
-	ud.setOrUnsetExpiration_at(obj.ExpirationAt, uo.ResolveUnsetMode(uo.ExpirationAt))
-	ud.setOrUnsetPers_bureau(obj.PersBureau, uo.ResolveUnsetMode(uo.PersBureau))
-	ud.setOrUnsetHost_product(&obj.HostProduct, uo.ResolveUnsetMode(uo.HostProduct))
-	ud.setOrUnsetProperties(obj.Properties, uo.ResolveUnsetMode(uo.Properties))
-	ud.setOrUnsetApps(obj.Apps, uo.ResolveUnsetMode(uo.Apps))
+	ud.setOrUnsetBlob_bucket(obj.BlobBucket, uo.ResolveUnsetMode(uo.BlobBucket))
+	ud.setOrUnsetBlob_key(obj.BlobKey, uo.ResolveUnsetMode(uo.BlobKey))
+	ud.setOrUnsetIn_out(obj.InOut, uo.ResolveUnsetMode(uo.InOut))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
@@ -384,6 +384,144 @@ func UpdateWith_et(p string) UpdateOption {
 // @tpm-schematics:start-region("-et-field-update-section")
 // @tpm-schematics:end-region("-et-field-update-section")
 
+// SetStatus No Remarks
+func (ud *UpdateDocument) SetStatus(p string) *UpdateDocument {
+	mName := fmt.Sprintf(StatusFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetStatus No Remarks
+func (ud *UpdateDocument) UnsetStatus() *UpdateDocument {
+	mName := fmt.Sprintf(StatusFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetStatus No Remarks
+func (ud *UpdateDocument) setOrUnsetStatus(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetStatus(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetStatus()
+		case SetData2Default:
+			ud.UnsetStatus()
+		}
+	}
+}
+
+func UpdateWithStatus(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetStatus(p)
+		} else {
+			ud.UnsetStatus()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("status-field-update-section")
+// @tpm-schematics:end-region("status-field-update-section")
+
+// SetStats No Remarks
+func (ud *UpdateDocument) SetStats(p *Stat) *UpdateDocument {
+	mName := fmt.Sprintf(StatsFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetStats No Remarks
+func (ud *UpdateDocument) UnsetStats() *UpdateDocument {
+	mName := fmt.Sprintf(StatsFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetStats No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetStats(p *Stat, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetStats(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetStats()
+		case SetData2Default:
+			ud.UnsetStats()
+		}
+	}
+}
+
+func UpdateWithStats(p *Stat) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != nil && !p.IsZero() {
+			ud.SetStats(p)
+		} else {
+			ud.UnsetStats()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("stats-field-update-section")
+// @tpm-schematics:end-region("stats-field-update-section")
+
+// SetType No Remarks
+func (ud *UpdateDocument) SetType(p string) *UpdateDocument {
+	mName := fmt.Sprintf(TypeFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetType No Remarks
+func (ud *UpdateDocument) UnsetType() *UpdateDocument {
+	mName := fmt.Sprintf(TypeFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetType No Remarks
+func (ud *UpdateDocument) setOrUnsetType(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetType(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetType()
+		case SetData2Default:
+			ud.UnsetType()
+		}
+	}
+}
+
+func UpdateWithType(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetType(p)
+		} else {
+			ud.UnsetType()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("type-field-update-section")
+// @tpm-schematics:end-region("type-field-update-section")
+
 // SetName No Remarks
 func (ud *UpdateDocument) SetName(p string) *UpdateDocument {
 	mName := fmt.Sprintf(NameFieldName)
@@ -430,281 +568,143 @@ func UpdateWithName(p string) UpdateOption {
 // @tpm-schematics:start-region("name-field-update-section")
 // @tpm-schematics:end-region("name-field-update-section")
 
-// SetPrimary_funct No Remarks
-func (ud *UpdateDocument) SetPrimary_funct(p string) *UpdateDocument {
-	mName := fmt.Sprintf(PrimaryFunctFieldName)
+// SetBlob_bucket No Remarks
+func (ud *UpdateDocument) SetBlob_bucket(p string) *UpdateDocument {
+	mName := fmt.Sprintf(BlobBucketFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetPrimary_funct No Remarks
-func (ud *UpdateDocument) UnsetPrimary_funct() *UpdateDocument {
-	mName := fmt.Sprintf(PrimaryFunctFieldName)
+// UnsetBlob_bucket No Remarks
+func (ud *UpdateDocument) UnsetBlob_bucket() *UpdateDocument {
+	mName := fmt.Sprintf(BlobBucketFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetPrimary_funct No Remarks
-func (ud *UpdateDocument) setOrUnsetPrimary_funct(p string, um UnsetMode) {
+// setOrUnsetBlob_bucket No Remarks
+func (ud *UpdateDocument) setOrUnsetBlob_bucket(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetPrimary_funct(p)
+		ud.SetBlob_bucket(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetPrimary_funct()
+			ud.UnsetBlob_bucket()
 		case SetData2Default:
-			ud.UnsetPrimary_funct()
+			ud.UnsetBlob_bucket()
 		}
 	}
 }
 
-func UpdateWithPrimary_funct(p string) UpdateOption {
+func UpdateWithBlob_bucket(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetPrimary_funct(p)
+			ud.SetBlob_bucket(p)
 		} else {
-			ud.UnsetPrimary_funct()
+			ud.UnsetBlob_bucket()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("primary-funct-field-update-section")
-// @tpm-schematics:end-region("primary-funct-field-update-section")
+// @tpm-schematics:start-region("blob-bucket-field-update-section")
+// @tpm-schematics:end-region("blob-bucket-field-update-section")
 
-// SetExpiration_at No Remarks
-func (ud *UpdateDocument) SetExpiration_at(p string) *UpdateDocument {
-	mName := fmt.Sprintf(ExpirationAtFieldName)
+// SetBlob_key No Remarks
+func (ud *UpdateDocument) SetBlob_key(p string) *UpdateDocument {
+	mName := fmt.Sprintf(BlobKeyFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetExpiration_at No Remarks
-func (ud *UpdateDocument) UnsetExpiration_at() *UpdateDocument {
-	mName := fmt.Sprintf(ExpirationAtFieldName)
+// UnsetBlob_key No Remarks
+func (ud *UpdateDocument) UnsetBlob_key() *UpdateDocument {
+	mName := fmt.Sprintf(BlobKeyFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetExpiration_at No Remarks
-func (ud *UpdateDocument) setOrUnsetExpiration_at(p string, um UnsetMode) {
+// setOrUnsetBlob_key No Remarks
+func (ud *UpdateDocument) setOrUnsetBlob_key(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetExpiration_at(p)
+		ud.SetBlob_key(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetExpiration_at()
+			ud.UnsetBlob_key()
 		case SetData2Default:
-			ud.UnsetExpiration_at()
+			ud.UnsetBlob_key()
 		}
 	}
 }
 
-func UpdateWithExpiration_at(p string) UpdateOption {
+func UpdateWithBlob_key(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetExpiration_at(p)
+			ud.SetBlob_key(p)
 		} else {
-			ud.UnsetExpiration_at()
+			ud.UnsetBlob_key()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("expiration-at-field-update-section")
-// @tpm-schematics:end-region("expiration-at-field-update-section")
+// @tpm-schematics:start-region("blob-key-field-update-section")
+// @tpm-schematics:end-region("blob-key-field-update-section")
 
-// SetPers_bureau No Remarks
-func (ud *UpdateDocument) SetPers_bureau(p string) *UpdateDocument {
-	mName := fmt.Sprintf(PersBureauFieldName)
+// SetIn_out No Remarks
+func (ud *UpdateDocument) SetIn_out(p string) *UpdateDocument {
+	mName := fmt.Sprintf(InOutFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetPers_bureau No Remarks
-func (ud *UpdateDocument) UnsetPers_bureau() *UpdateDocument {
-	mName := fmt.Sprintf(PersBureauFieldName)
+// UnsetIn_out No Remarks
+func (ud *UpdateDocument) UnsetIn_out() *UpdateDocument {
+	mName := fmt.Sprintf(InOutFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetPers_bureau No Remarks
-func (ud *UpdateDocument) setOrUnsetPers_bureau(p string, um UnsetMode) {
+// setOrUnsetIn_out No Remarks
+func (ud *UpdateDocument) setOrUnsetIn_out(p string, um UnsetMode) {
 	if p != "" {
-		ud.SetPers_bureau(p)
+		ud.SetIn_out(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetPers_bureau()
+			ud.UnsetIn_out()
 		case SetData2Default:
-			ud.UnsetPers_bureau()
+			ud.UnsetIn_out()
 		}
 	}
 }
 
-func UpdateWithPers_bureau(p string) UpdateOption {
+func UpdateWithIn_out(p string) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != "" {
-			ud.SetPers_bureau(p)
+			ud.SetIn_out(p)
 		} else {
-			ud.UnsetPers_bureau()
+			ud.UnsetIn_out()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("pers-bureau-field-update-section")
-// @tpm-schematics:end-region("pers-bureau-field-update-section")
-
-// SetHost_product No Remarks
-func (ud *UpdateDocument) SetHost_product(p *HostProduct) *UpdateDocument {
-	mName := fmt.Sprintf(HostProductFieldName)
-	ud.Set().Add(func() bson.E {
-		return bson.E{Key: mName, Value: p}
-	})
-	return ud
-}
-
-// UnsetHost_product No Remarks
-func (ud *UpdateDocument) UnsetHost_product() *UpdateDocument {
-	mName := fmt.Sprintf(HostProductFieldName)
-	ud.Unset().Add(func() bson.E {
-		return bson.E{Key: mName, Value: ""}
-	})
-	return ud
-}
-
-// setOrUnsetHost_product No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetHost_product(p *HostProduct, um UnsetMode) {
-	if p != nil && !p.IsZero() {
-		ud.SetHost_product(p)
-	} else {
-		switch um {
-		case KeepCurrent:
-		case UnsetData:
-			ud.UnsetHost_product()
-		case SetData2Default:
-			ud.UnsetHost_product()
-		}
-	}
-}
-
-func UpdateWithHost_product(p *HostProduct) UpdateOption {
-	return func(ud *UpdateDocument) {
-		if p != nil && !p.IsZero() {
-			ud.SetHost_product(p)
-		} else {
-			ud.UnsetHost_product()
-		}
-	}
-}
-
-// @tpm-schematics:start-region("host-product-field-update-section")
-// @tpm-schematics:end-region("host-product-field-update-section")
-
-// SetProperties No Remarks
-func (ud *UpdateDocument) SetProperties(p bson.M) *UpdateDocument {
-	mName := fmt.Sprintf(PropertiesFieldName)
-	ud.Set().Add(func() bson.E {
-		return bson.E{Key: mName, Value: p}
-	})
-	return ud
-}
-
-// UnsetProperties No Remarks
-func (ud *UpdateDocument) UnsetProperties() *UpdateDocument {
-	mName := fmt.Sprintf(PropertiesFieldName)
-	ud.Unset().Add(func() bson.E {
-		return bson.E{Key: mName, Value: ""}
-	})
-	return ud
-}
-
-// setOrUnsetProperties No Remarks
-func (ud *UpdateDocument) setOrUnsetProperties(p bson.M, um UnsetMode) {
-	if len(p) != 0 {
-		ud.SetProperties(p)
-	} else {
-		switch um {
-		case KeepCurrent:
-		case UnsetData:
-			ud.UnsetProperties()
-		case SetData2Default:
-			ud.UnsetProperties()
-		}
-	}
-}
-
-func UpdateWithProperties(p bson.M) UpdateOption {
-	return func(ud *UpdateDocument) {
-		if len(p) != 0 {
-			ud.SetProperties(p)
-		} else {
-			ud.UnsetProperties()
-		}
-	}
-}
-
-// @tpm-schematics:start-region("properties-field-update-section")
-// @tpm-schematics:end-region("properties-field-update-section")
-
-// SetApps No Remarks
-func (ud *UpdateDocument) SetApps(p []AppDefinition) *UpdateDocument {
-	mName := fmt.Sprintf(AppsFieldName)
-	ud.Set().Add(func() bson.E {
-		return bson.E{Key: mName, Value: p}
-	})
-	return ud
-}
-
-// UnsetApps No Remarks
-func (ud *UpdateDocument) UnsetApps() *UpdateDocument {
-	mName := fmt.Sprintf(AppsFieldName)
-	ud.Unset().Add(func() bson.E {
-		return bson.E{Key: mName, Value: ""}
-	})
-	return ud
-}
-
-// setOrUnsetApps No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetApps(p []AppDefinition, um UnsetMode) {
-	if len(p) > 0 {
-		ud.SetApps(p)
-	} else {
-		switch um {
-		case KeepCurrent:
-		case UnsetData:
-			ud.UnsetApps()
-		case SetData2Default:
-			ud.UnsetApps()
-		}
-	}
-}
-
-func UpdateWithApps(p []AppDefinition) UpdateOption {
-	return func(ud *UpdateDocument) {
-		if len(p) > 0 {
-			ud.SetApps(p)
-		} else {
-			ud.UnsetApps()
-		}
-	}
-}
-
-// @tpm-schematics:start-region("apps-field-update-section")
-// @tpm-schematics:end-region("apps-field-update-section")
+// @tpm-schematics:start-region("in-out-field-update-section")
+// @tpm-schematics:end-region("in-out-field-update-section")
 
 // SetSys_info No Remarks
 func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {

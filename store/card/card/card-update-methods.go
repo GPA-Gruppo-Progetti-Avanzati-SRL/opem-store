@@ -42,10 +42,13 @@ type UnsetOptions struct {
 	Funct                 UnsetMode
 	FocalPoint            UnsetMode
 	Product               UnsetMode
-	Magazzino             UnsetMode
+	LayoutCode            UnsetMode
+	CorporateCode         UnsetMode
+	Box                   UnsetMode
 	Holder                UnsetMode
 	Apps                  UnsetMode
 	Addresses             UnsetMode
+	Events                UnsetMode
 	ExpiresAt             UnsetMode
 	IssueDate             UnsetMode
 	IssueConfirmationDate UnsetMode
@@ -131,9 +134,19 @@ func WithProductUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Product = m
 	}
 }
-func WithMagazzinoUnsetMode(m UnsetMode) UnsetOption {
+func WithLayoutCodeUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.Magazzino = m
+		uopt.LayoutCode = m
+	}
+}
+func WithCorporateCodeUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.CorporateCode = m
+	}
+}
+func WithBoxUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Box = m
 	}
 }
 func WithHolderUnsetMode(m UnsetMode) UnsetOption {
@@ -149,6 +162,11 @@ func WithAppsUnsetMode(m UnsetMode) UnsetOption {
 func WithAddressesUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.Addresses = m
+	}
+}
+func WithEventsUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Events = m
 	}
 }
 func WithExpiresAtUnsetMode(m UnsetMode) UnsetOption {
@@ -214,10 +232,13 @@ func GetUpdateDocument(obj *Card, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetFunct(obj.Funct, uo.ResolveUnsetMode(uo.Funct))
 	ud.setOrUnsetFocal_point(&obj.FocalPoint, uo.ResolveUnsetMode(uo.FocalPoint))
 	ud.setOrUnsetProduct(&obj.Product, uo.ResolveUnsetMode(uo.Product))
-	ud.setOrUnsetMagazzino(&obj.Magazzino, uo.ResolveUnsetMode(uo.Magazzino))
+	ud.setOrUnsetLayout_code(obj.LayoutCode, uo.ResolveUnsetMode(uo.LayoutCode))
+	ud.setOrUnsetCorporate_code(obj.CorporateCode, uo.ResolveUnsetMode(uo.CorporateCode))
+	ud.setOrUnsetBox(&obj.Box, uo.ResolveUnsetMode(uo.Box))
 	ud.setOrUnsetHolder(&obj.Holder, uo.ResolveUnsetMode(uo.Holder))
 	ud.setOrUnsetApps(obj.Apps, uo.ResolveUnsetMode(uo.Apps))
 	ud.setOrUnsetAddresses(obj.Addresses, uo.ResolveUnsetMode(uo.Addresses))
+	ud.setOrUnsetEvents(obj.Events, uo.ResolveUnsetMode(uo.Events))
 	ud.setOrUnsetExpires_at(obj.ExpiresAt, uo.ResolveUnsetMode(uo.ExpiresAt))
 	ud.setOrUnsetIssue_date(obj.IssueDate, uo.ResolveUnsetMode(uo.IssueDate))
 	ud.setOrUnsetIssue_confirmation_date(obj.IssueConfirmationDate, uo.ResolveUnsetMode(uo.IssueConfirmationDate))
@@ -815,51 +836,143 @@ func UpdateWithProduct(p *commons.BidTextPair) UpdateOption {
 // @tpm-schematics:start-region("product-field-update-section")
 // @tpm-schematics:end-region("product-field-update-section")
 
-// SetMagazzino No Remarks
-func (ud *UpdateDocument) SetMagazzino(p *commons.BidTextPair) *UpdateDocument {
-	mName := fmt.Sprintf(MagazzinoFieldName)
+// SetLayout_code No Remarks
+func (ud *UpdateDocument) SetLayout_code(p string) *UpdateDocument {
+	mName := fmt.Sprintf(LayoutCodeFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetMagazzino No Remarks
-func (ud *UpdateDocument) UnsetMagazzino() *UpdateDocument {
-	mName := fmt.Sprintf(MagazzinoFieldName)
+// UnsetLayout_code No Remarks
+func (ud *UpdateDocument) UnsetLayout_code() *UpdateDocument {
+	mName := fmt.Sprintf(LayoutCodeFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetMagazzino No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetMagazzino(p *commons.BidTextPair, um UnsetMode) {
-	if p != nil && !p.IsZero() {
-		ud.SetMagazzino(p)
+// setOrUnsetLayout_code No Remarks
+func (ud *UpdateDocument) setOrUnsetLayout_code(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetLayout_code(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetMagazzino()
+			ud.UnsetLayout_code()
 		case SetData2Default:
-			ud.UnsetMagazzino()
+			ud.UnsetLayout_code()
 		}
 	}
 }
 
-func UpdateWithMagazzino(p *commons.BidTextPair) UpdateOption {
+func UpdateWithLayout_code(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetLayout_code(p)
+		} else {
+			ud.UnsetLayout_code()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("layout-code-field-update-section")
+// @tpm-schematics:end-region("layout-code-field-update-section")
+
+// SetCorporate_code No Remarks
+func (ud *UpdateDocument) SetCorporate_code(p string) *UpdateDocument {
+	mName := fmt.Sprintf(CorporateCodeFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetCorporate_code No Remarks
+func (ud *UpdateDocument) UnsetCorporate_code() *UpdateDocument {
+	mName := fmt.Sprintf(CorporateCodeFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetCorporate_code No Remarks
+func (ud *UpdateDocument) setOrUnsetCorporate_code(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetCorporate_code(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetCorporate_code()
+		case SetData2Default:
+			ud.UnsetCorporate_code()
+		}
+	}
+}
+
+func UpdateWithCorporate_code(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetCorporate_code(p)
+		} else {
+			ud.UnsetCorporate_code()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("corporate-code-field-update-section")
+// @tpm-schematics:end-region("corporate-code-field-update-section")
+
+// SetBox No Remarks
+func (ud *UpdateDocument) SetBox(p *commons.BidTextPair) *UpdateDocument {
+	mName := fmt.Sprintf(BoxFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetBox No Remarks
+func (ud *UpdateDocument) UnsetBox() *UpdateDocument {
+	mName := fmt.Sprintf(BoxFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetBox No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetBox(p *commons.BidTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetBox(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetBox()
+		case SetData2Default:
+			ud.UnsetBox()
+		}
+	}
+}
+
+func UpdateWithBox(p *commons.BidTextPair) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil && !p.IsZero() {
-			ud.SetMagazzino(p)
+			ud.SetBox(p)
 		} else {
-			ud.UnsetMagazzino()
+			ud.UnsetBox()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("magazzino-field-update-section")
-// @tpm-schematics:end-region("magazzino-field-update-section")
+// @tpm-schematics:start-region("box-field-update-section")
+// @tpm-schematics:end-region("box-field-update-section")
 
 // SetHolder No Remarks
 func (ud *UpdateDocument) SetHolder(p *CardHolder) *UpdateDocument {
@@ -998,6 +1111,64 @@ func UpdateWithAddresses(p []commons.Address) UpdateOption {
 
 // @tpm-schematics:start-region("addresses-field-update-section")
 // @tpm-schematics:end-region("addresses-field-update-section")
+
+// SetEvents No Remarks
+func (ud *UpdateDocument) SetEvents(p []commons.Event) *UpdateDocument {
+	mName := fmt.Sprintf(EventsFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetEvents No Remarks
+func (ud *UpdateDocument) UnsetEvents() *UpdateDocument {
+	mName := fmt.Sprintf(EventsFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetEvents No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetEvents(p []commons.Event, um UnsetMode) {
+	if len(p) > 0 {
+		ud.SetEvents(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetEvents()
+		case SetData2Default:
+			ud.UnsetEvents()
+		}
+	}
+}
+
+func UpdateWithEvents(p []commons.Event) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if len(p) > 0 {
+			ud.SetEvents(p)
+		} else {
+			ud.UnsetEvents()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("events-field-update-section")
+
+func UpdateWithAddEvent(p commons.Event) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if !p.IsZero() {
+			mName := fmt.Sprintf(EventsFieldName)
+			ud.Push().Add(func() bson.E {
+				return bson.E{Key: mName, Value: p}
+			})
+		}
+	}
+}
+
+// @tpm-schematics:end-region("events-field-update-section")
 
 // SetExpires_at No Remarks
 func (ud *UpdateDocument) SetExpires_at(p bson.DateTime) *UpdateDocument {

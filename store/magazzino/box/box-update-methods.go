@@ -2,9 +2,8 @@ package box
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -29,21 +28,23 @@ const (
 type UnsetOption func(uopt *UnsetOptions)
 
 type UnsetOptions struct {
-	DefaultMode UnsetMode
-	OId         UnsetMode
-	Domain      UnsetMode
-	Site        UnsetMode
-	Bid         UnsetMode
-	Et          UnsetMode
-	Magazzino   UnsetMode
-	Prodotto    UnsetMode
-	FocalPoint  UnsetMode
-	Info        UnsetMode
-	Status      UnsetMode
-	Recipient   UnsetMode
-	Events      UnsetMode
-	Notes       UnsetMode
-	SysInfo     UnsetMode
+	DefaultMode   UnsetMode
+	OId           UnsetMode
+	Domain        UnsetMode
+	Site          UnsetMode
+	Bid           UnsetMode
+	Et            UnsetMode
+	Magazzino     UnsetMode
+	Prodotto      UnsetMode
+	FocalPoint    UnsetMode
+	SupplyType    UnsetMode
+	Info          UnsetMode
+	Status        UnsetMode
+	Recipient     UnsetMode
+	CardBidsRange UnsetMode
+	Events        UnsetMode
+	Notes         UnsetMode
+	SysInfo       UnsetMode
 }
 
 func (uo *UnsetOptions) ResolveUnsetMode(um UnsetMode) UnsetMode {
@@ -99,6 +100,11 @@ func WithFocalPointUnsetMode(m UnsetMode) UnsetOption {
 		uopt.FocalPoint = m
 	}
 }
+func WithSupplyTypeUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.SupplyType = m
+	}
+}
 func WithInfoUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.Info = m
@@ -112,6 +118,11 @@ func WithStatusUnsetMode(m UnsetMode) UnsetOption {
 func WithRecipientUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.Recipient = m
+	}
+}
+func WithCardBidsRangeUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.CardBidsRange = m
 	}
 }
 func WithEventsUnsetMode(m UnsetMode) UnsetOption {
@@ -162,9 +173,11 @@ func GetUpdateDocument(obj *Box, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetMagazzino(&obj.Magazzino, uo.ResolveUnsetMode(uo.Magazzino))
 	ud.setOrUnsetProdotto(&obj.Prodotto, uo.ResolveUnsetMode(uo.Prodotto))
 	ud.setOrUnsetFocal_point(&obj.FocalPoint, uo.ResolveUnsetMode(uo.FocalPoint))
+	ud.setOrUnsetSupply_type(obj.SupplyType, uo.ResolveUnsetMode(uo.SupplyType))
 	ud.setOrUnsetInfo(&obj.Info, uo.ResolveUnsetMode(uo.Info))
 	ud.setOrUnsetStatus(&obj.Status, uo.ResolveUnsetMode(uo.Status))
 	ud.setOrUnsetRecipient(&obj.Recipient, uo.ResolveUnsetMode(uo.Recipient))
+	ud.setOrUnsetCard_bids_range(&obj.CardBidsRange, uo.ResolveUnsetMode(uo.CardBidsRange))
 	ud.setOrUnsetEvents(obj.Events, uo.ResolveUnsetMode(uo.Events))
 	ud.setOrUnsetNotes(obj.Notes, uo.ResolveUnsetMode(uo.Notes))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
@@ -530,6 +543,52 @@ func UpdateWithFocal_point(p *commons.BidTextPair) UpdateOption {
 // @tpm-schematics:start-region("focal-point-field-update-section")
 // @tpm-schematics:end-region("focal-point-field-update-section")
 
+// SetSupply_type No Remarks
+func (ud *UpdateDocument) SetSupply_type(p string) *UpdateDocument {
+	mName := fmt.Sprintf(SupplyTypeFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetSupply_type No Remarks
+func (ud *UpdateDocument) UnsetSupply_type() *UpdateDocument {
+	mName := fmt.Sprintf(SupplyTypeFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetSupply_type No Remarks
+func (ud *UpdateDocument) setOrUnsetSupply_type(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetSupply_type(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetSupply_type()
+		case SetData2Default:
+			ud.UnsetSupply_type()
+		}
+	}
+}
+
+func UpdateWithSupply_type(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetSupply_type(p)
+		} else {
+			ud.UnsetSupply_type()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("supply-type-field-update-section")
+// @tpm-schematics:end-region("supply-type-field-update-section")
+
 // SetInfo No Remarks
 func (ud *UpdateDocument) SetInfo(p *Info) *UpdateDocument {
 	mName := fmt.Sprintf(InfoFieldName)
@@ -679,6 +738,52 @@ func UpdateWithRecipient(p *commons.Address) UpdateOption {
 
 // @tpm-schematics:start-region("recipient-field-update-section")
 // @tpm-schematics:end-region("recipient-field-update-section")
+
+// SetCard_bids_range No Remarks
+func (ud *UpdateDocument) SetCard_bids_range(p *commons.ValueRange) *UpdateDocument {
+	mName := fmt.Sprintf(CardBidsRangeFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetCard_bids_range No Remarks
+func (ud *UpdateDocument) UnsetCard_bids_range() *UpdateDocument {
+	mName := fmt.Sprintf(CardBidsRangeFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetCard_bids_range No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetCard_bids_range(p *commons.ValueRange, um UnsetMode) {
+	if p != nil && !p.IsZero() {
+		ud.SetCard_bids_range(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetCard_bids_range()
+		case SetData2Default:
+			ud.UnsetCard_bids_range()
+		}
+	}
+}
+
+func UpdateWithCard_bids_range(p *commons.ValueRange) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != nil && !p.IsZero() {
+			ud.SetCard_bids_range(p)
+		} else {
+			ud.UnsetCard_bids_range()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("card-bids-range-field-update-section")
+// @tpm-schematics:end-region("card-bids-range-field-update-section")
 
 // SetEvents No Remarks
 func (ud *UpdateDocument) SetEvents(p []commons.Event) *UpdateDocument {

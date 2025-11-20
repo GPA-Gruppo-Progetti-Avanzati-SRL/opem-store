@@ -1,14 +1,13 @@
-package nazione
+package file
 
 import (
 	"context"
 	"errors"
-	"time"
-
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -16,9 +15,9 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Nazione, bool, error) {
+func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*File, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
-	const semLogContext = "nazione::find-by-pk"
+	const semLogContext = "file::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
@@ -27,12 +26,12 @@ func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOpti
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	ent := Nazione{}
+	ent := File{}
 
 	f := Filter{}
 	// @tpm-schematics:start-region("filter-section")
 	// customize the filtering
-	f.Or().AndBidEqTo(code).AndEtEqTo(EntityType)
+	f.Or().AndDomainEqTo(domain).AndSiteEqTo(site).AndBidEqTo(bid).AndEtEqTo(EntityType)
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
 	evtTraceLog = evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -58,7 +57,7 @@ func FindByPk(collection *mongo.Collection, code string, mustFind bool, findOpti
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
-	const semLogContext = "nazione::find"
+	const semLogContext = "file::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -87,7 +86,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	}
 
 	for cur.Next(context.Background()) {
-		dto := Nazione{}
+		dto := File{}
 		err = cur.Decode(&dto)
 		if err != nil {
 			return qr, err

@@ -1,6 +1,10 @@
 package focalpoint
 
-import "go.mongodb.org/mongo-driver/v2/bson"
+import (
+	"fmt"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
+)
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
@@ -37,4 +41,14 @@ type QueryResult struct {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (fp FocalPoint) BidAsAmmFocalPoint() string {
+	return BidAsAmmFocalPoint(fp.Bid)
+}
+
+func BidAsAmmFocalPoint(bid string) string {
+	s := fmt.Sprintf("%-9s", bid)
+	return s[6:] + s[:6]
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

@@ -1,11 +1,9 @@
-package card
+package file
 
 import (
 	"fmt"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
-
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -183,25 +181,6 @@ func (ca *Criteria) AndBidIn(p []string) *Criteria {
 }
 
 // @tpm-schematics:start-region("-bid-field-filter-section")
-
-func (ca *Criteria) AndBidInRange(valueRange commons.ValueRange) *Criteria {
-
-	if valueRange.IsZero() {
-		return ca
-	}
-
-	mName := fmt.Sprintf(BidFieldName)
-	c := func() bson.E {
-		return bson.E{"$and", bson.A{
-			bson.D{{mName, bson.D{{"$gte", valueRange.From}}}},
-			bson.D{{mName, bson.D{{"$lte", valueRange.To}}}},
-		}}
-	}
-
-	*ca = append(*ca, c)
-	return ca
-}
-
 // @tpm-schematics:end-region("-bid-field-filter-section")
 
 /*
@@ -287,94 +266,127 @@ func (ca *Criteria) AndStatusIn(p []string) *Criteria {
 // @tpm-schematics:end-region("status-field-filter-section")
 
 /*
- * filter-string template: id_card_ext
+ * filter-string template: name
  */
 
-// AndIdCardExtEqTo No Remarks
-func (ca *Criteria) AndIdCardExtEqTo(p string) *Criteria {
+// AndNameEqTo No Remarks
+func (ca *Criteria) AndNameEqTo(p string) *Criteria {
 
 	if p == "" {
 		return ca
 	}
 
-	mName := fmt.Sprintf(IdCardExtFieldName)
+	mName := fmt.Sprintf(NameFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// AndIdCardExtIsNullOrUnset No Remarks
-func (ca *Criteria) AndIdCardExtIsNullOrUnset() *Criteria {
+// AndNameIsNullOrUnset No Remarks
+func (ca *Criteria) AndNameIsNullOrUnset() *Criteria {
 
-	mName := fmt.Sprintf(IdCardExtFieldName)
+	mName := fmt.Sprintf(NameFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-func (ca *Criteria) AndIdCardExtIn(p []string) *Criteria {
+func (ca *Criteria) AndNameIn(p []string) *Criteria {
 
 	if len(p) == 0 {
 		return ca
 	}
 
-	mName := fmt.Sprintf(IdCardExtFieldName)
+	mName := fmt.Sprintf(NameFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
 	*ca = append(*ca, c)
 	return ca
 }
 
-// @tpm-schematics:start-region("id-card-ext-field-filter-section")
-// @tpm-schematics:end-region("id-card-ext-field-filter-section")
+// @tpm-schematics:start-region("name-field-filter-section")
+// @tpm-schematics:end-region("name-field-filter-section")
+
+/*
+ * filter-string template: blob_bucket
+ */
+
+// AndBlobBucketEqTo No Remarks
+func (ca *Criteria) AndBlobBucketEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(BlobBucketFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// AndBlobBucketIsNullOrUnset No Remarks
+func (ca *Criteria) AndBlobBucketIsNullOrUnset() *Criteria {
+
+	mName := fmt.Sprintf(BlobBucketFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndBlobBucketIn(p []string) *Criteria {
+
+	if len(p) == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(BlobBucketFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:start-region("blob-bucket-field-filter-section")
+// @tpm-schematics:end-region("blob-bucket-field-filter-section")
+
+/*
+ * filter-string template: blob_key
+ */
+
+// AndBlobKeyEqTo No Remarks
+func (ca *Criteria) AndBlobKeyEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(BlobKeyFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// AndBlobKeyIsNullOrUnset No Remarks
+func (ca *Criteria) AndBlobKeyIsNullOrUnset() *Criteria {
+
+	mName := fmt.Sprintf(BlobKeyFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndBlobKeyIn(p []string) *Criteria {
+
+	if len(p) == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(BlobKeyFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:start-region("blob-key-field-filter-section")
+// @tpm-schematics:end-region("blob-key-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
-
-func (ca *Criteria) AndCardNumberEqTo(p string) *Criteria {
-
-	if p == "" {
-		return ca
-	}
-
-	mName := fmt.Sprintf(CardNumber_ValueFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: p} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-func (ca *Criteria) AndHolderRegistrationIdEqTo(p string) *Criteria {
-
-	if p == "" {
-		return ca
-	}
-
-	mName := fmt.Sprintf(Holder_RegistrationIdFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: p} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-func (ca *Criteria) AndHolderEmbossingNameEqTo(p string) *Criteria {
-
-	if p == "" {
-		return ca
-	}
-
-	mName := fmt.Sprintf(Holder_EmbossingNameFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: p} }
-	*ca = append(*ca, c)
-	return ca
-}
-
-func (ca *Criteria) AndAppsAppNumberEqTo(p string) *Criteria {
-
-	if p == "" {
-		return ca
-	}
-
-	mName := fmt.Sprintf(AppsAppNumberFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: p} }
-	*ca = append(*ca, c)
-	return ca
-}
-
 // @tpm-schematics:end-region("bottom-file-section")

@@ -2,6 +2,10 @@ name: Address
 attributes:
   - name: type
     type: string
+  - name: country
+    struct-ref:
+      name: BidTextPair
+    type: struct
   - name: county
     struct-ref:
       name: BidTextPair

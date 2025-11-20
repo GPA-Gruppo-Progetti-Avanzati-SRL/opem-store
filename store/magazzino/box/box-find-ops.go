@@ -6,17 +6,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/magazzino"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // @tpm-schematics:start-region("top-file-section")
+import (
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/magazzino"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
+	"go.mongodb.org/mongo-driver/v2/bson"
+)
+
 // @tpm-schematics:end-region("top-file-section")
 
 // FindByPk ...
@@ -110,7 +113,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 
 // @tpm-schematics:start-region("bottom-file-section")
 
-func FindOneByAggregationView(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, dominio, site, bidMagazzino, bidBox string, mustFind bool) (*Box, bool, error) {
+func FindOneByAggregationView(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, dominio string, site string, bidMagazzino string, bidBox string, mustFind bool) (*Box, bool, error) {
 	const semLogContext = "box::find-one-by-aggregation-view"
 
 	limit := int64(1)
@@ -266,6 +269,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"recipient", 1},
 			{"events", 1},
 			{"notes", 1},
+			{"supply_type", 1},
 			{"sys_info", 1},
 			{"magazzino.bid", "$doc_magazzino._bid"},
 			{"prodotto.bid", "$doc_prodotto._bid"},

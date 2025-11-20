@@ -1,0 +1,12 @@
+name: Stat
+attributes:
+  - name: num_records
+    type: int
+  - name: num_errors
+    type: int
+  - name: num_records_ok
+    type: int
+  - name: size
+    type: int
+
+
