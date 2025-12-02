@@ -5,7 +5,10 @@ imports:
 entities:
 - file-name: ./event.yml
   document: true
-  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/s3events
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/s3event
+# s3-event.yml is a place holder for external type S3EventRecord in https://github.com/aws/aws-lambda-go/blob/main/events/s3.go
+- file-name: ./s3-event.yml
+  package: github.com/aws/aws-lambda-go/events
 
 # @tpm-schematics:start-region("bottom-file-section")
 # @tpm-schematics:end-region("bottom-file-section")

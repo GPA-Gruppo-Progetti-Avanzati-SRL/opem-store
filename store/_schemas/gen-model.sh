@@ -59,3 +59,6 @@ tpm-morphia-cli gen entity --schema-file ./card/schema.yml --name IdentityCard -
 # file
 tpm-morphia-cli gen entity --schema-file ./file/schema.yml --name File --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./file/schema.yml --name Stat --out-dir ../.. --with-format
+
+# S£ Events
+tpm-morphia-cli gen entity --schema-file ./s3-events/schema.yml --name ObjectStoreEvent --out-dir ../.. --with-format

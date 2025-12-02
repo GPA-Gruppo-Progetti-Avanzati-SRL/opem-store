@@ -1,4 +1,4 @@
-name: Event
+name: ObjectStoreEvent
 attributes:
 - name: oId
   type: object-id
@@ -21,7 +21,9 @@ attributes:
 - name: _status
   type: string
   options: with-filter
+- name: _status_reason
+  type: string
 - name: event
   struct-ref:
-    name: S3Event
+    name: S3EventRecord
   type: struct

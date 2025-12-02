@@ -1,0 +1,7 @@
+# Simple place holder not to be generated.
+name: S3EventRecord
+attributes:
+  - name: dummy_field
+    type: string
+
+
