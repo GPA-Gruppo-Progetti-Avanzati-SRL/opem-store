@@ -5,13 +5,14 @@ import (
 	"errors"
 	"time"
 
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
-func UpdateStatus(coll *mongo.Collection, bid string, status string, reason string) error {
+func UpdateStatus(coll *mongo.Collection, bid string, status commons.StatusCodeTextPair) error {
 	const semLogContext = "object-store-event::update-status"
 
 	f := Filter{}
@@ -20,9 +21,8 @@ func UpdateStatus(coll *mongo.Collection, bid string, status string, reason stri
 	log.Trace().Str("update-status-filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
 
 	updOpts := []UpdateOption{
-		UpdateWith_status(status),
+		UpdateWith_status(&status),
 		UpdateWith_rip(bson.NewDateTimeFromTime(time.Now())),
-		UpdateWith_status_reason(reason),
 	}
 	updDoc := GetUpdateDocumentFromOptions(updOpts...)
 	ud := updDoc.Build()

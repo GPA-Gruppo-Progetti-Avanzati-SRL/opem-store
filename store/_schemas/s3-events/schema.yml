@@ -1,5 +1,5 @@
 module: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
-package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto
+package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/s3event
 imports:
   - ../commons/schema.yml
 entities:

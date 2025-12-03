@@ -8,13 +8,14 @@ package s3event
 // @tpm-schematics:end-region("top-file-section")
 
 const (
-	OIdFieldName           = "_id"
-	BidFieldName           = "_bid"
-	EtFieldName            = "_et"
-	RipFieldName           = "_rip"
-	StatusFieldName        = "_status"
-	StatusReasonFieldName  = "_status_reason"
-	S3EventRecordFieldName = "s3EventRecord"
+	OIdFieldName         = "_id"
+	BidFieldName         = "_bid"
+	EtFieldName          = "_et"
+	RipFieldName         = "_rip"
+	StatusFieldName      = "_status"
+	Status_CodeFieldName = "_status.code"
+	Status_TextFieldName = "_status.text"
+	EventFieldName       = "event"
 )
 
 // @tpm-schematics:start-region("bottom-file-section")

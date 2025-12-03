@@ -9,12 +9,16 @@ const (
 	EntityType   = "file"
 	CollectionId = "file"
 
-	StreamDirectionIn           = "I"
-	StreamDirectionOut          = "O"
-	StatusProcessed             = "PR"
-	StatusInProcess             = "IP"
-	TypeCardRequest             = "RC01"
-	TypeAnonymousCardRequest    = "RC02"
+	StreamDirectionIn   = "I"
+	StreamDirectionOut  = "O"
+	StatusProcessed     = "PR"
+	StatusInProcess     = "IP"
+	StatusToBeProcessed = "TP"
+	TypeCardRequest     = "RC01"
+
+	TypeAnonymousCardRequest         = "RC02"
+	TypeAnonymousCardRequestResponse = "RC02"
+
 	TypeNamedCardRequest        = "RC03"
 	TypeCardDelivery            = "RC04"
 	TypeCardRequestReportRange  = "WHRR"

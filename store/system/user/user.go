@@ -1,6 +1,10 @@
 package user
 
-import "go.mongodb.org/mongo-driver/v2/bson"
+import (
+	"encoding/json"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
+)
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
@@ -40,6 +44,17 @@ type QueryResult struct {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (s User) ToJson() ([]byte, error) {
+	const semLogContext = "user::to-json"
+	b, err := json.Marshal(s)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return nil, err
+	}
+
+	return b, nil
+}
 
 func (s User) HasRole4DomainSiteAppId(domain, site, appId, appType, role string) bool {
 	return AnyRole4DomainSiteAppId(s.Roles, domain, site, appId, appType, role)

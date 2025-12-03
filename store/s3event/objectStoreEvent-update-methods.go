@@ -6,6 +6,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 	"github.com/aws/aws-lambda-go/events"
 )
 
@@ -29,14 +30,13 @@ const (
 type UnsetOption func(uopt *UnsetOptions)
 
 type UnsetOptions struct {
-	DefaultMode   UnsetMode
-	OId           UnsetMode
-	Bid           UnsetMode
-	Et            UnsetMode
-	Rip           UnsetMode
-	Status        UnsetMode
-	StatusReason  UnsetMode
-	S3EventRecord UnsetMode
+	DefaultMode UnsetMode
+	OId         UnsetMode
+	Bid         UnsetMode
+	Et          UnsetMode
+	Rip         UnsetMode
+	Status      UnsetMode
+	Event       UnsetMode
 }
 
 func (uo *UnsetOptions) ResolveUnsetMode(um UnsetMode) UnsetMode {
@@ -77,14 +77,9 @@ func WithStatusUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Status = m
 	}
 }
-func WithStatusReasonUnsetMode(m UnsetMode) UnsetOption {
+func WithEventUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.StatusReason = m
-	}
-}
-func WithS3EventRecordUnsetMode(m UnsetMode) UnsetOption {
-	return func(uopt *UnsetOptions) {
-		uopt.S3EventRecord = m
+		uopt.Event = m
 	}
 }
 
@@ -116,9 +111,8 @@ func GetUpdateDocument(obj *ObjectStoreEvent, opts ...UnsetOption) UpdateDocumen
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnset_rip(obj.Rip, uo.ResolveUnsetMode(uo.Rip))
-	ud.setOrUnset_status(obj.Status, uo.ResolveUnsetMode(uo.Status))
-	ud.setOrUnset_status_reason(obj.StatusReason, uo.ResolveUnsetMode(uo.StatusReason))
-	ud.setOrUnsetS3EventRecord(&obj.Event, uo.ResolveUnsetMode(uo.S3EventRecord))
+	ud.setOrUnset_status(&obj.Status, uo.ResolveUnsetMode(uo.Status))
+	ud.setOrUnsetEvent(&obj.Event, uo.ResolveUnsetMode(uo.Event))
 
 	return ud
 }
@@ -298,7 +292,7 @@ func UpdateWith_rip(p bson.DateTime) UpdateOption {
 // @tpm-schematics:end-region("-rip-field-update-section")
 
 // Set_status No Remarks
-func (ud *UpdateDocument) Set_status(p string) *UpdateDocument {
+func (ud *UpdateDocument) Set_status(p *commons.StatusCodeTextPair) *UpdateDocument {
 	mName := fmt.Sprintf(StatusFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -315,9 +309,9 @@ func (ud *UpdateDocument) Unset_status() *UpdateDocument {
 	return ud
 }
 
-// setOrUnset_status No Remarks
-func (ud *UpdateDocument) setOrUnset_status(p string, um UnsetMode) {
-	if p != "" {
+// setOrUnset_status No Remarks - here2
+func (ud *UpdateDocument) setOrUnset_status(p *commons.StatusCodeTextPair, um UnsetMode) {
+	if p != nil && !p.IsZero() {
 		ud.Set_status(p)
 	} else {
 		switch um {
@@ -330,9 +324,9 @@ func (ud *UpdateDocument) setOrUnset_status(p string, um UnsetMode) {
 	}
 }
 
-func UpdateWith_status(p string) UpdateOption {
+func UpdateWith_status(p *commons.StatusCodeTextPair) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if p != "" {
+		if p != nil && !p.IsZero() {
 			ud.Set_status(p)
 		} else {
 			ud.Unset_status()
@@ -343,97 +337,51 @@ func UpdateWith_status(p string) UpdateOption {
 // @tpm-schematics:start-region("-status-field-update-section")
 // @tpm-schematics:end-region("-status-field-update-section")
 
-// Set_status_reason No Remarks
-func (ud *UpdateDocument) Set_status_reason(p string) *UpdateDocument {
-	mName := fmt.Sprintf(StatusReasonFieldName)
+// SetEvent No Remarks
+func (ud *UpdateDocument) SetEvent(p *events.S3EventRecord) *UpdateDocument {
+	mName := fmt.Sprintf(EventFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// Unset_status_reason No Remarks
-func (ud *UpdateDocument) Unset_status_reason() *UpdateDocument {
-	mName := fmt.Sprintf(StatusReasonFieldName)
+// UnsetEvent No Remarks
+func (ud *UpdateDocument) UnsetEvent() *UpdateDocument {
+	mName := fmt.Sprintf(EventFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnset_status_reason No Remarks
-func (ud *UpdateDocument) setOrUnset_status_reason(p string, um UnsetMode) {
-	if p != "" {
-		ud.Set_status_reason(p)
-	} else {
-		switch um {
-		case KeepCurrent:
-		case UnsetData:
-			ud.Unset_status_reason()
-		case SetData2Default:
-			ud.Unset_status_reason()
-		}
-	}
-}
-
-func UpdateWith_status_reason(p string) UpdateOption {
-	return func(ud *UpdateDocument) {
-		if p != "" {
-			ud.Set_status_reason(p)
-		} else {
-			ud.Unset_status_reason()
-		}
-	}
-}
-
-// @tpm-schematics:start-region("-status-reason-field-update-section")
-// @tpm-schematics:end-region("-status-reason-field-update-section")
-
-// SetS3EventRecord No Remarks
-func (ud *UpdateDocument) SetS3EventRecord(p *events.S3EventRecord) *UpdateDocument {
-	mName := fmt.Sprintf(S3EventRecordFieldName)
-	ud.Set().Add(func() bson.E {
-		return bson.E{Key: mName, Value: p}
-	})
-	return ud
-}
-
-// UnsetS3EventRecord No Remarks
-func (ud *UpdateDocument) UnsetS3EventRecord() *UpdateDocument {
-	mName := fmt.Sprintf(S3EventRecordFieldName)
-	ud.Unset().Add(func() bson.E {
-		return bson.E{Key: mName, Value: ""}
-	})
-	return ud
-}
-
-// setOrUnsetS3EventRecord No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetS3EventRecord(p *events.S3EventRecord, um UnsetMode) {
+// setOrUnsetEvent No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetEvent(p *events.S3EventRecord, um UnsetMode) {
 	if p != nil {
-		ud.SetS3EventRecord(p)
+		ud.SetEvent(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetS3EventRecord()
+			ud.UnsetEvent()
 		case SetData2Default:
-			ud.UnsetS3EventRecord()
+			ud.UnsetEvent()
 		}
 	}
 }
 
-func UpdateWithS3EventRecord(p *events.S3EventRecord) UpdateOption {
+func UpdateWithEvent(p *events.S3EventRecord) UpdateOption {
 	return func(ud *UpdateDocument) {
 		if p != nil {
-			ud.SetS3EventRecord(p)
+			ud.SetEvent(p)
 		} else {
-			ud.UnsetS3EventRecord()
+			ud.UnsetEvent()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("s3-event-record-field-update-section")
-// @tpm-schematics:end-region("s3-event-record-field-update-section")
+// @tpm-schematics:start-region("event-field-update-section")
+// @tpm-schematics:end-region("event-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
 // @tpm-schematics:end-region("bottom-file-section")

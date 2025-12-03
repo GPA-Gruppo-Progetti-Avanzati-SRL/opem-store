@@ -19,10 +19,9 @@ attributes:
 - name: _rip
   type: date
 - name: _status
-  type: string
-  options: with-filter
-- name: _status_reason
-  type: string
+  type: struct
+  struct-ref:
+    name: StatusCodeTextPair
 - name: event
   struct-ref:
     name: S3EventRecord

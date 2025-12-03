@@ -13,6 +13,8 @@ tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name ValueTextPa
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name ValueRange --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name Note --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name Event --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name StatusCodeTextPair --out-dir ../.. --with-format
+
 # api-cms
 tpm-morphia-cli gen entity --schema-file ./apicms/schema.yml --name entRefStruct --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./apicms/schema.yml --name file --out-dir ../.. --with-format
