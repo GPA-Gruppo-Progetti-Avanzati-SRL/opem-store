@@ -1,4 +1,4 @@
-package file
+package filerow
 
 import (
 	"context"
@@ -16,9 +16,9 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*File, bool, error) {
+func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*FileRow, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
-	const semLogContext = "file::find-by-pk"
+	const semLogContext = "file-row::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
 	evtTraceLog := log.Trace()
 	evtErrLog := log.Error()
@@ -27,7 +27,7 @@ func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind b
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	ent := File{}
+	ent := FileRow{}
 
 	f := Filter{}
 	// @tpm-schematics:start-region("filter-section")
@@ -58,7 +58,7 @@ func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind b
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
-	const semLogContext = "file::find"
+	const semLogContext = "file-row::find"
 	fd := f.Build()
 	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
 	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -87,7 +87,7 @@ func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *
 	}
 
 	for cur.Next(context.Background()) {
-		dto := File{}
+		dto := FileRow{}
 		err = cur.Decode(&dto)
 		if err != nil {
 			return qr, err

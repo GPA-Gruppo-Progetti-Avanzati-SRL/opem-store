@@ -6,6 +6,9 @@ entities:
 - file-name: ./file.yml
   document: true
   package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/file/file
+- file-name: ./file-row.yml
+  document: true
+  package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/file/filerow
 - file-name: ./file-stat.yml
   package: github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/file/file
 # @tpm-schematics:start-region("bottom-file-section")

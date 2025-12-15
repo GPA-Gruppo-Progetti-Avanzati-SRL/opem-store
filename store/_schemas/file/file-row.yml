@@ -1,4 +1,4 @@
-name: File
+name: FileRow
 attributes:
 - name: oId
   type: object-id
@@ -25,25 +25,16 @@ attributes:
 - name: status
   type: string
   options: with-filter
-- name: stats
+- name: row_data
+  type: string
+- name: row_number
+  type: int
+- name: row_data_format
+  type: string
+- name: file
   struct-ref:
-    name: Stat
+     name: BidTextPair
   type: struct
-- name: type
-  type: string
-  options: with-filter
-- name: name
-  type: string
-  options: with-filter
-- name: blob_bucket
-  type: string
-  options: with-filter
-- name: blob_key
-  type: string
-  options: with-filter
-- name: in_out
-  type: string
-  options: with-filter
 - name: sys_info
   struct-ref:
     name: SysInfo

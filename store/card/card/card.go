@@ -11,7 +11,9 @@ const (
 	EntityType   = "card"
 	CollectionId = "card"
 
+	StatusErr                        = "error"
 	StatusAMagazzinoInAttesaConferma = "ME" // value: "ME A magazzino in attesa conferma da ente/processor"
+	StatusAMagazzinoDisponibili      = "MA"
 
 	EventReintegroMagazzino = "reintegro-magazzino"
 )
@@ -60,4 +62,19 @@ type QueryResult struct {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (s Card) StatusIn(stat ...string) bool {
+	if len(stat) == 0 {
+		return false
+	}
+
+	for _, v := range stat {
+		if v == s.Status {
+			return true
+		}
+	}
+
+	return false
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

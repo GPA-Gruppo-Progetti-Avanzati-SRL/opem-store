@@ -73,6 +73,16 @@ func (s Prodotto) AppDefinitionByFunc(fnc string) (AppDefinition, bool) {
 	return AppDefinition{}, false
 }
 
+func (s Prodotto) AppDefinitionByIdApp(idApp string) (AppDefinition, bool) {
+	for _, a := range s.Apps {
+		if a.Id == idApp {
+			return a, true
+		}
+	}
+
+	return AppDefinition{}, false
+}
+
 func (s Prodotto) WithReportRange() (string, bool) {
 	for _, a := range s.Apps {
 		if a.ReportRange {

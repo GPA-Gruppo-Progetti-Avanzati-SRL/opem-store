@@ -18,6 +18,7 @@ const (
 
 	TypeAnonymousCardRequest         = "RC02"
 	TypeAnonymousCardRequestResponse = "RC02"
+	TypeAnagraficheConsegnaCarte02   = "ANA02"
 
 	TypeNamedCardRequest        = "RC03"
 	TypeCardDelivery            = "RC04"
@@ -47,6 +48,7 @@ type File struct {
 	SysInfo    commons.SysInfo `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
+	BlobTmpFile string `json:"-" bson:"-" yaml:"-"`
 	// @tpm-schematics:end-region("struct-section")
 }
 

@@ -1,5 +1,7 @@
 package commons
 
+import "strings"
+
 // @tpm-schematics:start-region("top-file-section")
 // @tpm-schematics:end-region("top-file-section")
 
@@ -16,4 +18,13 @@ func (s ValueTextPair) IsZero() bool {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func NewValueTextPair(value string, maskValue string) ValueTextPair {
+	if ndx := strings.LastIndex(value, maskValue); ndx >= 0 {
+		return ValueTextPair{Value: value[ndx+1:], Text: value}
+	}
+
+	return ValueTextPair{Value: value}
+}
+
 // @tpm-schematics:end-region("bottom-file-section")
