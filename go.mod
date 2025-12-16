@@ -3,6 +3,7 @@ module github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store
 go 1.25
 
 require (
+	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.85
 	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.2-RCC
 	github.com/aws/aws-lambda-go v1.50.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
@@ -12,7 +13,6 @@ require (
 )
 
 require (
-	github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.85 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
