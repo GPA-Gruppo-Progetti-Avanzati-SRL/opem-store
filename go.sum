@@ -2,6 +2,8 @@ github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.85 h1:qtAy8lveC6ScNm
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.85/go.mod h1:Q456LEsf8ywWb9GU1sIesWakRSIWe6MisfM2Q5lDJlw=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.2-RCD h1:vGbUpXWIqcfK9R6JzjzgFmKdMgNmbjTkhAAAe8Rtjk0=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.2-RCD/go.mod h1:C4sSBHwM4L9OiCci1C8K0jv/BjPKKK/8yh8mWqb65A8=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.2-RCH h1:307TLKwxZDYlv+qslfRc4DBj1Yve3SJQ5MAr7FF44uI=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.2-RCH/go.mod h1:C4sSBHwM4L9OiCci1C8K0jv/BjPKKK/8yh8mWqb65A8=
 github.com/aws/aws-lambda-go v1.50.0 h1:0GzY18vT4EsCvIyk3kn3ZH5Jg30NRlgYaai1w0aGPMU=
 github.com/aws/aws-lambda-go v1.50.0/go.mod h1:dpMpZgvWx5vuQJfBt0zqBha60q7Dd7RfgJv23DymV8A=
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=

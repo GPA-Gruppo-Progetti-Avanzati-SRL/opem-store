@@ -40,5 +40,4 @@ func TestSequence(t *testing.T) {
 	rng, err = sequence.NextRange(coll, sequenceDomain, sequenceSite, sequence.WithIncrement(1), sequence.WithCreateIfMissing(true), sequence.WithSeqId(sequenceBid))
 	require.NoError(t, err)
 	t.Log("range: ", rng)
-
 }
