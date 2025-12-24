@@ -3,11 +3,12 @@ package person
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
-	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -15,7 +16,7 @@ import (
 
 // FindByPk ...
 // @tpm-schematics:start-region("find-by-pk-signature-section")
-func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Person, bool, error) {
+func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*Person, bool, error) {
 	// @tpm-schematics:end-region("find-by-pk-signature-section")
 	const semLogContext = "person::find-by-pk"
 	// @tpm-schematics:start-region("log-event-section")
@@ -31,7 +32,7 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	f := Filter{}
 	// @tpm-schematics:start-region("filter-section")
 	// customize the filtering
-	// f.Or().And...
+	f.Or().AndDomainEqTo(domain).AndEtEqTo(EntityType).AndSiteEqTo(site).AndBidEqTo(bid)
 	// @tpm-schematics:end-region("filter-section")
 	fd := f.Build()
 	evtTraceLog = evtTraceLog.Str("filter", util.MustToExtendedJsonString(fd, false, false))
@@ -54,6 +55,30 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	}
 
 	return &ent, true, nil
+}
+
+func FindFirst(collection *mongo.Collection, f *Filter, findOptions *options.FindOptionsBuilder) (*Person, error) {
+	const semLogContext = "person::find-first"
+	fd := f.Build()
+	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	cur, err := collection.Find(context.Background(), fd, findOptions)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return nil, err
+	}
+
+	if cur.Next(context.Background()) {
+		dto := Person{}
+		err = cur.Decode(&dto)
+		if err != nil {
+			return nil, err
+		}
+
+		return &dto, nil
+	}
+
+	return nil, nil
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {

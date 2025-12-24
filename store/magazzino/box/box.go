@@ -13,11 +13,12 @@ const (
 	SupplyTypeNominative = "nominative"
 
 	SupplyType
-	StatusDaGenerare         = "CX" // value: "magazzino da generare in stato Confermato"
-	StatusInAttesaDiInvio    = "CH" // value: in attesa di invio - Stato non esistente in PCWEB
-	StatusInAttesaDiConferma = "C1" // value: in attesa di conferma
-	EventReintegroMagazzino  = "reintegro-magazzino"
-	EventRichiestaCarte      = "richiesta-carte"
+	StatusDaGenerare                         = "CX" // value: "magazzino da generare in stato Confermato"
+	StatusInAttesaDiInvio                    = "CH" // value: in attesa di invio - Stato non esistente in PCWEB
+	StatusInAttesaDiConferma                 = "C1" // value: in attesa di conferma
+	StatusConfermatoDisponibilePerLaConsegna = "CO" // Confermato (Item disponibili per la consegna)
+	EventReintegroMagazzino                  = "reintegro-magazzino"
+	EventRichiestaCarte                      = "richiesta-carte"
 )
 
 // @tpm-schematics:end-region("top-file-section")

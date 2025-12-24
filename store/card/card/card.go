@@ -14,8 +14,8 @@ const (
 	StatusErr                        = "error"
 	StatusAMagazzinoInAttesaConferma = "ME" // value: "ME A magazzino in attesa conferma da ente/processor"
 	StatusAMagazzinoDisponibili      = "MA"
-
-	EventReintegroMagazzino = "reintegro-magazzino"
+	StatusAttiva                     = "AT"
+	EventReintegroMagazzino          = "reintegro-magazzino"
 )
 
 // @tpm-schematics:end-region("top-file-section")

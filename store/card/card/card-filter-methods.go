@@ -2,8 +2,9 @@ package card
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -328,6 +329,18 @@ func (ca *Criteria) AndIdCardExtIn(p []string) *Criteria {
 // @tpm-schematics:end-region("id-card-ext-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (ca *Criteria) AndEnvelopeNumberEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(EnvelopeNumber_ValueFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
 
 func (ca *Criteria) AndCardNumberEqTo(p string) *Criteria {
 

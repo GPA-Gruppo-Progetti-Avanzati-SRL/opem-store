@@ -65,6 +65,30 @@ func FindByPk(collection *mongo.Collection, domain, site, bidCard string, mustFi
 	return &ent, true, nil
 }
 
+func FindFirst(collection *mongo.Collection, f *Filter, findOptions *options.FindOptionsBuilder) (*Card, error) {
+	const semLogContext = "card::find-first"
+	fd := f.Build()
+	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	cur, err := collection.Find(context.Background(), fd, findOptions)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return nil, err
+	}
+
+	if cur.Next(context.Background()) {
+		dto := Card{}
+		err = cur.Decode(&dto)
+		if err != nil {
+			return nil, err
+		}
+
+		return &dto, nil
+	}
+
+	return nil, nil
+}
+
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
 	const semLogContext = "card::find"
 	fd := f.Build()

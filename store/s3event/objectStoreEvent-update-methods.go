@@ -381,6 +381,18 @@ func UpdateWithEvent(p *events.S3EventRecord) UpdateOption {
 }
 
 // @tpm-schematics:start-region("event-field-update-section")
+
+func UpdateWithBucket(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			mName := fmt.Sprintf(EventS3BucketNameFieldName)
+			ud.Set().Add(func() bson.E {
+				return bson.E{Key: mName, Value: p}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("event-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")

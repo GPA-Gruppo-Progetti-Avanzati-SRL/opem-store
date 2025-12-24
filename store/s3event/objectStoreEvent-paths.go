@@ -19,4 +19,9 @@ const (
 )
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+const (
+	EventS3BucketNameFieldName = "event.s3.bucket.name"
+)
+
 // @tpm-schematics:end-region("bottom-file-section")

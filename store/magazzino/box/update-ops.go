@@ -128,3 +128,42 @@ func Update4RichiestaCarte(coll *mongo.Collection, domain, site, bidMagazzino, b
 
 	return nil
 }
+
+func Update4RendicontazioneRichiestaCarte(coll *mongo.Collection, domain, site, bidMagazzino, bidBox string, who string, fl *file.File) error {
+	const semLogContext = "box::update-4-rendicontazione-richiesta_carte"
+
+	f := Filter{}
+	f.Or().AndDomainEqTo(domain).AndSiteEqTo(site).AndEtEqTo(EntityType).AndBidMagazzinoEqTo(bidMagazzino).AndBidEqTo(bidBox)
+	fd := f.Build()
+	log.Trace().Str("update-4-rendicontazione-richiesta-carte-filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	evt := commons.Event{
+		Type: EventRichiestaCarte,
+		Who:  who,
+		Text: fmt.Sprintf("[%s]: %s ", fl.BlobBucket, fl.BlobKey),
+		When: bson.NewDateTimeFromTime(time.Now()),
+	}
+
+	updOpts := []UpdateOption{
+		UpdateWithAddEvent(evt),
+		UpdateWithStatusStatus(StatusConfermatoDisponibilePerLaConsegna),
+		UpdateWithSysInfoModifiedAt(),
+	}
+	updDoc := GetUpdateDocumentFromOptions(updOpts...)
+	ud := updDoc.Build()
+	log.Trace().Str("add-note-update-document", util.MustToExtendedJsonString(ud, false, false)).Msg(semLogContext)
+
+	resp, err := coll.UpdateOne(context.Background(), fd, ud)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return err
+	}
+
+	if resp.ModifiedCount == 0 {
+		err = errors.New("no document updated matched")
+		log.Error().Err(err).Msg(semLogContext)
+		return err
+	}
+
+	return nil
+}

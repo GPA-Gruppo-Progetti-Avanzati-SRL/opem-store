@@ -2,8 +2,9 @@ package sequence
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -225,4 +226,29 @@ func (ca *Criteria) AndSiteIn(p []string) *Criteria {
 // @tpm-schematics:end-region("site-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (ca *Criteria) AndValueLte(p int32) *Criteria {
+
+	if p == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(ValueFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$lte", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndValueEqTo(p int32) *Criteria {
+
+	if p == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(ValueFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

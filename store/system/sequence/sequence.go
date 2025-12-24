@@ -13,8 +13,9 @@ const (
 	CollectionId = "sequence"
 	EntityType   = "sequence"
 
-	BoxSequenceBid = "seq-mag"
-	CardSequenceId = "seq-card"
+	BoxSequenceBid   = "seq-mag"
+	CardSequenceId   = "seq-card"
+	PersonSequenceId = "seq-pers"
 )
 
 // @tpm-schematics:end-region("top-file-section")
@@ -60,6 +61,17 @@ func (r *Range) CurrentValue() string {
 		return fmt.Sprintf("invalid range position: %d", r.current)
 	}
 	return fmt.Sprintf(r.format, r.from+r.current)
+}
+
+func (r *Range) CurrentValueAsInt() int32 {
+	if r.current < 0 || r.current > (r.to-r.from) {
+		return -1
+	}
+	return r.from + r.current
+}
+
+func (r *Range) To() int32 {
+	return r.to
 }
 
 func (r *Range) HasNext() bool {

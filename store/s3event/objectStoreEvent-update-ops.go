@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
-func UpdateStatus(coll *mongo.Collection, bid string, status commons.StatusCodeTextPair) error {
+func UpdateStatus(coll *mongo.Collection, bid string, status commons.StatusCodeTextPair, movedToBucket string) error {
 	const semLogContext = "object-store-event::update-status"
 
 	f := Filter{}
@@ -23,6 +23,10 @@ func UpdateStatus(coll *mongo.Collection, bid string, status commons.StatusCodeT
 	updOpts := []UpdateOption{
 		UpdateWith_status(&status),
 		UpdateWith_rip(bson.NewDateTimeFromTime(time.Now())),
+	}
+
+	if movedToBucket != "" {
+		updOpts = append(updOpts, UpdateWithBucket(movedToBucket))
 	}
 	updDoc := GetUpdateDocumentFromOptions(updOpts...)
 	ud := updDoc.Build()
