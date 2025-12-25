@@ -2,8 +2,9 @@ package file
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -491,6 +492,18 @@ func UpdateWithStats(p *Stat) UpdateOption {
 }
 
 // @tpm-schematics:start-region("stats-field-update-section")
+
+func UpdateWithStatsOnInsert(p *Stat) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != nil {
+			mName := fmt.Sprintf(StatsFieldName)
+			ud.SetOnInsert().Add(func() bson.E {
+				return bson.E{Key: mName, Value: p}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("stats-field-update-section")
 
 // SetType No Remarks

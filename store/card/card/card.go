@@ -16,6 +16,8 @@ const (
 	StatusAMagazzinoDisponibili      = "MA"
 	StatusAttiva                     = "AT"
 	EventReintegroMagazzino          = "reintegro-magazzino"
+
+	ActivityiRendicontazioneConsegnaCarta = "rendicontazione-consegna-carta"
 )
 
 // @tpm-schematics:end-region("top-file-section")
@@ -41,6 +43,7 @@ type Card struct {
 	Apps                  []CardApp             `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
 	Addresses             []commons.Address     `json:"addresses,omitempty" bson:"addresses,omitempty" yaml:"addresses,omitempty"`
 	Events                []commons.Event       `json:"events,omitempty" bson:"events,omitempty" yaml:"events,omitempty"`
+	Activities            []commons.Activity    `json:"activities,omitempty" bson:"activities,omitempty" yaml:"activities,omitempty"`
 	ExpiresAt             bson.DateTime         `json:"expires_at,omitempty" bson:"expires_at,omitempty" yaml:"expires_at,omitempty"`
 	IssueDate             bson.DateTime         `json:"issue_date,omitempty" bson:"issue_date,omitempty" yaml:"issue_date,omitempty"`
 	IssueConfirmationDate bson.DateTime         `json:"issue_confirmation_date,omitempty" bson:"issue_confirmation_date,omitempty" yaml:"issue_confirmation_date,omitempty"`
@@ -53,7 +56,7 @@ type Card struct {
 }
 
 func (s Card) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.CardNumber.IsZero() && s.CardType == "" && s.Status == "" && s.IdCardExt == "" && s.EnvelopeNumber.IsZero() && s.Funct == "" && s.FocalPoint.IsZero() && s.Product.IsZero() && s.LayoutCode == "" && s.CorporateCode == "" && s.Box.IsZero() && s.Holder.IsZero() && len(s.Apps) == 0 && len(s.Addresses) == 0 && len(s.Events) == 0 && s.ExpiresAt == 0 && s.IssueDate == 0 && s.IssueConfirmationDate == 0 && s.ActDate == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.CardNumber.IsZero() && s.CardType == "" && s.Status == "" && s.IdCardExt == "" && s.EnvelopeNumber.IsZero() && s.Funct == "" && s.FocalPoint.IsZero() && s.Product.IsZero() && s.LayoutCode == "" && s.CorporateCode == "" && s.Box.IsZero() && s.Holder.IsZero() && len(s.Apps) == 0 && len(s.Addresses) == 0 && len(s.Events) == 0 && len(s.Activities) == 0 && s.ExpiresAt == 0 && s.IssueDate == 0 && s.IssueConfirmationDate == 0 && s.ActDate == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

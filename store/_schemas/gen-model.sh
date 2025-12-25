@@ -14,6 +14,7 @@ tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name ValueRange 
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name Note --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name Event --out-dir ../.. --with-format
 tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name StatusCodeTextPair --out-dir ../.. --with-format
+tpm-morphia-cli gen entity --schema-file ./commons/schema.yml --name Activity --out-dir ../.. --with-format
 
 # api-cms
 tpm-morphia-cli gen entity --schema-file ./apicms/schema.yml --name entRefStruct --out-dir ../.. --with-format

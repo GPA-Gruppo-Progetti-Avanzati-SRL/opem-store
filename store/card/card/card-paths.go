@@ -60,6 +60,8 @@ const (
 	Addresses_IFieldName               = "addresses.%d"
 	EventsFieldName                    = "events"
 	Events_IFieldName                  = "events.%d"
+	ActivitiesFieldName                = "activities"
+	Activities_IFieldName              = "activities.%d"
 	ExpiresAtFieldName                 = "expires_at"
 	IssueDateFieldName                 = "issue_date"
 	IssueConfirmationDateFieldName     = "issue_confirmation_date"

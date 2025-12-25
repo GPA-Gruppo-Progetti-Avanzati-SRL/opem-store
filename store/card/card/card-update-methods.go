@@ -2,10 +2,10 @@ package card
 
 import (
 	"fmt"
+	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
-	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -49,6 +49,7 @@ type UnsetOptions struct {
 	Apps                  UnsetMode
 	Addresses             UnsetMode
 	Events                UnsetMode
+	Activities            UnsetMode
 	ExpiresAt             UnsetMode
 	IssueDate             UnsetMode
 	IssueConfirmationDate UnsetMode
@@ -169,6 +170,11 @@ func WithEventsUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Events = m
 	}
 }
+func WithActivitiesUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Activities = m
+	}
+}
 func WithExpiresAtUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.ExpiresAt = m
@@ -239,6 +245,7 @@ func GetUpdateDocument(obj *Card, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetApps(obj.Apps, uo.ResolveUnsetMode(uo.Apps))
 	ud.setOrUnsetAddresses(obj.Addresses, uo.ResolveUnsetMode(uo.Addresses))
 	ud.setOrUnsetEvents(obj.Events, uo.ResolveUnsetMode(uo.Events))
+	ud.setOrUnsetActivities(obj.Activities, uo.ResolveUnsetMode(uo.Activities))
 	ud.setOrUnsetExpires_at(obj.ExpiresAt, uo.ResolveUnsetMode(uo.ExpiresAt))
 	ud.setOrUnsetIssue_date(obj.IssueDate, uo.ResolveUnsetMode(uo.IssueDate))
 	ud.setOrUnsetIssue_confirmation_date(obj.IssueConfirmationDate, uo.ResolveUnsetMode(uo.IssueConfirmationDate))
@@ -1169,6 +1176,52 @@ func UpdateWithAddEvent(p commons.Event) UpdateOption {
 }
 
 // @tpm-schematics:end-region("events-field-update-section")
+
+// SetActivities No Remarks
+func (ud *UpdateDocument) SetActivities(p []commons.Activity) *UpdateDocument {
+	mName := fmt.Sprintf(ActivitiesFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetActivities No Remarks
+func (ud *UpdateDocument) UnsetActivities() *UpdateDocument {
+	mName := fmt.Sprintf(ActivitiesFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetActivities No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetActivities(p []commons.Activity, um UnsetMode) {
+	if len(p) > 0 {
+		ud.SetActivities(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetActivities()
+		case SetData2Default:
+			ud.UnsetActivities()
+		}
+	}
+}
+
+func UpdateWithActivities(p []commons.Activity) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if len(p) > 0 {
+			ud.SetActivities(p)
+		} else {
+			ud.UnsetActivities()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("activities-field-update-section")
+// @tpm-schematics:end-region("activities-field-update-section")
 
 // SetExpires_at No Remarks
 func (ud *UpdateDocument) SetExpires_at(p bson.DateTime) *UpdateDocument {

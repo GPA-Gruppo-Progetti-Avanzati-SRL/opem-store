@@ -390,4 +390,16 @@ func (ca *Criteria) AndAppsAppNumberEqTo(p string) *Criteria {
 	return ca
 }
 
+func (ca *Criteria) AndActivityPendingEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(ActivitiesFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

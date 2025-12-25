@@ -1,0 +1,4 @@
+name: Activity
+attributes:
+- name: id
+  type: string
