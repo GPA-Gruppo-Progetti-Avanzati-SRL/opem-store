@@ -80,4 +80,29 @@ func (s Card) StatusIn(stat ...string) bool {
 	return false
 }
 
+// WithNewActivity verifica se inserire l'attività nella lista delle attività da eseguire, il valore booleano indica se l'array e' stato modificato o meno.
+func (s Card) WithNewActivity(activity commons.Activity) ([]commons.Activity, bool) {
+	for _, a := range s.Activities {
+		if a.Id == activity.Id {
+			return s.Activities, false
+		}
+	}
+
+	s.Activities = append(s.Activities, activity)
+	return s.Activities, true
+}
+
+// WithActivityDone il booleano in questo caso ritorna il fatto se lo stato dell'attività e' stato modificato o meno.
+func (s Card) WithActivityDone(activity commons.Activity) ([]commons.Activity, bool) {
+	for i, a := range s.Activities {
+		if a.Id == activity.Id {
+			s.Activities[i].Status = commons.ActivityStatusDone
+			return s.Activities, true
+		}
+	}
+
+	s.Activities = append(s.Activities, activity)
+	return s.Activities, false
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

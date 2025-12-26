@@ -44,6 +44,7 @@ type UnsetOptions struct {
 	CardBidsRange UnsetMode
 	Events        UnsetMode
 	Notes         UnsetMode
+	Activities    UnsetMode
 	SysInfo       UnsetMode
 }
 
@@ -135,6 +136,11 @@ func WithNotesUnsetMode(m UnsetMode) UnsetOption {
 		uopt.Notes = m
 	}
 }
+func WithActivitiesUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Activities = m
+	}
+}
 func WithSysInfoUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.SysInfo = m
@@ -180,6 +186,7 @@ func GetUpdateDocument(obj *Box, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetCard_bids_range(&obj.CardBidsRange, uo.ResolveUnsetMode(uo.CardBidsRange))
 	ud.setOrUnsetEvents(obj.Events, uo.ResolveUnsetMode(uo.Events))
 	ud.setOrUnsetNotes(obj.Notes, uo.ResolveUnsetMode(uo.Notes))
+	ud.setOrUnsetActivities(obj.Activities, uo.ResolveUnsetMode(uo.Activities))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
 	return ud
@@ -900,6 +907,52 @@ func UpdateWithAddNote(p commons.Note) UpdateOption {
 }
 
 // @tpm-schematics:end-region("notes-field-update-section")
+
+// SetActivities No Remarks
+func (ud *UpdateDocument) SetActivities(p []commons.Activity) *UpdateDocument {
+	mName := fmt.Sprintf(ActivitiesFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetActivities No Remarks
+func (ud *UpdateDocument) UnsetActivities() *UpdateDocument {
+	mName := fmt.Sprintf(ActivitiesFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetActivities No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetActivities(p []commons.Activity, um UnsetMode) {
+	if len(p) > 0 {
+		ud.SetActivities(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetActivities()
+		case SetData2Default:
+			ud.UnsetActivities()
+		}
+	}
+}
+
+func UpdateWithActivities(p []commons.Activity) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if len(p) > 0 {
+			ud.SetActivities(p)
+		} else {
+			ud.UnsetActivities()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("activities-field-update-section")
+// @tpm-schematics:end-region("activities-field-update-section")
 
 // SetSys_info No Remarks
 func (ud *UpdateDocument) SetSys_info(p *commons.SysInfo) *UpdateDocument {

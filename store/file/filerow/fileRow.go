@@ -28,6 +28,7 @@ type FileRow struct {
 	RowData       string              `json:"row_data,omitempty" bson:"row_data,omitempty" yaml:"row_data,omitempty"`
 	RowNumber     int32               `json:"row_number,omitempty" bson:"row_number,omitempty" yaml:"row_number,omitempty"`
 	RowDataFormat string              `json:"row_data_format,omitempty" bson:"row_data_format,omitempty" yaml:"row_data_format,omitempty"`
+	Errs          []string            `json:"errs,omitempty" bson:"errs,omitempty" yaml:"errs,omitempty"`
 	File          commons.BidTextPair `json:"file,omitempty" bson:"file,omitempty" yaml:"file,omitempty"`
 	SysInfo       commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
@@ -36,7 +37,7 @@ type FileRow struct {
 }
 
 func (s FileRow) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Status == "" && s.RowData == "" && s.RowNumber == 0 && s.RowDataFormat == "" && s.File.IsZero() && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Status == "" && s.RowData == "" && s.RowNumber == 0 && s.RowDataFormat == "" && len(s.Errs) == 0 && s.File.IsZero() && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

@@ -17,6 +17,8 @@ const (
 	RowDataFieldName            = "row_data"
 	RowNumberFieldName          = "row_number"
 	RowDataFormatFieldName      = "row_data_format"
+	ErrsFieldName               = "errs"
+	Errs_IFieldName             = "errs.%d"
 	FileFieldName               = "file"
 	File_BidFieldName           = "file.bid"
 	File_TextFieldName          = "file.text"

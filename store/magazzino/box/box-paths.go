@@ -51,6 +51,8 @@ const (
 	Events_IFieldName                = "events.%d"
 	NotesFieldName                   = "notes"
 	Notes_IFieldName                 = "notes.%d"
+	ActivitiesFieldName              = "activities"
+	Activities_IFieldName            = "activities.%d"
 	SysInfoFieldName                 = "sys_info"
 	SysInfo_StatusFieldName          = "sys_info.status"
 	SysInfo_CreatedAtFieldName       = "sys_info.created_at"

@@ -2,3 +2,5 @@ name: Activity
 attributes:
 - name: id
   type: string
+- name: status
+  type: string

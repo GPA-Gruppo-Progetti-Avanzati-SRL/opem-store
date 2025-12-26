@@ -39,6 +39,7 @@ type Box struct {
 	CardBidsRange commons.ValueRange  `json:"card_bids_range,omitempty" bson:"card_bids_range,omitempty" yaml:"card_bids_range,omitempty"`
 	Events        []commons.Event     `json:"events,omitempty" bson:"events,omitempty" yaml:"events,omitempty"`
 	Notes         []commons.Note      `json:"notes,omitempty" bson:"notes,omitempty" yaml:"notes,omitempty"`
+	Activities    []commons.Activity  `json:"activities,omitempty" bson:"activities,omitempty" yaml:"activities,omitempty"`
 	SysInfo       commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
@@ -46,7 +47,7 @@ type Box struct {
 }
 
 func (s Box) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Magazzino.IsZero() && s.Prodotto.IsZero() && s.FocalPoint.IsZero() && s.SupplyType == "" && s.Info.IsZero() && s.Status.IsZero() && s.Recipient.IsZero() && s.CardBidsRange.IsZero() && len(s.Events) == 0 && len(s.Notes) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Magazzino.IsZero() && s.Prodotto.IsZero() && s.FocalPoint.IsZero() && s.SupplyType == "" && s.Info.IsZero() && s.Status.IsZero() && s.Recipient.IsZero() && s.CardBidsRange.IsZero() && len(s.Events) == 0 && len(s.Notes) == 0 && len(s.Activities) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

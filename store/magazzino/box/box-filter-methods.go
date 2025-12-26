@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // @tpm-schematics:start-region("top-file-section")
+
+import "github.com/rs/zerolog/log"
+
 // @tpm-schematics:end-region("top-file-section")
 
 func FilterMethodsGoInfo() string {

@@ -3,7 +3,6 @@ package box
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
@@ -14,6 +13,8 @@ import (
 
 // @tpm-schematics:start-region("top-file-section")
 import (
+	"fmt"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/magazzino"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
@@ -63,6 +64,30 @@ func FindByPk(collection *mongo.Collection, dominio, site, bidMagazzino, bidBox 
 	}
 
 	return &ent, true, nil
+}
+
+func FindFirst(collection *mongo.Collection, f *Filter, findOptions *options.FindOptionsBuilder) (*Box, error) {
+	const semLogContext = "box::find-first"
+	fd := f.Build()
+	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	cur, err := collection.Find(context.Background(), fd, findOptions)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return nil, err
+	}
+
+	if cur.Next(context.Background()) {
+		dto := Box{}
+		err = cur.Decode(&dto)
+		if err != nil {
+			return nil, err
+		}
+
+		return &dto, nil
+	}
+
+	return nil, nil
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
@@ -252,6 +277,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"status", 1},
 			{"recipient", 1},
 			{"events", 1},
+			{"activities", 1},
 			{"notes", 1},
 			{"sys_info", 1},
 			{"card_bids_range", 1},
@@ -269,6 +295,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"status", 1},
 			{"recipient", 1},
 			{"events", 1},
+			{"activities", 1},
 			{"notes", 1},
 			{"supply_type", 1},
 			{"sys_info", 1},

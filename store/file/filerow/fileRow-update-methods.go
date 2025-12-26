@@ -2,9 +2,8 @@ package filerow
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -39,6 +38,7 @@ type UnsetOptions struct {
 	RowData       UnsetMode
 	RowNumber     UnsetMode
 	RowDataFormat UnsetMode
+	Errs          UnsetMode
 	File          UnsetMode
 	SysInfo       UnsetMode
 }
@@ -101,6 +101,11 @@ func WithRowDataFormatUnsetMode(m UnsetMode) UnsetOption {
 		uopt.RowDataFormat = m
 	}
 }
+func WithErrsUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Errs = m
+	}
+}
 func WithFileUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.File = m
@@ -145,6 +150,7 @@ func GetUpdateDocument(obj *FileRow, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetRow_data(obj.RowData, uo.ResolveUnsetMode(uo.RowData))
 	ud.setOrUnsetRow_number(obj.RowNumber, uo.ResolveUnsetMode(uo.RowNumber))
 	ud.setOrUnsetRow_data_format(obj.RowDataFormat, uo.ResolveUnsetMode(uo.RowDataFormat))
+	ud.setOrUnsetErrs(obj.Errs, uo.ResolveUnsetMode(uo.Errs))
 	ud.setOrUnsetFile(&obj.File, uo.ResolveUnsetMode(uo.File))
 	ud.setOrUnsetSys_info(&obj.SysInfo, uo.ResolveUnsetMode(uo.SysInfo))
 
@@ -554,6 +560,52 @@ func UpdateWithRow_data_format(p string) UpdateOption {
 
 // @tpm-schematics:start-region("row-data-format-field-update-section")
 // @tpm-schematics:end-region("row-data-format-field-update-section")
+
+// SetErrs No Remarks
+func (ud *UpdateDocument) SetErrs(p []string) *UpdateDocument {
+	mName := fmt.Sprintf(ErrsFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetErrs No Remarks
+func (ud *UpdateDocument) UnsetErrs() *UpdateDocument {
+	mName := fmt.Sprintf(ErrsFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetErrs No Remarks - here2
+func (ud *UpdateDocument) setOrUnsetErrs(p []string, um UnsetMode) {
+	if len(p) > 0 {
+		ud.SetErrs(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetErrs()
+		case SetData2Default:
+			ud.UnsetErrs()
+		}
+	}
+}
+
+func UpdateWithErrs(p []string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if len(p) > 0 {
+			ud.SetErrs(p)
+		} else {
+			ud.UnsetErrs()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("errs-field-update-section")
+// @tpm-schematics:end-region("errs-field-update-section")
 
 // SetFile No Remarks
 func (ud *UpdateDocument) SetFile(p *commons.BidTextPair) *UpdateDocument {
