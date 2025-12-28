@@ -23,7 +23,7 @@ type ByBidRangesFinder struct {
 	crs  *mongo.Cursor
 }
 
-func NewCardFinder(c *mongo.Collection, domain, site string, r []commons.ValueRange) (ByBidRangesFinder, error) {
+func NewCardFinderByBidRange(c *mongo.Collection, domain, site string, r []commons.ValueRange) (ByBidRangesFinder, error) {
 	if len(r) == 0 {
 		return ByBidRangesFinder{}, errors.New("no card ranges provided")
 	}
@@ -114,9 +114,16 @@ func (cf *ByBidRangesFinder) executeQuery() (*Card, error) {
 			}
 
 			return &dto, nil
-		} else {
-			log.Info().Msg(semLogContext + " - cursor empty")
 		}
+
+		if cur.Err() != nil {
+			err = cur.Err()
+			cf.crs = nil
+			log.Error().Err(err).Msg(semLogContext)
+			return nil, err
+		}
+
+		log.Info().Msg(semLogContext + " - cursor empty")
 	}
 
 	cf.crs = nil

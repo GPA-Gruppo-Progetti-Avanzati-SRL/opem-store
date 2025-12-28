@@ -89,6 +89,20 @@ func FindFirst(collection *mongo.Collection, f *Filter, findOptions *options.Fin
 	return nil, nil
 }
 
+func Count(collection *mongo.Collection, f *Filter, findOptions *options.CountOptionsBuilder) (int64, error) {
+	const semLogContext = "card::count"
+	fd := f.Build()
+	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	numItems, err := collection.CountDocuments(context.Background(), fd, findOptions)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return -1, err
+	}
+
+	return numItems, nil
+}
+
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
 	const semLogContext = "card::find"
 	fd := f.Build()
@@ -170,20 +184,25 @@ func FindOneByAggregationView(collection *mongo.Collection, collectionsCfg map[s
 func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, f *Filter, withCount bool, findOptions *options.FindOptions) (QueryResult, error) {
 	const semLogContext = "card::find-by-aggregation-view"
 
-	personCollectionCfg := collectionsCfg[person.CollectionId]
+	/*
+		personCollectionCfg := collectionsCfg[person.CollectionId]
 
-	if personCollectionCfg.Name == "" {
-		err := errors.New("cannot resolve collection name for personCollectionCfg")
-		log.Error().Err(err).
-			Str("person-collection-id", person.CollectionId).Str("person-collection-name", personCollectionCfg.Name).
-			Msg(semLogContext)
-		return QueryResult{}, err
-	}
+		if personCollectionCfg.Name == "" {
+			err := errors.New("cannot resolve collection name for personCollectionCfg")
+			log.Error().Err(err).
+				Str("person-collection-id", person.CollectionId).Str("person-collection-name", personCollectionCfg.Name).
+				Msg(semLogContext)
+			return QueryResult{}, err
+		}
+
+		fd := f.Build()
+		evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
+		evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
+		evtTraceLog.Msg(semLogContext)
+	*/
 
 	fd := f.Build()
-	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
-	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
-	evtTraceLog.Msg(semLogContext)
+	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
 
 	qr := QueryResult{}
 
@@ -196,12 +215,61 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 		countDocsOptions := options.Count()
 		nr, err := collection.CountDocuments(ctx, fd, countDocsOptions)
 		if err != nil {
-			evtErrLog.Err(err).Msg(semLogContext)
+			log.Error().Err(err).Msg(semLogContext)
 			return qr, err
 		}
 
 		qr.Records = int(nr)
+		if nr == 0 {
+			return qr, nil
+		}
 	}
+
+	cur, err := cursorByAggregationView(collection, collectionsCfg, f, findOptions)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return qr, err
+	}
+
+	for cur.Next(context.Background()) {
+		dto := Card{}
+		err = cur.Decode(&dto)
+		if err != nil {
+			return qr, err
+		}
+
+		qr.Data = append(qr.Data, dto)
+	}
+
+	if cur.Err() != nil {
+		return qr, cur.Err()
+	}
+
+	return qr, nil
+}
+
+func cursorByAggregationView(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, f *Filter, findOptions *options.FindOptions) (*mongo.Cursor, error) {
+	const semLogContext = "card::cursor-by-aggregation-view"
+
+	personCollectionCfg := collectionsCfg[person.CollectionId]
+
+	if personCollectionCfg.Name == "" {
+		err := errors.New("cannot resolve collection name for personCollectionCfg")
+		log.Error().Err(err).
+			Str("person-collection-id", person.CollectionId).Str("person-collection-name", personCollectionCfg.Name).
+			Msg(semLogContext)
+		return nil, err
+	}
+
+	fd := f.Build()
+	evtTraceLog := log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false))
+	evtErrLog := log.Error().Str("filter", util.MustToExtendedJsonString(fd, false, false))
+	evtTraceLog.Msg(semLogContext)
+
+	// TODO
+	ctx := context.Background()
+	//ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	//defer cancel()
 
 	pipeline := mongo.Pipeline{}
 	pipeline = append(pipeline, bson.D{{"$match", fd}})
@@ -265,6 +333,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"issue_confirmation_date", 1},
 			{"act_date", 1},
 			{"sys_info", 1},
+			{"activities", 1},
 			{"events", 1},
 			{"doc_person", bson.D{{"$arrayElemAt", bson.A{"$doc_person", 0}}}},
 		}},
@@ -274,7 +343,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 	cur, err := collection.Aggregate(ctx, pipeline, opts)
 	if err != nil {
 		evtErrLog.Err(err).Msg(semLogContext)
-		return qr, err
+		return nil, err
 	}
 
 	for _, stage := range pipeline {
@@ -284,8 +353,61 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 		}
 	}
 
+	return cur, nil
+}
+
+func CountCardsGroupedByProduct(collection *mongo.Collection, collectionsCfg map[string]mongolks.CollectionCfg, f *Filter, findOptions *options.FindOptions) (CounterQueryResult, error) {
+	const semLogContext = "card::count"
+	qr := CounterQueryResult{}
+
+	pipeline := mongo.Pipeline{}
+	fd := f.Build()
+	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	pipeline = append(pipeline, bson.D{{"$match", fd}})
+	if findOptions != nil {
+		if findOptions.Skip != nil {
+			pipeline = append(pipeline, bson.D{{"$skip", findOptions.Skip}})
+		}
+		if findOptions.Limit != nil {
+			pipeline = append(pipeline, bson.D{{"$limit", findOptions.Limit}})
+		}
+	}
+
+	pipeline = append(pipeline,
+		bson.D{
+			{"$group",
+				bson.D{
+					{"_id", bson.D{{"product", "$product.bid"}}},
+					{"count", bson.D{{"$sum", 1}}},
+				},
+			},
+		},
+		bson.D{
+			{"$project",
+				bson.D{
+					{"_id", 0},
+					{"dimension_1", "$_id.product"},
+					{"count_1", "$count"},
+				},
+			},
+		})
+
+	ctx := context.Background()
+
+	opts := options.Aggregate()
+	cur, err := collection.Aggregate(ctx, pipeline, opts)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return qr, err
+	}
+
+	for _, stage := range pipeline {
+		log.Trace().Str("filter", util.MustToExtendedJsonString(stage, true, true)).Msg(semLogContext)
+	}
+
 	for cur.Next(context.Background()) {
-		dto := Card{}
+		dto := Counter{}
 		err = cur.Decode(&dto)
 		if err != nil {
 			return qr, err
@@ -297,7 +419,6 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 	if cur.Err() != nil {
 		return qr, cur.Err()
 	}
-
 	return qr, nil
 }
 

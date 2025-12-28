@@ -61,7 +61,9 @@ const (
 	EventsFieldName                    = "events"
 	Events_IFieldName                  = "events.%d"
 	ActivitiesFieldName                = "activities"
-	Activities_IFieldName              = "activities.%d"
+	Activities_TodosFieldName          = "activities.todos"
+	Activities_Todos_IFieldName        = "activities.todos.%d"
+	Activities_LogsFieldName           = "activities.logs"
 	ExpiresAtFieldName                 = "expires_at"
 	IssueDateFieldName                 = "issue_date"
 	IssueConfirmationDateFieldName     = "issue_confirmation_date"
@@ -74,7 +76,8 @@ const (
 
 // @tpm-schematics:start-region("bottom-file-section")
 const (
-	AppsAppNumberFieldName = "apps.app_number.value"
+	AppsAppNumberFieldName       = "apps.app_number.value"
+	Activities_Todos_IdFieldName = "activities.todos.id"
 )
 
 // @tpm-schematics:end-region("bottom-file-section")

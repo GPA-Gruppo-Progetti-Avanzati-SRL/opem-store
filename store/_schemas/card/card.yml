@@ -79,11 +79,9 @@ attributes:
     struct-ref:
       name: Event
 - name: activities
-  type: array
-  item:
-    type: struct
-    struct-ref:
-      name: Activity
+  type: struct
+  struct-ref:
+    name: Activities
 - name: expires_at
   type: date
 - name: issue_date

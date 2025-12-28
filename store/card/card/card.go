@@ -20,6 +20,16 @@ const (
 	ActivityiRendicontazioneConsegnaCarta = "rendicontazione-consegna-carta"
 )
 
+type Counter struct {
+	Dimension1 string `json:"dimension_1,omitempty" bson:"dimension_1,omitempty" yaml:"dimension_1,omitempty"`
+	Count1     int32  `json:"count_1,omitempty" bson:"count_1,omitempty" yaml:"count_1,omitempty"`
+}
+
+type CounterQueryResult struct {
+	Records int       `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
+	Data    []Counter `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
+}
+
 // @tpm-schematics:end-region("top-file-section")
 
 type Card struct {
@@ -43,7 +53,7 @@ type Card struct {
 	Apps                  []CardApp             `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
 	Addresses             []commons.Address     `json:"addresses,omitempty" bson:"addresses,omitempty" yaml:"addresses,omitempty"`
 	Events                []commons.Event       `json:"events,omitempty" bson:"events,omitempty" yaml:"events,omitempty"`
-	Activities            []commons.Activity    `json:"activities,omitempty" bson:"activities,omitempty" yaml:"activities,omitempty"`
+	Activities            commons.Activities    `json:"activities,omitempty" bson:"activities,omitempty" yaml:"activities,omitempty"`
 	ExpiresAt             bson.DateTime         `json:"expires_at,omitempty" bson:"expires_at,omitempty" yaml:"expires_at,omitempty"`
 	IssueDate             bson.DateTime         `json:"issue_date,omitempty" bson:"issue_date,omitempty" yaml:"issue_date,omitempty"`
 	IssueConfirmationDate bson.DateTime         `json:"issue_confirmation_date,omitempty" bson:"issue_confirmation_date,omitempty" yaml:"issue_confirmation_date,omitempty"`
@@ -56,7 +66,7 @@ type Card struct {
 }
 
 func (s Card) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.CardNumber.IsZero() && s.CardType == "" && s.Status == "" && s.IdCardExt == "" && s.EnvelopeNumber.IsZero() && s.Funct == "" && s.FocalPoint.IsZero() && s.Product.IsZero() && s.LayoutCode == "" && s.CorporateCode == "" && s.Box.IsZero() && s.Holder.IsZero() && len(s.Apps) == 0 && len(s.Addresses) == 0 && len(s.Events) == 0 && len(s.Activities) == 0 && s.ExpiresAt == 0 && s.IssueDate == 0 && s.IssueConfirmationDate == 0 && s.ActDate == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.CardNumber.IsZero() && s.CardType == "" && s.Status == "" && s.IdCardExt == "" && s.EnvelopeNumber.IsZero() && s.Funct == "" && s.FocalPoint.IsZero() && s.Product.IsZero() && s.LayoutCode == "" && s.CorporateCode == "" && s.Box.IsZero() && s.Holder.IsZero() && len(s.Apps) == 0 && len(s.Addresses) == 0 && len(s.Events) == 0 && s.Activities.IsZero() && s.ExpiresAt == 0 && s.IssueDate == 0 && s.IssueConfirmationDate == 0 && s.ActDate == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {
@@ -80,28 +90,44 @@ func (s Card) StatusIn(stat ...string) bool {
 	return false
 }
 
-// WithNewActivity verifica se inserire l'attività nella lista delle attività da eseguire, il valore booleano indica se l'array e' stato modificato o meno.
-func (s Card) WithNewActivity(activity commons.Activity) ([]commons.Activity, bool) {
-	for _, a := range s.Activities {
+// WithNewTodoActivity verifica se inserire l'attività nella lista delle attività da eseguire, il valore booleano indica se l'array e' stato modificato o meno.
+func (s Card) WithNewTodoActivity(activity commons.Activity) (commons.Activities, bool) {
+	for _, a := range s.Activities.Logs {
 		if a.Id == activity.Id {
 			return s.Activities, false
 		}
 	}
 
-	s.Activities = append(s.Activities, activity)
+	for _, a := range s.Activities.Todos {
+		if a.Id == activity.Id {
+			return s.Activities, false
+		}
+	}
+
+	s.Activities.Todos = append(s.Activities.Todos, activity)
 	return s.Activities, true
 }
 
 // WithActivityDone il booleano in questo caso ritorna il fatto se lo stato dell'attività e' stato modificato o meno.
-func (s Card) WithActivityDone(activity commons.Activity) ([]commons.Activity, bool) {
-	for i, a := range s.Activities {
-		if a.Id == activity.Id {
-			s.Activities[i].Status = commons.ActivityStatusDone
-			return s.Activities, true
+func (s Card) WithActivityDone(activity commons.Activity) (commons.Activities, bool) {
+
+	ndx := -1
+	for i := 0; i < len(s.Activities.Todos); i++ {
+		if s.Activities.Todos[i].Id == activity.Id {
+			ndx = i
+			break
 		}
 	}
 
-	s.Activities = append(s.Activities, activity)
+	if ndx >= 0 {
+		if len(s.Activities.Todos) <= 1 {
+			s.Activities.Todos = nil
+		} else {
+			s.Activities.Todos = append(s.Activities.Todos[:ndx], s.Activities.Todos[ndx+1:]...)
+		}
+	}
+
+	s.Activities.Logs = append(s.Activities.Logs, activity)
 	return s.Activities, false
 }
 

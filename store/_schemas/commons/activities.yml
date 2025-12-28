@@ -1,0 +1,14 @@
+name: Activities
+attributes:
+- name: todos
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: Activity
+- name: logs
+  type: array
+  item:
+    type: struct
+    struct-ref:
+      name: Activity

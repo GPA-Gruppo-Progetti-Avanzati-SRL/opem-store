@@ -39,7 +39,7 @@ type Box struct {
 	CardBidsRange commons.ValueRange  `json:"card_bids_range,omitempty" bson:"card_bids_range,omitempty" yaml:"card_bids_range,omitempty"`
 	Events        []commons.Event     `json:"events,omitempty" bson:"events,omitempty" yaml:"events,omitempty"`
 	Notes         []commons.Note      `json:"notes,omitempty" bson:"notes,omitempty" yaml:"notes,omitempty"`
-	Activities    []commons.Activity  `json:"activities,omitempty" bson:"activities,omitempty" yaml:"activities,omitempty"`
+	Activities    commons.Activities  `json:"activities,omitempty" bson:"activities,omitempty" yaml:"activities,omitempty"`
 	SysInfo       commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
@@ -47,7 +47,7 @@ type Box struct {
 }
 
 func (s Box) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Magazzino.IsZero() && s.Prodotto.IsZero() && s.FocalPoint.IsZero() && s.SupplyType == "" && s.Info.IsZero() && s.Status.IsZero() && s.Recipient.IsZero() && s.CardBidsRange.IsZero() && len(s.Events) == 0 && len(s.Notes) == 0 && len(s.Activities) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Magazzino.IsZero() && s.Prodotto.IsZero() && s.FocalPoint.IsZero() && s.SupplyType == "" && s.Info.IsZero() && s.Status.IsZero() && s.Recipient.IsZero() && s.CardBidsRange.IsZero() && len(s.Events) == 0 && len(s.Notes) == 0 && s.Activities.IsZero() && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {
@@ -56,4 +56,45 @@ type QueryResult struct {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (s Box) WithNewTodoActivity(activity commons.Activity) (commons.Activities, bool) {
+	for _, a := range s.Activities.Logs {
+		if a.Id == activity.Id {
+			return s.Activities, false
+		}
+	}
+
+	for _, a := range s.Activities.Todos {
+		if a.Id == activity.Id {
+			return s.Activities, false
+		}
+	}
+
+	s.Activities.Todos = append(s.Activities.Todos, activity)
+	return s.Activities, true
+}
+
+// WithActivityDone il booleano in questo caso ritorna il fatto se lo stato dell'attività e' stato modificato o meno.
+func (s Box) WithActivityDone(activity commons.Activity) (commons.Activities, bool) {
+
+	ndx := -1
+	for i := 0; i < len(s.Activities.Todos); i++ {
+		if s.Activities.Todos[i].Id == activity.Id {
+			ndx = i
+			break
+		}
+	}
+
+	if ndx >= 0 {
+		if len(s.Activities.Todos) <= 1 {
+			s.Activities.Todos = nil
+		} else {
+			s.Activities.Todos = append(s.Activities.Todos[:ndx], s.Activities.Todos[ndx+1:]...)
+		}
+	}
+
+	s.Activities.Logs = append(s.Activities.Logs, activity)
+	return s.Activities, false
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

@@ -245,7 +245,7 @@ func GetUpdateDocument(obj *Card, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetApps(obj.Apps, uo.ResolveUnsetMode(uo.Apps))
 	ud.setOrUnsetAddresses(obj.Addresses, uo.ResolveUnsetMode(uo.Addresses))
 	ud.setOrUnsetEvents(obj.Events, uo.ResolveUnsetMode(uo.Events))
-	ud.setOrUnsetActivities(obj.Activities, uo.ResolveUnsetMode(uo.Activities))
+	ud.setOrUnsetActivities(&obj.Activities, uo.ResolveUnsetMode(uo.Activities))
 	ud.setOrUnsetExpires_at(obj.ExpiresAt, uo.ResolveUnsetMode(uo.ExpiresAt))
 	ud.setOrUnsetIssue_date(obj.IssueDate, uo.ResolveUnsetMode(uo.IssueDate))
 	ud.setOrUnsetIssue_confirmation_date(obj.IssueConfirmationDate, uo.ResolveUnsetMode(uo.IssueConfirmationDate))
@@ -1178,7 +1178,7 @@ func UpdateWithAddEvent(p commons.Event) UpdateOption {
 // @tpm-schematics:end-region("events-field-update-section")
 
 // SetActivities No Remarks
-func (ud *UpdateDocument) SetActivities(p []commons.Activity) *UpdateDocument {
+func (ud *UpdateDocument) SetActivities(p *commons.Activities) *UpdateDocument {
 	mName := fmt.Sprintf(ActivitiesFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
@@ -1196,8 +1196,8 @@ func (ud *UpdateDocument) UnsetActivities() *UpdateDocument {
 }
 
 // setOrUnsetActivities No Remarks - here2
-func (ud *UpdateDocument) setOrUnsetActivities(p []commons.Activity, um UnsetMode) {
-	if len(p) > 0 {
+func (ud *UpdateDocument) setOrUnsetActivities(p *commons.Activities, um UnsetMode) {
+	if p != nil && !p.IsZero() {
 		ud.SetActivities(p)
 	} else {
 		switch um {
@@ -1210,9 +1210,9 @@ func (ud *UpdateDocument) setOrUnsetActivities(p []commons.Activity, um UnsetMod
 	}
 }
 
-func UpdateWithActivities(p []commons.Activity) UpdateOption {
+func UpdateWithActivities(p *commons.Activities) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if len(p) > 0 {
+		if p != nil && !p.IsZero() {
 			ud.SetActivities(p)
 		} else {
 			ud.UnsetActivities()

@@ -396,7 +396,19 @@ func (ca *Criteria) AndActivityPendingEqTo(p string) *Criteria {
 		return ca
 	}
 
-	mName := fmt.Sprintf(ActivitiesFieldName)
+	mName := fmt.Sprintf(Activities_Todos_IdFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndProductBidEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(Product_BidFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
 	*ca = append(*ca, c)
 	return ca

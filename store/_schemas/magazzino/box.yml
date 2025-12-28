@@ -66,11 +66,9 @@ attributes:
     struct-ref:
       name: Note
 - name: activities
-  type: array
-  item:
-    type: struct
-    struct-ref:
-      name: Activity
+  type: struct
+  struct-ref:
+    name: Activities
 - name: sys_info
   struct-ref:
     name: SysInfo

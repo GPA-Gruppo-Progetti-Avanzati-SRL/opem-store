@@ -15,6 +15,7 @@ entities:
 - file-name: ./event.yml
 - file-name: ./status.yml
 - file-name: ./activity.yml
+- file-name: ./activities.yml
 
 # @tpm-schematics:start-region("bottom-file-section")
 # @tpm-schematics:end-region("bottom-file-section")
