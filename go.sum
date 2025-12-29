@@ -1,5 +1,7 @@
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.90-RCB h1:wMsfKaTpBKJjdQXlZAlq/103KBroaDF0UorfzXN0pU8=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.90-RCB/go.mod h1:Q456LEsf8ywWb9GU1sIesWakRSIWe6MisfM2Q5lDJlw=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.90-RCC h1:02ISF5yL/0E65UymfPIYzhDrdw0OBF0w8/CK5hBR7+8=
+github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common v0.1.90-RCC/go.mod h1:Q456LEsf8ywWb9GU1sIesWakRSIWe6MisfM2Q5lDJlw=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.2-RCL h1:BRc4QBXJVR5vLlsewTXhqC9ibnBrzXnItaqJM89Mf94=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.2-RCM h1:meCMBumKr5QsvC9jRuqfjabkpwctvQPA0AcmmhbDcgk=
 github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common v1.0.2-RCM/go.mod h1:HOTBcdJcXzbMTOCqIvW2Phsis8fUIuAWleY7Wh7nTj8=
