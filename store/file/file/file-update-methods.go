@@ -504,6 +504,24 @@ func UpdateWithStatsOnInsert(p *Stat) UpdateOption {
 	}
 }
 
+func UpdateWithNumErrorsNumOk(numErrs int, numOk int) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if numErrs != 0 {
+			mName1 := fmt.Sprintf(Stats_NumErrorsFieldName)
+			ud.Set().Add(func() bson.E {
+				return bson.E{Key: mName1, Value: numErrs}
+			})
+		}
+
+		if numErrs != 0 {
+			mName2 := fmt.Sprintf(Stats_NumRecordsOkFieldName)
+			ud.Set().Add(func() bson.E {
+				return bson.E{Key: mName2, Value: numErrs}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("stats-field-update-section")
 
 // SetType No Remarks
