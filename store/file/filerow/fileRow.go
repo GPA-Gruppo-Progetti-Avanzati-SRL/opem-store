@@ -25,6 +25,7 @@ type FileRow struct {
 	Bid           string              `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Et            string              `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Status        string              `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	Editor        string              `json:"editor,omitempty" bson:"editor,omitempty" yaml:"editor,omitempty"`
 	RowData       string              `json:"row_data,omitempty" bson:"row_data,omitempty" yaml:"row_data,omitempty"`
 	RowNumber     int32               `json:"row_number,omitempty" bson:"row_number,omitempty" yaml:"row_number,omitempty"`
 	RowDataFormat string              `json:"row_data_format,omitempty" bson:"row_data_format,omitempty" yaml:"row_data_format,omitempty"`
@@ -37,7 +38,7 @@ type FileRow struct {
 }
 
 func (s FileRow) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Status == "" && s.RowData == "" && s.RowNumber == 0 && s.RowDataFormat == "" && len(s.Errs) == 0 && s.File.IsZero() && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Status == "" && s.Editor == "" && s.RowData == "" && s.RowNumber == 0 && s.RowDataFormat == "" && len(s.Errs) == 0 && s.File.IsZero() && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {

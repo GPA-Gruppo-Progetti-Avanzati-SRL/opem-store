@@ -14,6 +14,7 @@ const (
 	BidFieldName                = "_bid"
 	EtFieldName                 = "_et"
 	StatusFieldName             = "status"
+	EditorFieldName             = "editor"
 	RowDataFieldName            = "row_data"
 	RowNumberFieldName          = "row_number"
 	RowDataFormatFieldName      = "row_data_format"

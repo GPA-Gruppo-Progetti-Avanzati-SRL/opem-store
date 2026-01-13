@@ -35,6 +35,7 @@ type UnsetOptions struct {
 	Bid           UnsetMode
 	Et            UnsetMode
 	Status        UnsetMode
+	Editor        UnsetMode
 	RowData       UnsetMode
 	RowNumber     UnsetMode
 	RowDataFormat UnsetMode
@@ -84,6 +85,11 @@ func WithEtUnsetMode(m UnsetMode) UnsetOption {
 func WithStatusUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.Status = m
+	}
+}
+func WithEditorUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Editor = m
 	}
 }
 func WithRowDataUnsetMode(m UnsetMode) UnsetOption {
@@ -147,6 +153,7 @@ func GetUpdateDocument(obj *FileRow, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnsetStatus(obj.Status, uo.ResolveUnsetMode(uo.Status))
+	ud.setOrUnsetEditor(obj.Editor, uo.ResolveUnsetMode(uo.Editor))
 	ud.setOrUnsetRow_data(obj.RowData, uo.ResolveUnsetMode(uo.RowData))
 	ud.setOrUnsetRow_number(obj.RowNumber, uo.ResolveUnsetMode(uo.RowNumber))
 	ud.setOrUnsetRow_data_format(obj.RowDataFormat, uo.ResolveUnsetMode(uo.RowDataFormat))
@@ -422,6 +429,52 @@ func UpdateWithStatus(p string) UpdateOption {
 
 // @tpm-schematics:start-region("status-field-update-section")
 // @tpm-schematics:end-region("status-field-update-section")
+
+// SetEditor No Remarks
+func (ud *UpdateDocument) SetEditor(p string) *UpdateDocument {
+	mName := fmt.Sprintf(EditorFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetEditor No Remarks
+func (ud *UpdateDocument) UnsetEditor() *UpdateDocument {
+	mName := fmt.Sprintf(EditorFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetEditor No Remarks
+func (ud *UpdateDocument) setOrUnsetEditor(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetEditor(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetEditor()
+		case SetData2Default:
+			ud.UnsetEditor()
+		}
+	}
+}
+
+func UpdateWithEditor(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetEditor(p)
+		} else {
+			ud.UnsetEditor()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("editor-field-update-section")
+// @tpm-schematics:end-region("editor-field-update-section")
 
 // SetRow_data No Remarks
 func (ud *UpdateDocument) SetRow_data(p string) *UpdateDocument {

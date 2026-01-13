@@ -2,9 +2,8 @@ package filerow
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -266,5 +265,59 @@ func (ca *Criteria) AndStatusIn(p []string) *Criteria {
 // @tpm-schematics:start-region("status-field-filter-section")
 // @tpm-schematics:end-region("status-field-filter-section")
 
+/*
+ * filter-string template: editor
+ */
+
+// AndEditorEqTo No Remarks
+func (ca *Criteria) AndEditorEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(EditorFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// AndEditorIsNullOrUnset No Remarks
+func (ca *Criteria) AndEditorIsNullOrUnset() *Criteria {
+
+	mName := fmt.Sprintf(EditorFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndEditorIn(p []string) *Criteria {
+
+	if len(p) == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(EditorFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:start-region("editor-field-filter-section")
+// @tpm-schematics:end-region("editor-field-filter-section")
+
 // @tpm-schematics:start-region("bottom-file-section")
+
+func (ca *Criteria) AndFileBidEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(File_BidFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

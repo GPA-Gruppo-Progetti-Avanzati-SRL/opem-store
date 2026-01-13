@@ -25,6 +25,9 @@ attributes:
 - name: status
   type: string
   options: with-filter
+- name: editor
+  type: string
+  options: with-filter
 - name: row_data
   type: string
 - name: row_number
