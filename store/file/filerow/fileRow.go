@@ -1,6 +1,10 @@
 package filerow
 
-import "go.mongodb.org/mongo-driver/v2/bson"
+import (
+	"net/http"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
+)
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
@@ -46,6 +50,21 @@ func (s FileRow) IsZero() bool {
 type QueryResult struct {
 	Records int       `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
 	Data    []FileRow `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
+}
+
+const (
+	FormResponseOK = http.StatusOK
+)
+
+type FormResponseErrors struct {
+	Field string `json:"field,omitempty" bson:"field,omitempty" yaml:"field,omitempty"`
+	Error string `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+}
+
+type FormResponse struct {
+	Status      int    `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	Message     string `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+	FieldErrors []FormResponseErrors
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
