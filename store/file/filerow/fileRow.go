@@ -14,6 +14,8 @@ const (
 
 	RowDataFormatText = "text"
 	RowDataFormatJson = "json"
+
+	EditorFixAna02 = "fix-ana-02"
 )
 
 // @tpm-schematics:end-region("top-file-section")
