@@ -3,12 +3,11 @@ package territorio
 import (
 	"context"
 	"errors"
-	"time"
-
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -55,6 +54,30 @@ func FindByPk(collection *mongo.Collection /* pk params, */, mustFind bool, find
 	}
 
 	return &ent, true, nil
+}
+
+func FindFirst(collection *mongo.Collection, f *Filter, findOptions *options.FindOptionsBuilder) (*Territorio, error) {
+	const semLogContext = "territorio::find-first"
+	fd := f.Build()
+	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	cur, err := collection.Find(context.Background(), fd, findOptions)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return nil, err
+	}
+
+	if cur.Next(context.Background()) {
+		dto := Territorio{}
+		err = cur.Decode(&dto)
+		if err != nil {
+			return nil, err
+		}
+
+		return &dto, nil
+	}
+
+	return nil, nil
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {

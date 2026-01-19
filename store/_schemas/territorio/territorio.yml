@@ -25,6 +25,7 @@ attributes:
     type: string
   - name: code_catastale
     type: string
+    options: with-filter
   # ------ delta provincia
   - name: nazione
     struct-ref:

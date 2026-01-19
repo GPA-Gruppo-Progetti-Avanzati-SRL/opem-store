@@ -2,9 +2,8 @@ package territorio
 
 import (
 	"fmt"
-	"time"
-
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -142,6 +141,47 @@ func (ca *Criteria) AndBidIn(p []string) *Criteria {
 
 // @tpm-schematics:start-region("-bid-field-filter-section")
 // @tpm-schematics:end-region("-bid-field-filter-section")
+
+/*
+ * filter-string template: code_catastale
+ */
+
+// AndCodeCatastaleEqTo No Remarks
+func (ca *Criteria) AndCodeCatastaleEqTo(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(CodeCatastaleFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// AndCodeCatastaleIsNullOrUnset No Remarks
+func (ca *Criteria) AndCodeCatastaleIsNullOrUnset() *Criteria {
+
+	mName := fmt.Sprintf(CodeCatastaleFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: nil} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndCodeCatastaleIn(p []string) *Criteria {
+
+	if len(p) == 0 {
+		return ca
+	}
+
+	mName := fmt.Sprintf(CodeCatastaleFieldName)
+	c := func() bson.E { return bson.E{Key: mName, Value: bson.D{{"$in", p}}} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+// @tpm-schematics:start-region("code-catastale-field-filter-section")
+// @tpm-schematics:end-region("code-catastale-field-filter-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
 
