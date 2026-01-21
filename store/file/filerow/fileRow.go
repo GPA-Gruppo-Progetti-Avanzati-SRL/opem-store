@@ -13,8 +13,9 @@ const (
 	EntityType   = "file-row"
 	CollectionId = "file-row"
 
-	StatusError = "Err"
+	StatusError = "KO"
 	StatusOK    = "OK"
+	StatusFixed = "FIXED"
 
 	RowDataFormatText = "text"
 	RowDataFormatJson = "json"
