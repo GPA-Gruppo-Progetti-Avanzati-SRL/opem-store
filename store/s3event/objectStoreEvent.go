@@ -20,6 +20,7 @@ const (
 	StatusIDC            = "idc"
 	StatusError          = "error"
 	StatusAlreadyPresent = "already-present"
+	StatusNotFound       = "skipped-not-found"
 )
 
 // @tpm-schematics:end-region("top-file-section")

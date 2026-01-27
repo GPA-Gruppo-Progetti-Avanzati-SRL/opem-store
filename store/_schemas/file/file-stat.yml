@@ -6,6 +6,8 @@ attributes:
     type: int
   - name: num_records_ok
     type: int
+  - name: num_records_fixed
+    type: int
   - name: size
     type: int
 

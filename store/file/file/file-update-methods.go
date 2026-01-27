@@ -801,4 +801,27 @@ func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 // @tpm-schematics:end-region("sys-info-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func UpdateWithModifiedAt(at bson.DateTime) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if at != 0 {
+			mName := fmt.Sprintf(SysInfo_ModifiedAtFieldName)
+			ud.Set().Add(func() bson.E {
+				return bson.E{Key: mName, Value: at}
+			})
+		}
+	}
+}
+
+func UpdateWithIncNumRecordsFixed(increment int32) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if increment != 0 {
+			mName := fmt.Sprintf(Stats_NumRecordsFixedFieldName)
+			ud.Inc().Add(func() bson.E {
+				return bson.E{Key: mName, Value: increment}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

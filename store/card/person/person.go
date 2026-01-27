@@ -1,6 +1,16 @@
 package person
 
-import "go.mongodb.org/mongo-driver/v2/bson"
+import (
+	"context"
+	"fmt"
+	"strings"
+
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/sequence"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-common/util"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
+	"github.com/rs/zerolog/log"
+	"go.mongodb.org/mongo-driver/v2/bson"
+)
 import "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 
 // @tpm-schematics:start-region("top-file-section")
@@ -41,4 +51,35 @@ type QueryResult struct {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func NextBid(domain, site string) (string, error) {
+	const semLogContext = "person::next-bid"
+
+	coll, err := mongolks.GetCollection(context.Background(), "default", sequence.CollectionId)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return "", err
+	}
+
+	seq, err := sequence.SprintfNextVal(coll,
+		domain, site,
+		sequence.WithSeqId(sequence.PersonSequenceId),
+		sequence.WithCreateIfMissing(true))
+
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return "", err
+	}
+
+	return seq, nil
+}
+
+// EmbossingName TODO synch with embossing name task in task and svcs_core
+func (s Person) EmbossingName() string {
+	embName := fmt.Sprintf("%s %s", s.LastName, s.FirstName)
+	embName, _ = util.ToMaxLength(embName, false, 30)
+
+	return strings.ToUpper(embName)
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

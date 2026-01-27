@@ -43,6 +43,18 @@ type QueryResult struct {
 	Data    []User `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
 }
 
+type FormResponseError struct {
+	Field string `json:"field,omitempty" bson:"field,omitempty" yaml:"field,omitempty"`
+	Error string `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+}
+
+type FormResponse struct {
+	Status      int                 `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	Message     string              `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+	FieldErrors []FormResponseError `json:"fieldErrors,omitempty" bson:"fieldErrors,omitempty" yaml:"fieldErrors,omitempty"`
+	Document    *User               `json:"document,omitempty" bson:"document,omitempty" yaml:"document,omitempty"`
+}
+
 // @tpm-schematics:start-region("bottom-file-section")
 
 func (s User) ToJson() ([]byte, error) {

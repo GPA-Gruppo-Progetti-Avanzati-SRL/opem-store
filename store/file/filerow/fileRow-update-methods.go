@@ -2,8 +2,9 @@ package filerow
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -753,4 +754,16 @@ func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 // @tpm-schematics:end-region("sys-info-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+func UpdateWithModifiedAt(at bson.DateTime) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if at != 0 {
+			mName := fmt.Sprintf(SysInfo_ModifiedAtFieldName)
+			ud.Set().Add(func() bson.E {
+				return bson.E{Key: mName, Value: at}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("bottom-file-section")
