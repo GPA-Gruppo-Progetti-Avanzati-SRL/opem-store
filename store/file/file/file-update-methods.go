@@ -513,10 +513,10 @@ func UpdateWithNumErrorsNumOk(numErrs int, numOk int) UpdateOption {
 			})
 		}
 
-		if numErrs != 0 {
+		if numOk != 0 {
 			mName2 := fmt.Sprintf(Stats_NumRecordsOkFieldName)
 			ud.Set().Add(func() bson.E {
-				return bson.E{Key: mName2, Value: numErrs}
+				return bson.E{Key: mName2, Value: numOk}
 			})
 		}
 	}
