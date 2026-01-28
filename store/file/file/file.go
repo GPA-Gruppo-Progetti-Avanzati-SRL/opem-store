@@ -19,7 +19,9 @@ const (
 	TypeAnonymousCardRequest         = "RC02"
 	TypeAnonymousCardRequestResponse = "RC02"
 	TypeAnagraficheConsegnaCarte02   = "ANA02"
-	TypeC3CardFile                   = "RC04"
+	TypeRichiestaCartePreAssegnate   = "RIC03"
+
+	TypeC3CardFile = "RC04"
 
 	TypeNamedCardRequest        = "RC03"
 	TypeCardDelivery            = "RC04"
