@@ -45,6 +45,10 @@ type QueryResult struct {
 
 // @tpm-schematics:start-region("bottom-file-section")
 
+type NextValueProvider interface {
+	Next() (string, error)
+}
+
 type Range struct {
 	from    int32
 	to      int32
@@ -82,9 +86,9 @@ func (r *Range) HasNext() bool {
 	return r.current < (r.to - r.from)
 }
 
-func (r *Range) Next() string {
+func (r *Range) Next() (string, error) {
 	r.current++
-	return r.CurrentValue()
+	return r.CurrentValue(), nil
 }
 
 type RangeMap map[string]*Range
@@ -92,7 +96,7 @@ type RangeMap map[string]*Range
 func (rm RangeMap) NextVal(n string) (string, error) {
 	if r, ok := rm[n]; ok {
 		if r.HasNext() {
-			v := r.Next()
+			v, _ := r.Next()
 			return v, nil
 		} else {
 			return "", errors.New("range exhausted: " + r.CurrentValue())

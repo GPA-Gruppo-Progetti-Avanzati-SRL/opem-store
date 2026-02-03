@@ -12,14 +12,14 @@ func ReleaseSequenceRange(coll *mongo.Collection, domain, site, bid string, rng 
 	const semLogContext = "sequence::release-sequence-range"
 
 	if !rng.HasNext() {
-		log.Info().Str("range", rng.String()).Msg(semLogContext + " - no item to release")
+		log.Info().Str("range", rng.String()).Str("seq-bid", bid).Msg(semLogContext + " - no item to release")
 		return nil
 	}
 
 	val := rng.CurrentValueAsInt()
 
 	f := Filter{}
-	f.Or().AndDomainEqTo(domain).AndSiteEqTo(site).AndEtEqTo(EntityType).AndValueEqTo(rng.To())
+	f.Or().AndDomainEqTo(domain).AndSiteEqTo(site).AndEtEqTo(EntityType).AndValueEqTo(rng.To()).AndBidEqTo(bid)
 	fd := f.Build()
 	log.Trace().Str("release-sequence-range-filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
 

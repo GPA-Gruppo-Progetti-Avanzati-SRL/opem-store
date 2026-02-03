@@ -29,7 +29,8 @@ func TestSequence(t *testing.T) {
 	require.NoError(t, err)
 	t.Log("seq: ", seq)
 
-	t.Log("next", rng.Next())
+	nv, _ := rng.Next()
+	t.Log("next", nv)
 	err = sequence.ReleaseSequenceRange(coll, sequenceDomain, sequenceSite, sequenceBid, rng)
 	require.NoError(t, err)
 

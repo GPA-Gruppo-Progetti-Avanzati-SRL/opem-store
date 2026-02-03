@@ -30,7 +30,7 @@ func TestCard(t *testing.T) {
 		},
 	}
 
-	fndr, err := card.NewCardFinder(coll, "card", "10000", cardRanges)
+	fndr, err := card.NewCardFinderByBidRange(coll, "card", "10000", cardRanges)
 	require.NoError(t, err)
 
 	crd, err := fndr.Next()
