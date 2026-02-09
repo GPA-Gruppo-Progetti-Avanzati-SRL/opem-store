@@ -26,8 +26,8 @@ attributes:
   type: string
 - name: primary_funct
   type: string
-- name: expiration_at
-  type: string
+- name: expires_at
+  type: date
   options: with-filter
 - name: pers_bureau
   type: string

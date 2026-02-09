@@ -2,8 +2,9 @@ package prodotto
 
 import (
 	"fmt"
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
 
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/commons"
 )
@@ -36,7 +37,7 @@ type UnsetOptions struct {
 	Et           UnsetMode
 	Name         UnsetMode
 	PrimaryFunct UnsetMode
-	ExpirationAt UnsetMode
+	ExpiresAt    UnsetMode
 	PersBureau   UnsetMode
 	HostProduct  UnsetMode
 	Properties   UnsetMode
@@ -92,9 +93,9 @@ func WithPrimaryFunctUnsetMode(m UnsetMode) UnsetOption {
 		uopt.PrimaryFunct = m
 	}
 }
-func WithExpirationAtUnsetMode(m UnsetMode) UnsetOption {
+func WithExpiresAtUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
-		uopt.ExpirationAt = m
+		uopt.ExpiresAt = m
 	}
 }
 func WithPersBureauUnsetMode(m UnsetMode) UnsetOption {
@@ -154,7 +155,7 @@ func GetUpdateDocument(obj *Prodotto, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
 	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
 	ud.setOrUnsetPrimary_funct(obj.PrimaryFunct, uo.ResolveUnsetMode(uo.PrimaryFunct))
-	ud.setOrUnsetExpiration_at(obj.ExpirationAt, uo.ResolveUnsetMode(uo.ExpirationAt))
+	ud.setOrUnsetExpires_at(obj.ExpiresAt, uo.ResolveUnsetMode(uo.ExpiresAt))
 	ud.setOrUnsetPers_bureau(obj.PersBureau, uo.ResolveUnsetMode(uo.PersBureau))
 	ud.setOrUnsetHost_product(&obj.HostProduct, uo.ResolveUnsetMode(uo.HostProduct))
 	ud.setOrUnsetProperties(obj.Properties, uo.ResolveUnsetMode(uo.Properties))
@@ -476,51 +477,51 @@ func UpdateWithPrimary_funct(p string) UpdateOption {
 // @tpm-schematics:start-region("primary-funct-field-update-section")
 // @tpm-schematics:end-region("primary-funct-field-update-section")
 
-// SetExpiration_at No Remarks
-func (ud *UpdateDocument) SetExpiration_at(p string) *UpdateDocument {
-	mName := fmt.Sprintf(ExpirationAtFieldName)
+// SetExpires_at No Remarks
+func (ud *UpdateDocument) SetExpires_at(p bson.DateTime) *UpdateDocument {
+	mName := fmt.Sprintf(ExpiresAtFieldName)
 	ud.Set().Add(func() bson.E {
 		return bson.E{Key: mName, Value: p}
 	})
 	return ud
 }
 
-// UnsetExpiration_at No Remarks
-func (ud *UpdateDocument) UnsetExpiration_at() *UpdateDocument {
-	mName := fmt.Sprintf(ExpirationAtFieldName)
+// UnsetExpires_at No Remarks
+func (ud *UpdateDocument) UnsetExpires_at() *UpdateDocument {
+	mName := fmt.Sprintf(ExpiresAtFieldName)
 	ud.Unset().Add(func() bson.E {
 		return bson.E{Key: mName, Value: ""}
 	})
 	return ud
 }
 
-// setOrUnsetExpiration_at No Remarks
-func (ud *UpdateDocument) setOrUnsetExpiration_at(p string, um UnsetMode) {
-	if p != "" {
-		ud.SetExpiration_at(p)
+// setOrUnsetExpires_at No Remarks
+func (ud *UpdateDocument) setOrUnsetExpires_at(p bson.DateTime, um UnsetMode) {
+	if p != 0 {
+		ud.SetExpires_at(p)
 	} else {
 		switch um {
 		case KeepCurrent:
 		case UnsetData:
-			ud.UnsetExpiration_at()
+			ud.UnsetExpires_at()
 		case SetData2Default:
-			ud.UnsetExpiration_at()
+			ud.UnsetExpires_at()
 		}
 	}
 }
 
-func UpdateWithExpiration_at(p string) UpdateOption {
+func UpdateWithExpires_at(p bson.DateTime) UpdateOption {
 	return func(ud *UpdateDocument) {
-		if p != "" {
-			ud.SetExpiration_at(p)
+		if p != 0 {
+			ud.SetExpires_at(p)
 		} else {
-			ud.UnsetExpiration_at()
+			ud.UnsetExpires_at()
 		}
 	}
 }
 
-// @tpm-schematics:start-region("expiration-at-field-update-section")
-// @tpm-schematics:end-region("expiration-at-field-update-section")
+// @tpm-schematics:start-region("expires-at-field-update-section")
+// @tpm-schematics:end-region("expires-at-field-update-section")
 
 // SetPers_bureau No Remarks
 func (ud *UpdateDocument) SetPers_bureau(p string) *UpdateDocument {

@@ -12,7 +12,6 @@ const (
 	SupplyTypeAnonymous  = "anonymous"
 	SupplyTypeNominative = "nominative"
 
-	SupplyType
 	StatusDaGenerare                         = "CX" // value: "magazzino da generare in stato Confermato"
 	StatusInAttesaDiInvio                    = "CH" // value: in attesa di invio - Stato non esistente in PCWEB
 	StatusInAttesaDiConferma                 = "C1" // value: in attesa di conferma

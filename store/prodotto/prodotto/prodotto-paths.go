@@ -15,7 +15,7 @@ const (
 	EtFieldName                     = "_et"
 	NameFieldName                   = "name"
 	PrimaryFunctFieldName           = "primary_funct"
-	ExpirationAtFieldName           = "expiration_at"
+	ExpiresAtFieldName              = "expires_at"
 	PersBureauFieldName             = "pers_bureau"
 	HostProductFieldName            = "host_product"
 	HostProduct_CodeFieldName       = "host_product.code"

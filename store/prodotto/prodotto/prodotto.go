@@ -19,7 +19,7 @@ type Prodotto struct {
 	Et           string          `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Name         string          `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	PrimaryFunct string          `json:"primary_funct,omitempty" bson:"primary_funct,omitempty" yaml:"primary_funct,omitempty"`
-	ExpirationAt string          `json:"expiration_at,omitempty" bson:"expiration_at,omitempty" yaml:"expiration_at,omitempty"`
+	ExpiresAt    bson.DateTime   `json:"expires_at,omitempty" bson:"expires_at,omitempty" yaml:"expires_at,omitempty"`
 	PersBureau   string          `json:"pers_bureau,omitempty" bson:"pers_bureau,omitempty" yaml:"pers_bureau,omitempty"`
 	HostProduct  HostProduct     `json:"host_product,omitempty" bson:"host_product,omitempty" yaml:"host_product,omitempty"`
 	Properties   bson.M          `json:"properties,omitempty" bson:"properties,omitempty" yaml:"properties,omitempty"`
@@ -31,12 +31,24 @@ type Prodotto struct {
 }
 
 func (s Prodotto) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Name == "" && s.PrimaryFunct == "" && s.ExpirationAt == "" && s.PersBureau == "" && s.HostProduct.IsZero() && len(s.Properties) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Name == "" && s.PrimaryFunct == "" && s.ExpiresAt == 0 && s.PersBureau == "" && s.HostProduct.IsZero() && len(s.Properties) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {
 	Records int        `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
 	Data    []Prodotto `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
+}
+
+type FormResponseError struct {
+	Field string `json:"field,omitempty" bson:"field,omitempty" yaml:"field,omitempty"`
+	Error string `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+}
+
+type FormResponse struct {
+	Status      int                 `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	Message     string              `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+	FieldErrors []FormResponseError `json:"fieldErrors,omitempty" bson:"fieldErrors,omitempty" yaml:"fieldErrors,omitempty"`
+	Document    *Prodotto           `json:"document,omitempty" bson:"document,omitempty" yaml:"document,omitempty"`
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
