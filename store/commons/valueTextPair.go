@@ -27,4 +27,12 @@ func NewValueTextPair(value string, maskValue string) ValueTextPair {
 	return ValueTextPair{Value: value}
 }
 
+func (s ValueTextPair) String() string {
+	if s.Text != "" {
+		return s.Text
+	}
+
+	return s.Value
+}
+
 // @tpm-schematics:end-region("bottom-file-section")
