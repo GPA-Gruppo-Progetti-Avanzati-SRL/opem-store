@@ -30,4 +30,12 @@ func (s AppDefinition) IsZero() bool {
 }
 
 // @tpm-schematics:start-region("bottom-file-section")
+
+type AppFormResponse struct {
+	Status        int                 `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	Message       string              `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+	FieldErrors   []FormResponseError `json:"fieldErrors,omitempty" bson:"fieldErrors,omitempty" yaml:"fieldErrors,omitempty"`
+	AppDefinition *AppDefinition      `json:"document,omitempty" bson:"document,omitempty" yaml:"document,omitempty"`
+}
+
 // @tpm-schematics:end-region("bottom-file-section")

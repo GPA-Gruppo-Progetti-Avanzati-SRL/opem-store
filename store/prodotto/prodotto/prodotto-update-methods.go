@@ -751,6 +751,18 @@ func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 }
 
 // @tpm-schematics:start-region("sys-info-field-update-section")
+
+func UpdateWithModifiedAt(at bson.DateTime) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if at != 0 {
+			mName := fmt.Sprintf(SysInfo_ModifiedAtFieldName)
+			ud.Set().Add(func() bson.E {
+				return bson.E{Key: mName, Value: at}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("sys-info-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")
