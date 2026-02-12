@@ -35,6 +35,7 @@ type UnsetOptions struct {
 	Site         UnsetMode
 	Bid          UnsetMode
 	Et           UnsetMode
+	Name         UnsetMode
 	OfficerName  UnsetMode
 	ExtendedName UnsetMode
 	ReducedName  UnsetMode
@@ -78,6 +79,11 @@ func WithBidUnsetMode(m UnsetMode) UnsetOption {
 func WithEtUnsetMode(m UnsetMode) UnsetOption {
 	return func(uopt *UnsetOptions) {
 		uopt.Et = m
+	}
+}
+func WithNameUnsetMode(m UnsetMode) UnsetOption {
+	return func(uopt *UnsetOptions) {
+		uopt.Name = m
 	}
 }
 func WithOfficerNameUnsetMode(m UnsetMode) UnsetOption {
@@ -135,6 +141,7 @@ func GetUpdateDocument(obj *FocalPoint, opts ...UnsetOption) UpdateDocument {
 	ud.setOrUnsetSite(obj.Site, uo.ResolveUnsetMode(uo.Site))
 	ud.setOrUnset_bid(obj.Bid, uo.ResolveUnsetMode(uo.Bid))
 	ud.setOrUnset_et(obj.Et, uo.ResolveUnsetMode(uo.Et))
+	ud.setOrUnsetName(obj.Name, uo.ResolveUnsetMode(uo.Name))
 	ud.setOrUnsetOfficer_name(obj.OfficerName, uo.ResolveUnsetMode(uo.OfficerName))
 	ud.setOrUnsetExtended_name(obj.ExtendedName, uo.ResolveUnsetMode(uo.ExtendedName))
 	ud.setOrUnsetReduced_name(obj.ReducedName, uo.ResolveUnsetMode(uo.ReducedName))
@@ -364,6 +371,52 @@ func UpdateWith_et(p string) UpdateOption {
 // @tpm-schematics:start-region("-et-field-update-section")
 // @tpm-schematics:end-region("-et-field-update-section")
 
+// SetName No Remarks
+func (ud *UpdateDocument) SetName(p string) *UpdateDocument {
+	mName := fmt.Sprintf(NameFieldName)
+	ud.Set().Add(func() bson.E {
+		return bson.E{Key: mName, Value: p}
+	})
+	return ud
+}
+
+// UnsetName No Remarks
+func (ud *UpdateDocument) UnsetName() *UpdateDocument {
+	mName := fmt.Sprintf(NameFieldName)
+	ud.Unset().Add(func() bson.E {
+		return bson.E{Key: mName, Value: ""}
+	})
+	return ud
+}
+
+// setOrUnsetName No Remarks
+func (ud *UpdateDocument) setOrUnsetName(p string, um UnsetMode) {
+	if p != "" {
+		ud.SetName(p)
+	} else {
+		switch um {
+		case KeepCurrent:
+		case UnsetData:
+			ud.UnsetName()
+		case SetData2Default:
+			ud.UnsetName()
+		}
+	}
+}
+
+func UpdateWithName(p string) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if p != "" {
+			ud.SetName(p)
+		} else {
+			ud.UnsetName()
+		}
+	}
+}
+
+// @tpm-schematics:start-region("name-field-update-section")
+// @tpm-schematics:end-region("name-field-update-section")
+
 // SetOfficer_name No Remarks
 func (ud *UpdateDocument) SetOfficer_name(p string) *UpdateDocument {
 	mName := fmt.Sprintf(OfficerNameFieldName)
@@ -592,6 +645,18 @@ func UpdateWithSys_info(p *commons.SysInfo) UpdateOption {
 }
 
 // @tpm-schematics:start-region("sys-info-field-update-section")
+
+func UpdateWithModifiedAt(at bson.DateTime) UpdateOption {
+	return func(ud *UpdateDocument) {
+		if at != 0 {
+			mName := fmt.Sprintf(SysInfo_ModifiedAtFieldName)
+			ud.Set().Add(func() bson.E {
+				return bson.E{Key: mName, Value: at}
+			})
+		}
+	}
+}
+
 // @tpm-schematics:end-region("sys-info-field-update-section")
 
 // @tpm-schematics:start-region("bottom-file-section")

@@ -70,17 +70,17 @@ func FindByCode(collection *mongo.Collection, code string, mustFind bool, findOp
 	err := collection.FindOne(ctx, f.Build(), findOptions).Decode(&ent)
 	if err != nil && err != mongo.ErrNoDocuments {
 		log.Error().Err(err).Msg(semLogContext)
-		return &ent, false, err
+		return nil, false, err
 	} else {
 		if err != nil {
 			if mustFind {
 				log.Trace().Str("domain", code).Msg(semLogContext + " document not found")
-				return &ent, false, err
+				return nil, false, err
 			}
 
 			log.Trace().Str("domain", code).Msg(semLogContext + " document not found but allowed")
 			ent.Bid = code
-			return &ent, false, nil
+			return nil, false, nil
 		} else {
 			log.Trace().Str("domain", code).Msg(semLogContext + " document found")
 		}

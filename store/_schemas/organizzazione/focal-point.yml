@@ -22,6 +22,8 @@ attributes:
 - name: _et
   type: string
   options: with-filter
+- name: name
+  type: string
 - name: officer_name
   type: string
 - name: extended_name

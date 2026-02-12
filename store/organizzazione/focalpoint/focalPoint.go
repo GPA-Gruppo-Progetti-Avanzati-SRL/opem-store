@@ -21,6 +21,7 @@ type FocalPoint struct {
 	Site         string          `json:"site,omitempty" bson:"site,omitempty" yaml:"site,omitempty"`
 	Bid          string          `json:"_bid,omitempty" bson:"_bid,omitempty" yaml:"_bid,omitempty"`
 	Et           string          `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
+	Name         string          `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	OfficerName  string          `json:"officer_name,omitempty" bson:"officer_name,omitempty" yaml:"officer_name,omitempty"`
 	ExtendedName string          `json:"extended_name,omitempty" bson:"extended_name,omitempty" yaml:"extended_name,omitempty"`
 	ReducedName  string          `json:"reduced_name,omitempty" bson:"reduced_name,omitempty" yaml:"reduced_name,omitempty"`
@@ -32,12 +33,24 @@ type FocalPoint struct {
 }
 
 func (s FocalPoint) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.OfficerName == "" && s.ExtendedName == "" && s.ReducedName == "" && s.Address.IsZero() && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Domain == "" && s.Site == "" && s.Bid == "" && s.Et == "" && s.Name == "" && s.OfficerName == "" && s.ExtendedName == "" && s.ReducedName == "" && s.Address.IsZero() && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {
 	Records int          `json:"records,omitempty" bson:"records,omitempty" yaml:"records,omitempty"`
 	Data    []FocalPoint `json:"data,omitempty" bson:"data,omitempty" yaml:"data,omitempty"`
+}
+
+type FormResponseError struct {
+	Field string `json:"field,omitempty" bson:"field,omitempty" yaml:"field,omitempty"`
+	Error string `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+}
+
+type FormResponse struct {
+	Status      int                 `json:"status,omitempty" bson:"status,omitempty" yaml:"status,omitempty"`
+	Message     string              `json:"message,omitempty" bson:"message,omitempty" yaml:"message,omitempty"`
+	FieldErrors []FormResponseError `json:"fieldErrors,omitempty" bson:"fieldErrors,omitempty" yaml:"fieldErrors,omitempty"`
+	Document    *FocalPoint         `json:"document,omitempty" bson:"document,omitempty" yaml:"document,omitempty"`
 }
 
 // @tpm-schematics:start-region("bottom-file-section")

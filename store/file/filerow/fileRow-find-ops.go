@@ -3,11 +3,12 @@ package filerow
 import (
 	"context"
 	"errors"
+	"time"
+
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
-	"time"
 )
 
 // @tpm-schematics:start-region("top-file-section")
@@ -38,16 +39,16 @@ func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind b
 	err := collection.FindOne(ctx, fd, findOptions).Decode(&ent)
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		evtErrLog.Err(err).Msg(semLogContext)
-		return &ent, false, err
+		return nil, false, err
 	} else {
 		if err != nil {
 			if mustFind {
 				evtTraceLog.Msg(semLogContext + " document not found")
-				return &ent, false, err
+				return nil, false, err
 			}
 
 			evtTraceLog.Msg(semLogContext + " document not found but allowed")
-			return &ent, false, nil
+			return nil, false, nil
 		} else {
 			evtTraceLog.Msg(semLogContext + " document found")
 		}

@@ -39,22 +39,46 @@ func FindByPk(collection *mongo.Collection, domain, site, bid string, mustFind b
 	err := collection.FindOne(ctx, fd, findOptions).Decode(&ent)
 	if err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 		evtErrLog.Err(err).Msg(semLogContext)
-		return &ent, false, err
+		return nil, false, err
 	} else {
 		if err != nil {
 			if mustFind {
 				evtTraceLog.Msg(semLogContext + " document not found")
-				return &ent, false, err
+				return nil, false, err
 			}
 
 			evtTraceLog.Msg(semLogContext + " document not found but allowed")
-			return &ent, false, nil
+			return nil, false, nil
 		} else {
 			evtTraceLog.Msg(semLogContext + " document found")
 		}
 	}
 
 	return &ent, true, nil
+}
+
+func FindFirst(collection *mongo.Collection, f *Filter, findOptions *options.FindOptionsBuilder) (*FocalPoint, error) {
+	const semLogContext = "focal-point::find-first"
+	fd := f.Build()
+	log.Trace().Str("filter", util.MustToExtendedJsonString(fd, false, false)).Msg(semLogContext)
+
+	cur, err := collection.Find(context.Background(), fd, findOptions)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return nil, err
+	}
+
+	if cur.Next(context.Background()) {
+		dto := FocalPoint{}
+		err = cur.Decode(&dto)
+		if err != nil {
+			return nil, err
+		}
+
+		return &dto, nil
+	}
+
+	return nil, nil
 }
 
 func Find(collection *mongo.Collection, f *Filter, withCount bool, findOptions *options.FindOptionsBuilder) (QueryResult, error) {
