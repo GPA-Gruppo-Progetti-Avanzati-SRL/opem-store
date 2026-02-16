@@ -182,6 +182,21 @@ func (ca *Criteria) AndBidIn(p []string) *Criteria {
 }
 
 // @tpm-schematics:start-region("-bid-field-filter-section")
+
+func (ca *Criteria) AndBidHasPrefix(p string) *Criteria {
+
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(BidFieldName)
+	c := func() bson.E {
+		return bson.E{Key: mName, Value: bson.D{{"$regex", bson.Regex{Pattern: fmt.Sprintf("^%s", p), Options: "i"}}}}
+	}
+	*ca = append(*ca, c)
+	return ca
+}
+
 // @tpm-schematics:end-region("-bid-field-filter-section")
 
 /*
