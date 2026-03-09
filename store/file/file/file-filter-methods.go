@@ -428,7 +428,7 @@ func (ca *Criteria) AndBlobKeyIn(p []string) *Criteria {
 
 // @tpm-schematics:start-region("blob-key-field-filter-section")
 
-func (ca *Criteria) AndBidHasPrefix(p string) *Criteria {
+func (ca *Criteria) AndBlobKeyHasPrefix(p string) *Criteria {
 
 	if p == "" {
 		return ca
