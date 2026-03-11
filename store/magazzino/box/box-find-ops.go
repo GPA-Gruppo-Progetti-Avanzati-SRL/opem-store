@@ -207,6 +207,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 
 	pipeline := mongo.Pipeline{}
 	pipeline = append(pipeline, bson.D{{"$match", fd}})
+	pipeline = append(pipeline, bson.D{{"$sort", bson.D{{"_bid", -1}}}})
 	if findOptions != nil {
 		if findOptions.Skip != nil {
 			pipeline = append(pipeline, bson.D{{"$skip", findOptions.Skip}})
@@ -215,8 +216,6 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			pipeline = append(pipeline, bson.D{{"$limit", findOptions.Limit}})
 		}
 	}
-
-	pipeline = append(pipeline, bson.D{{"$sort", bson.D{{"_bid", -1}}}})
 
 	pipeline = append(pipeline, bson.D{
 		{"$lookup", bson.D{
