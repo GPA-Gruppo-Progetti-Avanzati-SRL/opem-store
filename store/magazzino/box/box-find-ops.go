@@ -270,14 +270,6 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"as", "doc_prodotto"},
 		}},
 	})
-	pipeline = append(pipeline, bson.D{
-		{
-			Key: "$sort",
-			Value: bson.D{
-				{"", 1},
-			},
-		},
-	})
 
 	pipeline = append(pipeline, bson.D{
 		{"$project", bson.D{
@@ -319,6 +311,29 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"focal_point.bid", "$doc_magazzino.focal_point.bid"},
 		}},
 	})
+
+	// Projection unificate
+	//pipeline = append(pipeline, bson.D{
+	//	{"$project", bson.D{
+	//		{"_bid", 1},
+	//		{"_et", 1},
+	//		{"domain", 1},
+	//		{"site", 1},
+	//		{"info", 1},
+	//		{"status", 1},
+	//		{"recipient", 1},
+	//		{"events", 1},
+	//		{"activities", 1},
+	//		{"notes", 1},
+	//		{"supply_type", 1},
+	//		{"sys_info", 1},
+	//		{"card_bids_range", 1},
+	//		{"magazzino.bid", bson.D{{"$arrayElemAt", bson.A{"$doc_magazzino._bid", 0}}}},
+	//		{"prodotto.bid", bson.D{{"$arrayElemAt", bson.A{"$doc_prodotto._bid", 0}}}},
+	//		{"prodotto.text", bson.D{{"$arrayElemAt", bson.A{"$doc_prodotto.name", 0}}}},
+	//		{"focal_point.bid", bson.D{{"$arrayElemAt", bson.A{"$doc_magazzino.focal_point.bid", 0}}}},
+	//	}},
+	//})
 
 	opts := options.Aggregate()
 	cur, err := collection.Aggregate(ctx, pipeline, opts)
