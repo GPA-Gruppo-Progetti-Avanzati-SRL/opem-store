@@ -215,6 +215,9 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			pipeline = append(pipeline, bson.D{{"$limit", findOptions.Limit}})
 		}
 	}
+
+	pipeline = append(pipeline, bson.D{{"$sort", bson.D{{"_bid", -1}}}})
+
 	pipeline = append(pipeline, bson.D{
 		{"$lookup", bson.D{
 			{"from", magazzinoCollectionCfg.Name},
@@ -267,6 +270,15 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 			{"as", "doc_prodotto"},
 		}},
 	})
+	pipeline = append(pipeline, bson.D{
+		{
+			Key: "$sort",
+			Value: bson.D{
+				{"", 1},
+			},
+		},
+	})
+
 	pipeline = append(pipeline, bson.D{
 		{"$project", bson.D{
 			{"_bid", 1},
