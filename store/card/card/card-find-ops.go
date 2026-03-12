@@ -422,4 +422,58 @@ func CountCardsGroupedByProduct(collection *mongo.Collection, collectionsCfg map
 	return qr, nil
 }
 
+func FindEmbossingNameByMongoSearch(collection *mongo.Collection, findOptions *options.FindOptions, f *Filter, embName string) (QueryResult, error) {
+	const semLogContext = "card::search-embossing-name"
+	qr := QueryResult{}
+
+	fd := f.Build()
+	pipeline := mongo.Pipeline{}
+	pipeline = append(pipeline, bson.D{
+		{"$search", bson.D{
+			{"index", "embossing_name_autocomplete"},
+			{"autocomplete", bson.D{
+				{"query", embName},
+				{"path", "holder.embossing_name"},
+			},
+			}},
+		}})
+
+	pipeline = append(pipeline, bson.D{
+		{"$match", fd},
+	})
+
+	if findOptions != nil {
+		if findOptions.Skip != nil {
+			pipeline = append(pipeline, bson.D{{"$skip", findOptions.Skip}})
+		}
+		if findOptions.Limit != nil {
+			pipeline = append(pipeline, bson.D{{"$limit", findOptions.Limit}})
+		}
+	}
+
+	ctx := context.Background()
+	opts := options.Aggregate()
+	cur, err := collection.Aggregate(ctx, pipeline, opts)
+	if err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return qr, err
+	}
+
+	for cur.Next(context.Background()) {
+		dto := Card{}
+		err = cur.Decode(&dto)
+		if err != nil {
+			return qr, err
+		}
+
+		qr.Data = append(qr.Data, dto)
+	}
+
+	for _, stage := range pipeline {
+		log.Trace().Str("filter", util.MustToExtendedJsonString(stage, true, true)).Msg(semLogContext)
+	}
+
+	return qr, nil
+}
+
 // @tpm-schematics:end-region("bottom-file-section")
