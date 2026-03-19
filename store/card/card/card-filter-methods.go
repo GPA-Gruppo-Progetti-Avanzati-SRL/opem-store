@@ -2,6 +2,7 @@ package card
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -361,7 +362,7 @@ func (ca *Criteria) AndHolderRegistrationIdEqTo(p string) *Criteria {
 	}
 
 	mName := fmt.Sprintf(Holder_RegistrationIdFieldName)
-	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	c := func() bson.E { return bson.E{Key: mName, Value: strings.ToUpper(p)} }
 	*ca = append(*ca, c)
 	return ca
 }
@@ -374,6 +375,30 @@ func (ca *Criteria) AndHolderEmbossingNameEqTo(p string) *Criteria {
 
 	mName := fmt.Sprintf(Holder_EmbossingNameFieldName)
 	c := func() bson.E { return bson.E{Key: mName, Value: p} }
+	*ca = append(*ca, c)
+	return ca
+}
+
+func (ca *Criteria) AndHolderEmbossingNameFullLike(p string) *Criteria {
+	if p == "" {
+		return ca
+	}
+
+	mName := fmt.Sprintf(Holder_EmbossingNameFieldName)
+
+	c := func() bson.E {
+		return bson.E{
+			Key: mName,
+			Value: bson.D{
+				{"$regex",
+					bson.Regex{
+						Pattern: fmt.Sprintf(".*%s.*", p),
+						Options: "i"},
+				},
+			},
+		}
+	}
+
 	*ca = append(*ca, c)
 	return ca
 }
