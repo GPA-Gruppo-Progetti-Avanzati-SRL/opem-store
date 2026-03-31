@@ -5,21 +5,20 @@ import (
 	"errors"
 	"time"
 
+	"fmt"
+
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/card/card"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/magazzino"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/util"
 	"github.com/rs/zerolog/log"
+	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // @tpm-schematics:start-region("top-file-section")
-import (
-	"fmt"
-
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/magazzino/magazzino"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/prodotto/prodotto"
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
-	"go.mongodb.org/mongo-driver/v2/bson"
-)
 
 // @tpm-schematics:end-region("top-file-section")
 
@@ -173,6 +172,7 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 
 	magazzinoCollectionCfg := collectionsCfg[magazzino.CollectionId]
 	prodottoCollectionCfg := collectionsCfg[prodotto.CollectionId]
+	cardCollectionCfg := collectionsCfg[card.CollectionId]
 	if magazzinoCollectionCfg.Name == "" || prodottoCollectionCfg.Name == "" {
 		err := errors.New("cannot resolve collections name for magazzino or prodotto")
 		log.Error().Err(err).
@@ -209,106 +209,153 @@ func FindByAggregationView(collection *mongo.Collection, collectionsCfg map[stri
 	pipeline = append(pipeline, bson.D{{"$match", fd}})
 	pipeline = append(pipeline, bson.D{{"$sort", bson.D{{"_bid", -1}}}})
 	if findOptions != nil {
-		if findOptions.Skip != nil {
-			pipeline = append(pipeline, bson.D{{"$skip", findOptions.Skip}})
-		}
-		if findOptions.Limit != nil {
-			pipeline = append(pipeline, bson.D{{"$limit", findOptions.Limit}})
-		}
+			if findOptions.Skip != nil {
+					pipeline = append(pipeline, bson.D{{"$skip", findOptions.Skip}})
+			}
+			if findOptions.Limit != nil {
+					pipeline = append(pipeline, bson.D{{"$limit", findOptions.Limit}})
+			}
 	}
 
+	// Lookup magazzino
 	pipeline = append(pipeline, bson.D{
-		{"$lookup", bson.D{
-			{"from", magazzinoCollectionCfg.Name},
-			{"let", bson.D{
-				{"domain", "$domain"}, {"site", "$site"},
-				{"et", magazzino.EntityType}, {"bid", "$magazzino.bid"},
-			},
-			},
-			{"pipeline", bson.A{
-				bson.D{
-					{"$match", bson.D{
-						{"$expr", bson.D{
-							{"$and",
-								bson.A{
-									bson.D{{"$eq", bson.A{"$domain", "$$domain"}}},
-									bson.D{{"$eq", bson.A{"$site", "$$site"}}},
-									bson.D{{"$eq", bson.A{"$_et", "$$et"}}},
-									bson.D{{"$eq", bson.A{"$_bid", "$$bid"}}},
-								},
+			{"$lookup", bson.D{
+					{"from", magazzinoCollectionCfg.Name},
+					{"let", bson.D{
+							{"domain", "$domain"}, {"site", "$site"},
+							{"et", magazzino.EntityType}, {"bid", "$magazzino.bid"},
+					}},
+					{"pipeline", bson.A{
+							bson.D{
+									{"$match", bson.D{
+											{"$expr", bson.D{
+													{"$and", bson.A{
+															bson.D{{"$eq", bson.A{"$domain", "$$domain"}}},
+															bson.D{{"$eq", bson.A{"$site", "$$site"}}},
+															bson.D{{"$eq", bson.A{"$_et", "$$et"}}},
+															bson.D{{"$eq", bson.A{"$_bid", "$$bid"}}},
+													}},
+											}},
+									}},
 							},
-						}},
 					}},
-				},
+					{"as", "doc_magazzino"},
 			}},
-			{"as", "doc_magazzino"},
-		}},
-	})
-	pipeline = append(pipeline, bson.D{
-		{"$lookup", bson.D{
-			{"from", prodottoCollectionCfg.Name},
-			{"let", bson.D{
-				{"domain", "$domain"}, {"site", "$site"},
-				{"et", prodotto.EntityType}, {"bid", "$prodotto.bid"},
-			},
-			},
-			{"pipeline", bson.A{
-				bson.D{
-					{"$match", bson.D{
-						{"$expr", bson.D{
-							{"$and", bson.A{
-								bson.D{{"$eq", bson.A{"$domain", "$$domain"}}},
-								bson.D{{"$eq", bson.A{"$site", "$$site"}}},
-								bson.D{{"$eq", bson.A{"$_et", "$$et"}}},
-								bson.D{{"$eq", bson.A{"$_bid", "$$bid"}}},
-							}},
-						}},
-					}},
-				},
-			}},
-			{"as", "doc_prodotto"},
-		}},
 	})
 
+	// Lookup prodotto
 	pipeline = append(pipeline, bson.D{
-		{"$project", bson.D{
-			{"_bid", 1},
-			{"_et", 1},
-			{"domain", 1},
-			{"site", 1},
-			{"info", 1},
-			{"status", 1},
-			{"recipient", 1},
-			{"events", 1},
-			{"activities", 1},
-			{"notes", 1},
-			{"sys_info", 1},
-			{"card_bids_range", 1},
-			{"doc_magazzino", bson.D{{"$arrayElemAt", bson.A{"$doc_magazzino", 0}}}},
-			{"doc_prodotto", bson.D{{"$arrayElemAt", bson.A{"$doc_prodotto", 0}}}},
-		}},
+			{"$lookup", bson.D{
+					{"from", prodottoCollectionCfg.Name},
+					{"let", bson.D{
+							{"domain", "$domain"}, {"site", "$site"},
+							{"et", prodotto.EntityType}, {"bid", "$prodotto.bid"},
+					}},
+					{"pipeline", bson.A{
+							bson.D{
+									{"$match", bson.D{
+											{"$expr", bson.D{
+													{"$and", bson.A{
+															bson.D{{"$eq", bson.A{"$domain", "$$domain"}}},
+															bson.D{{"$eq", bson.A{"$site", "$$site"}}},
+															bson.D{{"$eq", bson.A{"$_et", "$$et"}}},
+															bson.D{{"$eq", bson.A{"$_bid", "$$bid"}}},
+													}},
+											}},
+									}},
+							},
+					}},
+					{"as", "doc_prodotto"},
+			}},
 	})
+
+	// Lookup cards
 	pipeline = append(pipeline, bson.D{
-		{"$project", bson.D{
-			{"_bid", 1},
-			{"_et", 1},
-			{"domain", 1},
-			{"site", 1},
-			{"info", 1},
-			{"status", 1},
-			{"recipient", 1},
-			{"events", 1},
-			{"activities", 1},
-			{"notes", 1},
-			{"supply_type", 1},
-			{"sys_info", 1},
-			{"card_bids_range", 1},
-			{"magazzino.bid", "$doc_magazzino._bid"},
-			{"prodotto.bid", "$doc_prodotto._bid"},
-			{"prodotto.text", "$doc_prodotto.name"},
-			// {"prodotto.text", bson.D{{"$concat", bson.A{"$doc_prodotto._bid", " - ", "$doc_prodotto.name"}}}},
-			{"focal_point.bid", "$doc_magazzino.focal_point.bid"},
-		}},
+			{"$lookup", bson.D{
+					{"from", cardCollectionCfg.Name},
+					{"let", bson.D{
+							{"domain", "$domain"},
+							{"site", "$site"},
+							{"bid_card_from", "$card_bids_range.from"},
+							{"bid_card_to", "$card_bids_range.to"},
+					}},
+					{"pipeline", bson.A{
+							bson.D{
+									{"$match", bson.D{
+											{"$expr", bson.D{
+													{"$and", bson.A{
+															bson.D{{"$eq", bson.A{"$domain", "$$domain"}}},
+															bson.D{{"$eq", bson.A{"$site", "$$site"}}},
+															bson.D{{"$eq", bson.A{"$_et", card.EntityType}}},
+															bson.D{{"$or", bson.A{
+																	bson.D{{"$eq", bson.A{"$_bid", "$$bid_card_from"}}},
+																	bson.D{{"$eq", bson.A{"$_bid", "$$bid_card_to"}}},
+															}}},
+													}},
+											}},
+									}},
+							},
+							bson.D{{"$sort", bson.D{{"envelope_number.value", 1}}}},
+							bson.D{
+									{"$project", bson.D{
+											{"_id", 0},
+											{"env_number_range", "$envelope_number.value"},
+									}},
+							},
+					}},
+					{"as", "env_number_range"},
+			}},
+	})
+
+	// Prima projection
+	pipeline = append(pipeline, bson.D{
+			{"$project", bson.D{
+					{"_bid", 1},
+					{"_et", 1},
+					{"domain", 1},
+					{"site", 1},
+					{"info", 1},
+					{"status", 1},
+					{"recipient", 1},
+					{"events", 1},
+					{"activities", 1},
+					{"notes", 1},
+					{"sys_info", 1},
+					{"card_bids_range", 1},
+					{"doc_magazzino", bson.D{{"$arrayElemAt", bson.A{"$doc_magazzino", 0}}}},
+					{"doc_prodotto", bson.D{{"$arrayElemAt", bson.A{"$doc_prodotto", 0}}}},
+					{"env_number_range", 1},
+			}},
+	})
+
+	// Seconda projection
+	pipeline = append(pipeline, bson.D{
+			{"$project", bson.D{
+					{"_bid", 1},
+					{"_et", 1},
+					{"domain", 1},
+					{"site", 1},
+					{"info", 1},
+					{"status", 1},
+					{"recipient", 1},
+					{"events", 1},
+					{"activities", 1},
+					{"notes", 1},
+					{"supply_type", 1},
+					{"sys_info", 1},
+					{"card_bids_range", 1},
+					{"magazzino.bid", "$doc_magazzino._bid"},
+					{"prodotto.bid", "$doc_prodotto._bid"},
+					{"prodotto.text", "$doc_prodotto.name"},
+					{"focal_point.bid", "$doc_magazzino.focal_point.bid"},
+					{"env_number_range", bson.D{
+							{"$map", bson.D{
+									{"input", "$env_number_range"},
+									{"as", "item"},
+									{"in", "$$item.env_number_range"},
+							}},
+					}},
+			}},
 	})
 
 	// Projection unificate

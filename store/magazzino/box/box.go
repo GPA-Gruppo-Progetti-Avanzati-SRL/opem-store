@@ -42,6 +42,7 @@ type Box struct {
 	SysInfo       commons.SysInfo     `json:"sys_info,omitempty" bson:"sys_info,omitempty" yaml:"sys_info,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
+	EnvNumberRange []string `json:"env_number_range,omitempty" bson:"env_number_range,omitempty" yaml:"env_number_range,omitempty"` // range of envelope number associated to the box
 	// @tpm-schematics:end-region("struct-section")
 }
 
