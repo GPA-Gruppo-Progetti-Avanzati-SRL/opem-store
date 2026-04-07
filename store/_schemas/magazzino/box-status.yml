@@ -1,9 +1,0 @@
-name: Status
-attributes:
-- name: num_in
-  type: int
-- name: num_out
-  type: int
-- name: status
-  type: string
-

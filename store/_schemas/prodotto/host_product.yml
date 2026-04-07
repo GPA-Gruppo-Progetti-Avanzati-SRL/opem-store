@@ -1,8 +1,0 @@
-name: HostProduct
-attributes:
-  - name: code
-    type: string
-  - name: layout_code
-    type: string
-  - name: release
-    type: string

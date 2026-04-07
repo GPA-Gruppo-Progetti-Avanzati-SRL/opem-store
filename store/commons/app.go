@@ -11,6 +11,12 @@ type App struct {
 	Path         string `json:"path,omitempty" bson:"path,omitempty" yaml:"path,omitempty"`
 	Version      string `json:"version,omitempty" bson:"version,omitempty" yaml:"version,omitempty"`
 	RoleRequired bool   `json:"role_required,omitempty" bson:"role_required,omitempty" yaml:"role_required,omitempty"`
+	// Icon: icona da mostrare nella UI di navigazione (es. nome icon Feather/Material: "grid", "bar-chart", ecc.)
+	// Valorizzato nel documento site MongoDB → apps[].icon. Opzionale.
+	Icon string `json:"icon,omitempty" bson:"icon,omitempty" yaml:"icon,omitempty"`
+	// Order: posizione dell'app nel menu di navigazione (ordinamento crescente).
+	// Valorizzato nel documento site MongoDB → apps[].order. Opzionale, default 0.
+	Order int `json:"order,omitempty" bson:"order,omitempty" yaml:"order,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")

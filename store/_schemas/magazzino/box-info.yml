@@ -1,8 +1,0 @@
-name: Info
-attributes:
-- name: box_code
-  type: string
-- name: package_code
-  type: string
-
-
