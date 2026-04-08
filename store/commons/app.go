@@ -17,6 +17,11 @@ type App struct {
 	// Order: posizione dell'app nel menu di navigazione (ordinamento crescente).
 	// Valorizzato nel documento site MongoDB → apps[].order. Opzionale, default 0.
 	Order int `json:"order,omitempty" bson:"order,omitempty" yaml:"order,omitempty"`
+	// ApiContext: context-name del mapping (proxy-config.yml → mappings[].context-name)
+	// che questa app deve usare per le chiamate API verso il backend.
+	// Se vuoto, il front-door usa il valore default-api-context del proxy-config.
+	// Esempio: "propositore-svc", "my-svc".
+	ApiContext string `json:"api_context,omitempty" bson:"api_context,omitempty" yaml:"api_context,omitempty"`
 
 	// @tpm-schematics:start-region("struct-section")
 	// @tpm-schematics:end-region("struct-section")

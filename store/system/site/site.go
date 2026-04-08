@@ -18,6 +18,12 @@ type Site struct {
 	Et          string          `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Name        string          `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Description string          `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
+	// Icon: icona da mostrare nella UI di navigazione per il site (es. "layers", "grid", ecc.).
+	// Valorizzato nel documento site MongoDB → icon. Opzionale.
+	Icon        string          `json:"icon,omitempty" bson:"icon,omitempty" yaml:"icon,omitempty"`
+	// Order: posizione del site nel selettore di navigazione (ordinamento crescente).
+	// Valorizzato nel documento site MongoDB → order. Opzionale, default 0.
+	Order       int             `json:"order,omitempty" bson:"order,omitempty" yaml:"order,omitempty"`
 	Bookmark    bool            `json:"bookmark,omitempty" bson:"bookmark,omitempty" yaml:"bookmark,omitempty"`
 	Langs       string          `json:"langs,omitempty" bson:"langs,omitempty" yaml:"langs,omitempty"`
 	Apps        []commons.App   `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
