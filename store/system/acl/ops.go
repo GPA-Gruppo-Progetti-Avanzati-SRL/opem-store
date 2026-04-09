@@ -8,7 +8,6 @@ import (
 	"github.com/rs/zerolog/log"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
-	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // ResolveCapabilities risolve il grafo completo role-caps → cap-group → cap-def
@@ -56,12 +55,8 @@ func ResolveCapabilities(ctx context.Context, coll *mongo.Collection, domain, si
 
 	// ── Query 2: cap-groups bulk ──────────────────────────────────────────────
 	// Una sola query con $in su tutti i codici; risultato in memoria.
-	//
-	// cgByCodeApp: code → app → CapGroup
-	// Permette in memoria di applicare la stessa semantica di FindCapGroup:
-	//   - entry globale (App=""): usa TUTTI i cap-group per quel code (qualsiasi app)
-	//   - entry app-specifica: preferisce app esatta, fallback su "*"
-	cgByCodeApp := make(map[string]map[string]CapGroup)
+	// _id = code garantisce unicità: un solo documento per code.
+	cgByCode := make(map[string]CapGroup)
 
 	if len(allCgCodes) > 0 {
 		codes := make([]string, 0, len(allCgCodes))
@@ -74,11 +69,7 @@ func ResolveCapabilities(ctx context.Context, coll *mongo.Collection, domain, si
 			return nil, cgErr
 		}
 		for _, cg := range allCgs {
-			if cgByCodeApp[cg.Code] == nil {
-				cgByCodeApp[cg.Code] = make(map[string]CapGroup)
-			}
-			// In caso di duplicati (code, app) — situazione anomala — l'ultimo vince.
-			cgByCodeApp[cg.Code][cg.App] = cg
+			cgByCode[cg.Code] = cg
 		}
 		log.Debug().Int("codes", len(codes)).Int("cap-groups", len(allCgs)).
 			Msg(semLogContext + " - cap-groups bulk loaded")
@@ -92,45 +83,18 @@ func ResolveCapabilities(ctx context.Context, coll *mongo.Collection, domain, si
 	}
 
 	for _, entry := range entries {
-		isGlobal := entry.App == ""
-		log.Debug().Str("role", entry.Role).Str("app", entry.App).Bool("global", isGlobal).
-			Msg(semLogContext + " - expanding role-caps entry")
+		log.Debug().Str("role", entry.Role).Msg(semLogContext + " - expanding role-caps entry")
 
 		for _, cgCode := range entry.CapGroups {
-			appMap, exists := cgByCodeApp[cgCode]
-			if !exists || len(appMap) == 0 {
-				log.Warn().Str("code", cgCode).Str("app", entry.App).
+			cg, exists := cgByCode[cgCode]
+			if !exists {
+				log.Warn().Str("code", cgCode).Str("role", entry.Role).
 					Msg(semLogContext + " - cap-group not found, skipping")
 				continue
 			}
-
-			if isGlobal {
-				// Usa TUTTI i cap-group per questo codice (tutte le app).
-				for _, cg := range appMap {
-					log.Debug().Str("code", cgCode).Str("cg-app", cg.App).
-						Int("ids", len(cg.Capabilities)).
-						Msg(semLogContext + " - cap-group (global) expanded")
-					for _, capId := range cg.Capabilities {
-						if capId != "" {
-							allCapDefIds[capId] = struct{}{}
-						}
-					}
-				}
-			} else {
-				// Preferisce il cap-group app-specifico; fallback su "*".
-				cg, ok := appMap[entry.App]
-				if !ok {
-					cg, ok = appMap["*"]
-				}
-				if !ok {
-					log.Warn().Str("code", cgCode).Str("app", entry.App).
-						Msg(semLogContext + " - cap-group not found for app or *, skipping")
-					continue
-				}
-				for _, capId := range cg.Capabilities {
-					if capId != "" {
-						allCapDefIds[capId] = struct{}{}
-					}
+			for _, capId := range cg.Capabilities {
+				if capId != "" {
+					allCapDefIds[capId] = struct{}{}
 				}
 			}
 		}
@@ -201,7 +165,7 @@ func ResolveCapabilitiesPerSite(ctx context.Context, coll *mongo.Collection, dom
 	}
 
 	// Query 2: cap-groups bulk
-	cgByCodeApp := make(map[string]map[string]CapGroup)
+	cgByCode := make(map[string]CapGroup)
 	if len(allCgCodes) > 0 {
 		codes := make([]string, 0, len(allCgCodes))
 		for c := range allCgCodes {
@@ -212,10 +176,7 @@ func ResolveCapabilitiesPerSite(ctx context.Context, coll *mongo.Collection, dom
 			return nil, cgErr
 		}
 		for _, cg := range allCgs {
-			if cgByCodeApp[cg.Code] == nil {
-				cgByCodeApp[cg.Code] = make(map[string]CapGroup)
-			}
-			cgByCodeApp[cg.Code][cg.App] = cg
+			cgByCode[cg.Code] = cg
 		}
 		log.Debug().Int("codes", len(codes)).Int("cap-groups", len(allCgs)).
 			Msg(semLogContext + " - cap-groups bulk loaded")
@@ -228,7 +189,6 @@ func ResolveCapabilitiesPerSite(ctx context.Context, coll *mongo.Collection, dom
 
 	for _, entry := range entries {
 		siteKey := entry.Site // "" per entry globali
-		isGlobal := entry.App == ""
 
 		// Cap-def dirette
 		for _, capId := range entry.Capabilities {
@@ -239,34 +199,15 @@ func ResolveCapabilitiesPerSite(ctx context.Context, coll *mongo.Collection, dom
 
 		// Cap-def via cap-group
 		for _, cgCode := range entry.CapGroups {
-			appMap, exists := cgByCodeApp[cgCode]
-			if !exists || len(appMap) == 0 {
+			cg, exists := cgByCode[cgCode]
+			if !exists {
 				log.Warn().Str("code", cgCode).Str("role", entry.Role).
 					Msg(semLogContext + " - cap-group not found, skipping")
 				continue
 			}
-			if isGlobal {
-				for _, cg := range appMap {
-					for _, capId := range cg.Capabilities {
-						if capId != "" {
-							siteCapIds[siteCapKey{siteKey, capId}] = struct{}{}
-						}
-					}
-				}
-			} else {
-				cg, ok := appMap[entry.App]
-				if !ok {
-					cg, ok = appMap["*"]
-				}
-				if !ok {
-					log.Warn().Str("code", cgCode).Str("app", entry.App).
-						Msg(semLogContext + " - cap-group not found for app or *, skipping")
-					continue
-				}
-				for _, capId := range cg.Capabilities {
-					if capId != "" {
-						siteCapIds[siteCapKey{siteKey, capId}] = struct{}{}
-					}
+			for _, capId := range cg.Capabilities {
+				if capId != "" {
+					siteCapIds[siteCapKey{siteKey, capId}] = struct{}{}
 				}
 			}
 		}
@@ -399,36 +340,32 @@ func FindRoleCaps(ctx context.Context, collection *mongo.Collection, domain, sit
 
 // ── FindCapGroup ──────────────────────────────────────────────────────────────
 
-// FindCapGroup cerca un documento cap-group per (app, code).
-// Effettua fallback su app="*" per i gruppi cross-app.
+// FindCapGroup cerca un documento cap-group per code.
+// _id = code garantisce unicità globale: lookup diretto per code.
 // Ritorna (nil, nil) se non trovato.
-func FindCapGroup(ctx context.Context, collection *mongo.Collection, app, code string) (*CapGroup, error) {
+func FindCapGroup(ctx context.Context, collection *mongo.Collection, code string) (*CapGroup, error) {
 	const semLogContext = "acl::find-cap-group"
 
 	filter := bson.D{
 		{Key: "_et", Value: EntityTypeCapGroup},
 		{Key: "code", Value: code},
-		{Key: "app", Value: bson.D{{Key: "$in", Value: bson.A{app, "*"}}}},
 		activeFilter,
 	}
-	// Priorità all'app-specifico rispetto a "*":
-	// ordinamento discendente su "app" → il valore specifico precede "*".
-	opts := options.FindOne().SetSort(bson.D{{Key: "app", Value: -1}})
 
 	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
 	var cg CapGroup
-	if err := collection.FindOne(ctx, filter, opts).Decode(&cg); err != nil {
+	if err := collection.FindOne(ctx, filter).Decode(&cg); err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
-			log.Debug().Str("app", app).Str("code", code).Msg(semLogContext + " - not found")
+			log.Debug().Str("code", code).Msg(semLogContext + " - not found")
 			return nil, nil
 		}
-		log.Error().Err(err).Str("app", app).Str("code", code).Msg(semLogContext + " - db error")
+		log.Error().Err(err).Str("code", code).Msg(semLogContext + " - db error")
 		return nil, err
 	}
 
-	log.Debug().Str("app", app).Str("code", code).Msg(semLogContext + " - found")
+	log.Debug().Str("code", code).Msg(semLogContext + " - found")
 	return &cg, nil
 }
 

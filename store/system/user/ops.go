@@ -84,7 +84,7 @@ func FindByNickname(collection *mongo.Collection, nickname string, mustFind bool
 
 func FindByHexOid(collection *mongo.Collection, userId string, mustFind bool, findOptions *options.FindOneOptionsBuilder) (*User, error) {
 
-	const SemLogContext = "r3ds9-core/user/find-by-object-id"
+	const SemLogContext = "opem-core/user/find-by-object-id"
 	log.Trace().Str("userId", userId).Msg(SemLogContext)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -113,7 +113,7 @@ func FindByHexOid(collection *mongo.Collection, userId string, mustFind bool, fi
 /*
 func Insert(ctx context.Context, aCollection *mongo.Collection, s *Session) (string, error) {
 
-	const SemLogContext = "r3ds9-core/session/insert"
+	const SemLogContext = "opem-core/session/insert"
 	log.Trace().Str("nickname", s.Nickname).Msg(SemLogContext)
 
 	now := time.Now()
@@ -135,7 +135,7 @@ func Insert(ctx context.Context, aCollection *mongo.Collection, s *Session) (str
 
 func Remove(ctx context.Context, aCollection *mongo.Collection, sid string, mustDelete bool) (int, error) {
 
-	const SemLogContext = "r3ds9-core/session/remove"
+	const SemLogContext = "opem-core/session/remove"
 	log.Trace().Str("sid", sid).Msg(SemLogContext)
 
 	f := Filter{}
@@ -155,7 +155,7 @@ func Remove(ctx context.Context, aCollection *mongo.Collection, sid string, must
 
 func UpdateSession(ctx context.Context, aCollection *mongo.Collection, sid string, mustMatch bool, opts ...UpdateOption) (int, error) {
 
-	const SemLogContext = "r3ds9-core/session/remove"
+	const SemLogContext = "opem-core/session/remove"
 	log.Trace().Str("sid", sid).Msg(SemLogContext)
 
 	ud := UpdateDocument{}

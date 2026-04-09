@@ -191,7 +191,7 @@ func (ca *Criteria) AndRemoteAddrIn(p []string) *Criteria {
 // AndSessionIdEqTo No Remarks
 func (ca *Criteria) AndSessionIdEqTo(sid string) *Criteria {
 
-	const SemLogContext = "r3ds9-core/session/and-hex-oid-eq-to"
+	const SemLogContext = "opem-core/session/and-hex-oid-eq-to"
 	if sid == "" {
 		return ca
 	}

@@ -22,13 +22,13 @@ func (f CacheResolverFunc) Retrieve(d, s string) (interface{}, error) {
 var domainCache *cache.Cache
 
 func NewCache(expDuration time.Duration, purgeInterval time.Duration) {
-	const semLogContext = "r3ds9-mongodb/site/new-cache"
+	const semLogContext = "opem-mongodb/site/new-cache"
 	log.Info().Dur("expiry", expDuration).Dur("purge", purgeInterval).Msg(semLogContext)
 	domainCache = cache.New(expDuration, purgeInterval)
 }
 
 func NewCacheResolver(coll *mongo.Collection) CacheResolverFunc {
-	const SemLogContext = "r3ds9-mongodb/site/new-cache-resolver"
+	const SemLogContext = "opem-mongodb/site/new-cache-resolver"
 	return func(d, s string) (interface{}, error) {
 
 		// Use the mustFind false for easier handling of DOS cache misses.... Dunno how to handle.... tbd.
@@ -38,8 +38,10 @@ func NewCacheResolver(coll *mongo.Collection) CacheResolverFunc {
 			return nil, err
 		}
 
+		// Documento non trovato: ritorna (nil, nil) — non è un errore,
+		// è una normale assenza. GetFromCache gestisce il nil senza loggare ERR.
 		if !ok {
-			return nil, mongo.ErrNoDocuments
+			return nil, nil
 		}
 
 		return ent, nil
@@ -48,19 +50,25 @@ func NewCacheResolver(coll *mongo.Collection) CacheResolverFunc {
 
 func GetFromCache(resolver CacheResolver, domain, code string) (*Site, bool) {
 
-	const SemLogContext = "r3ds9-mongodb/site/get-site-from-cache"
-	var err error
+	const SemLogContext = "opem-mongodb/site/get-site-from-cache"
 
 	k := CacheKey(domain, code)
 	item, ok := domainCache.Get(k)
 	if !ok {
-		log.Warn().Str("k", k).Str("domain", domain).Str("site", code).Msgf(SemLogContext + " cache miss")
+		// Cache miss è normale: la prima richiesta o dopo scadenza TTL.
+		log.Debug().Str("domain", domain).Str("site", code).Msg(SemLogContext + " - cache miss, querying db")
+		var err error
 		item, err = resolver.Retrieve(domain, code)
 		if err != nil {
-			log.Error().Err(err).Msg(SemLogContext)
+			// Errore reale di connessione / query MongoDB
+			log.Error().Err(err).Str("domain", domain).Str("site", code).Msg(SemLogContext + " - db error")
 			return nil, false
 		}
-
+		if item == nil {
+			// Documento non presente in MongoDB — non è un errore
+			log.Debug().Str("domain", domain).Str("site", code).Msg(SemLogContext + " - not found in db")
+			return nil, false
+		}
 		domainCache.Set(k, item, cache.DefaultExpiration)
 	}
 
