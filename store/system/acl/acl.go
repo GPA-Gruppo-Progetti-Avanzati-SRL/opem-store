@@ -69,21 +69,19 @@ func (c CapDef) IsZero() bool {
 // CapGroup raggruppa IDs di cap-def per riuso nelle assegnazioni role-caps.
 // Non ridefinisce le capabilities: contiene solo riferimenti (IDs).
 //
-// Naming convention _id: uguale al campo code (es. "sim-viewer").
-// Il code è l'unica chiave di lookup: _id = code garantisce l'unicità a livello globale.
-// L'app di appartenenza è già codificata negli _id delle cap-def referenziate,
-// quindi non è necessario ripeterla qui.
+// Il campo _id è l'unica chiave (es. "sim-viewer"): usato come riferimento in
+// role-caps.cap_groups. Non esiste un campo "code" separato — _id IS il codice.
+// L'app di appartenenza è già codificata negli _id delle cap-def referenziate.
 type CapGroup struct {
 	OId          string          `json:"_id,omitempty"         bson:"_id,omitempty"` // stringa, es. "sim-viewer"
 	Et           string          `json:"_et,omitempty"         bson:"_et,omitempty"`
-	Code         string          `json:"code"                  bson:"code"`
 	Description  string          `json:"description,omitempty" bson:"description,omitempty"`
 	Capabilities []string        `json:"capabilities"          bson:"capabilities"` // lista di cap-def _id
 	SysInfo      commons.SysInfo `json:"sys_info,omitempty"    bson:"sys_info,omitempty"`
 }
 
 func (c CapGroup) IsZero() bool {
-	return c.Code == ""
+	return c.OId == ""
 }
 
 // ── RoleCapsEntry ─────────────────────────────────────────────────────────────

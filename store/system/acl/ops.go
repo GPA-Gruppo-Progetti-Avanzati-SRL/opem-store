@@ -69,7 +69,7 @@ func ResolveCapabilities(ctx context.Context, coll *mongo.Collection, domain, si
 			return nil, cgErr
 		}
 		for _, cg := range allCgs {
-			cgByCode[cg.Code] = cg
+			cgByCode[cg.OId] = cg
 		}
 		log.Debug().Int("codes", len(codes)).Int("cap-groups", len(allCgs)).
 			Msg(semLogContext + " - cap-groups bulk loaded")
@@ -176,7 +176,7 @@ func ResolveCapabilitiesPerSite(ctx context.Context, coll *mongo.Collection, dom
 			return nil, cgErr
 		}
 		for _, cg := range allCgs {
-			cgByCode[cg.Code] = cg
+			cgByCode[cg.OId] = cg
 		}
 		log.Debug().Int("codes", len(codes)).Int("cap-groups", len(allCgs)).
 			Msg(semLogContext + " - cap-groups bulk loaded")
@@ -340,15 +340,15 @@ func FindRoleCaps(ctx context.Context, collection *mongo.Collection, domain, sit
 
 // ── FindCapGroup ──────────────────────────────────────────────────────────────
 
-// FindCapGroup cerca un documento cap-group per code.
-// _id = code garantisce unicità globale: lookup diretto per code.
+// FindCapGroup cerca un documento cap-group tramite il suo _id (il codice, es. "sim-viewer").
+// Lookup diretto per _id: O(1) grazie all'indice primario MongoDB.
 // Ritorna (nil, nil) se non trovato.
 func FindCapGroup(ctx context.Context, collection *mongo.Collection, code string) (*CapGroup, error) {
 	const semLogContext = "acl::find-cap-group"
 
 	filter := bson.D{
+		{Key: "_id", Value: code},
 		{Key: "_et", Value: EntityTypeCapGroup},
-		{Key: "code", Value: code},
 		activeFilter,
 	}
 
@@ -407,8 +407,8 @@ func FindCapDef(ctx context.Context, collection *mongo.Collection, id string) (*
 
 // ── FindCapGroupsByCodes (bulk) ───────────────────────────────────────────────
 
-// FindCapGroupsByCodes restituisce TUTTI i cap-group il cui campo code compare
-// nell'elenco fornito, indipendentemente dall'app (query unica con $in).
+// FindCapGroupsByCodes restituisce TUTTI i cap-group i cui _id compaiono
+// nell'elenco fornito (query unica con $in sull'indice primario MongoDB).
 //
 // Sostituisce le chiamate N×FindCapGroup e N×FindAllCapGroupsByCode usate in
 // precedenza da ResolveCapabilities: una sola query di rete invece di K query.
@@ -423,8 +423,8 @@ func FindCapGroupsByCodes(ctx context.Context, collection *mongo.Collection, cod
 	}
 
 	filter := bson.D{
+		{Key: "_id", Value: bson.D{{Key: "$in", Value: codes}}},
 		{Key: "_et", Value: EntityTypeCapGroup},
-		{Key: "code", Value: bson.D{{Key: "$in", Value: codes}}},
 		activeFilter,
 	}
 
