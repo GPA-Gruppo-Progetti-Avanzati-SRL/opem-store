@@ -8,6 +8,7 @@ type App struct {
 	ObjType      string `json:"obj_type,omitempty" bson:"obj_type,omitempty" yaml:"obj_type,omitempty"`
 	Name         string `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Title        string `json:"title,omitempty" bson:"title,omitempty" yaml:"title,omitempty"`
+	SubTitle     string `json:"sub_title,omitempty" bson:"sub_title,omitempty" yaml:"sub_title,omitempty"`
 	Description  string `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
 	Path         string `json:"path,omitempty" bson:"path,omitempty" yaml:"path,omitempty"`
 	Version      string `json:"version,omitempty" bson:"version,omitempty" yaml:"version,omitempty"`
