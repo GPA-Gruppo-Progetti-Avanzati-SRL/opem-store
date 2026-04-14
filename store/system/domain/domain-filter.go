@@ -11,12 +11,12 @@ import (
 // @tpm-schematics:end-region("top-file-section")
 
 type QueryOptions struct {
-	Limit         int64  `form:"limit" query:"limit" json:"limit,omitempty" bson:"limit,omitempty" yaml:"limit,omitempty"`
-	Offset        int64  `form:"offset" query:"offset" json:"offset,omitempty" bson:"offset,omitempty" yaml:"offset,omitempty"`
-	SortBy        string `form:"sortBy" query:"sortBy" json:"sortBy,omitempty" bson:"sortBy,omitempty" yaml:"sortBy,omitempty"`
-	SortDirection string `form:"sortDirection" query:"sortDirection" json:"sortDirection,omitempty" bson:"sortDirection,omitempty" yaml:"sortDirection,omitempty"`
-	SearchTerm    string `form:"ssearch" query:"ssearch" json:"ssearch,omitempty" bson:"ssearch,omitempty" yaml:"ssearch,omitempty"`
-	WithCount     bool   `form:"withCount" query:"withCount" json:"withCount,omitempty" bson:"withCount,omitempty" yaml:"withCount,omitempty"`
+	Limit         int64  `form:"limit"         binding:"omitempty,min=0,max=1000"        query:"limit"         json:"limit,omitempty"         bson:"limit,omitempty"         yaml:"limit,omitempty"`
+	Offset        int64  `form:"offset"        binding:"omitempty,min=0"                 query:"offset"        json:"offset,omitempty"        bson:"offset,omitempty"        yaml:"offset,omitempty"`
+	SortBy        string `form:"sortBy"        binding:"omitempty,max=64,noctrl,nosortop" query:"sortBy"       json:"sortBy,omitempty"        bson:"sortBy,omitempty"        yaml:"sortBy,omitempty"`
+	SortDirection string `form:"sortDirection" binding:"omitempty,oneof=asc desc"        query:"sortDirection" json:"sortDirection,omitempty" bson:"sortDirection,omitempty" yaml:"sortDirection,omitempty"`
+	SearchTerm    string `form:"ssearch"       binding:"omitempty,max=256,noctrl"        query:"ssearch"       json:"ssearch,omitempty"       bson:"ssearch,omitempty"       yaml:"ssearch,omitempty"`
+	WithCount     bool   `form:"withCount"                                               query:"withCount"     json:"withCount,omitempty"     bson:"withCount,omitempty"     yaml:"withCount,omitempty"`
 	// @tpm-schematics:start-region("query-options-struct-section")
 	// @tpm-schematics:end-region("query-options-struct-section")
 }
