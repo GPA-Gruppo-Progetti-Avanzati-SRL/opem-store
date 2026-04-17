@@ -17,6 +17,7 @@ type Domain struct {
 	Et          string          `json:"_et,omitempty" bson:"_et,omitempty" yaml:"_et,omitempty"`
 	Name        string          `json:"name,omitempty" bson:"name,omitempty" yaml:"name,omitempty"`
 	Description string          `json:"description,omitempty" bson:"description,omitempty" yaml:"description,omitempty"`
+	LogoUrl     string          `json:"logo_url,omitempty" bson:"logo_url,omitempty" yaml:"logo_url,omitempty"`
 	Langs       string          `json:"langs,omitempty" bson:"langs,omitempty" yaml:"langs,omitempty"`
 	Members     []Member        `json:"members,omitempty" bson:"members,omitempty" yaml:"members,omitempty"`
 	Apps        []commons.App   `json:"apps,omitempty" bson:"apps,omitempty" yaml:"apps,omitempty"`
@@ -27,7 +28,7 @@ type Domain struct {
 }
 
 func (s Domain) IsZero() bool {
-	return s.OId == bson.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Description == "" && s.Langs == "" && len(s.Members) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
+	return s.OId == bson.NilObjectID && s.Bid == "" && s.Et == "" && s.Name == "" && s.Description == "" && s.LogoUrl == "" && s.Langs == "" && len(s.Members) == 0 && len(s.Apps) == 0 && s.SysInfo.IsZero()
 }
 
 type QueryResult struct {
