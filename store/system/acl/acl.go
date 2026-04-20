@@ -47,17 +47,18 @@ type CapDef struct {
 	Category string          `json:"category"           bson:"category"` // "ui" | "api"
 	SysInfo  commons.SysInfo `json:"sys_info,omitempty" bson:"sys_info,omitempty"`
 
-	// ── Campi UI (Category == "ui") ──────────────────────────────────────────
-	Label    string `json:"label,omitempty"    bson:"label,omitempty"`
-	Endpoint string `json:"endpoint,omitempty" bson:"endpoint,omitempty"`
-	Icon     string `json:"icon,omitempty"     bson:"icon,omitempty"`
-	Order    int    `json:"order,omitempty"    bson:"order,omitempty"`
-	Visible  *bool  `json:"visible,omitempty"  bson:"visible,omitempty"`
+	// ── Campi UI (Category == "ui") ─────────────────────────────────────────
+	Description string `json:"description,omitempty" bson:"description,omitempty"`
+	Name        string `json:"name,omitempty"        bson:"name,omitempty"`
+	Endpoint    string `json:"endpoint,omitempty"    bson:"endpoint,omitempty"` // UI: route Angular | API: path glob
+	Icon        string `json:"icon,omitempty"        bson:"icon,omitempty"`
+	Order       int    `json:"order,omitempty"       bson:"order,omitempty"`
+	Menu     bool   `json:"menu"               bson:"menu"`
 
 	// ── Campi API (Category == "api") ────────────────────────────────────────
 	Mapping string `json:"mapping,omitempty" bson:"mapping,omitempty"` // nome del mapping nel proxy-config
 	Method  string `json:"method,omitempty"  bson:"method,omitempty"`  // GET | POST | * ecc.
-	Path    string `json:"path,omitempty"    bson:"path,omitempty"`    // path glob (es. /simulazioni/*)
+	// Path rimosso: il path glob API è ora in Endpoint (bson:"endpoint")
 }
 
 func (c CapDef) IsZero() bool {
@@ -111,4 +112,3 @@ type RoleCapsEntry struct {
 func (r RoleCapsEntry) IsZero() bool {
 	return r.Role == ""
 }
-
