@@ -25,8 +25,11 @@ const (
 	EntityTypeRoleCaps = "role-caps"
 
 	// Categorie di capability
-	CategoryUI  = "ui"
-	CategoryAPI = "api"
+	CategoryUI     = "ui"
+	CategoryAPI    = "api"
+	CategoryAction = "action" // action: capabilities logiche/funzionali (es. "può approvare", "può esportare")
+	// Campi rilevanti per action: _id, _et, category, description.
+	// Restituite nella risposta /api/core/acl come array di stringhe (IDs) sotto "capabilities".
 )
 
 // ── CapDef ────────────────────────────────────────────────────────────────────
