@@ -39,8 +39,9 @@ const (
 // I campi UI e API sono mutuamente esclusivi (discriminati da Category).
 //
 // Naming convention _id: "<resource>:<azione>.<categoria>"
-//   es.  "sim:list.ui"   → capability lato UI
-//        "sim:list.api"  → capability lato API
+//
+//	es.  "sim:list.ui"   → capability lato UI
+//	     "sim:list.api"  → capability lato API
 //
 // Il campo _id è l'unica chiave: il vecchio campo "id" (bson:"id") è stato rimosso.
 type CapDef struct {
@@ -56,12 +57,23 @@ type CapDef struct {
 	Endpoint    string `json:"endpoint,omitempty"    bson:"endpoint,omitempty"` // UI: route Angular | API: path glob
 	Icon        string `json:"icon,omitempty"        bson:"icon,omitempty"`
 	Order       int    `json:"order,omitempty"       bson:"order,omitempty"`
-	Menu     bool   `json:"menu"               bson:"menu"`
+	Menu        bool   `json:"menu"               bson:"menu"`
 
 	// ── Campi API (Category == "api") ────────────────────────────────────────
-	Mapping string `json:"mapping,omitempty" bson:"mapping,omitempty"` // nome del mapping nel proxy-config
-	Method  string `json:"method,omitempty"  bson:"method,omitempty"`  // GET | POST | * ecc.
-	// Path rimosso: il path glob API è ora in Endpoint (bson:"endpoint")
+	// Il campo App (sopra) funge da chiave ACL: il proxy confronta cap.App con
+	// la chiave ACL del mapping attivo (= proxy-config.app oppure context-name).
+	Method string `json:"method,omitempty"  bson:"method,omitempty"` // GET | POST | DELETE | PATCH | PUT | * (wildcard)
+	// Endpoint (sopra) usato anche per api: path pattern OpenAPI-style
+	//   {param}  → un singolo segmento path (non attraversa "/")  es. /v1/listini/{id}
+	//   /**      → zero o più segmenti in coda                     es. /v1/listini/**
+	//   ⚠ pattern "*" singolo (glob legacy) NON supportato → no-match con WARN nel log
+
+	// Deny — se true questa capability NEGA esplicitamente la chiamata (403).
+	// Le cap con deny:true hanno priorità assoluta su tutte le cap con deny:false (allow).
+	// Una sola cap deny che matcha basta a bloccare, indipendentemente da quante allow matchano
+	// e indipendentemente da acl.default-policy.
+	// default: false (= allow, comportamento precedente — backward compatible)
+	Deny bool `json:"deny,omitempty" bson:"deny,omitempty"`
 }
 
 func (c CapDef) IsZero() bool {
