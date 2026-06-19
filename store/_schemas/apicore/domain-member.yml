@@ -1,6 +1,0 @@
-name: Member
-attributes:
-- name: code
-  type: string
-- name: obj_type
-  type: string

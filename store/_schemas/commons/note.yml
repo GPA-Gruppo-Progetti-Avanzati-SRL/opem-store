@@ -1,8 +1,0 @@
-name: Note
-attributes:
-  - name: who
-    type: string
-  - name: text
-    type: string
-  - name: when
-    type: date

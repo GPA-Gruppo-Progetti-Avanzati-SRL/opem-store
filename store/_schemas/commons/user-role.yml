@@ -1,8 +1,0 @@
-name: UserRole
-attributes:
-- name: domain
-  type: string
-- name: site
-  type: string
-- name: apps
-  type: string

@@ -1,8 +1,0 @@
-name: SysInfo
-attributes:
-- name: status
-  type: string
-- name: created_at
-  type: date
-- name: modified_at
-  type: date

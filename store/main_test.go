@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/system/sequence"
+	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/mongo/sequence"
 	"github.com/GPA-Gruppo-Progetti-Avanzati-SRL/tpm-mongo-common/mongolks"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

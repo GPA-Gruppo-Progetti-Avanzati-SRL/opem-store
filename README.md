@@ -1,3 +1,3 @@
 # opem-store
 
-Oggetti persistenza Mongo-Db
+Oggetti persistenza Opem

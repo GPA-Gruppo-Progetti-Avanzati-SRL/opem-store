@@ -1,6 +1,0 @@
-name: statusCodeTextPair
-attributes:
-- name: code
-  type: string
-- name: text
-  type: string
