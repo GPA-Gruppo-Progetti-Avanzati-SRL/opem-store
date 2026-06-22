@@ -19,16 +19,16 @@ func (r *sqlACLRepo) FindRoleCaps(ctx context.Context, domainReq, siteReq, appRe
 
 	var rows []sqlRoleCaps
 	q := r.db.NewSelect().Model(&rows).
-		Where("role IN (?)", bun.In(roles)).
+		Where("role IN (?)", bun.List(roles)).
 		Where("status = ?", "active")
 	if domainReq != "" {
-		q = q.Where("(domain_code = '' OR domain_code = '*' OR domain_code = ?)", domainReq)
+		q = q.Where("(domain_code IS NULL OR domain_code = '' OR domain_code = '*' OR domain_code = ?)", domainReq)
 	}
 	if siteReq != "" {
-		q = q.Where("(site_code = '' OR site_code = '*' OR site_code = ?)", siteReq)
+		q = q.Where("(site_code IS NULL OR site_code = '' OR site_code = '*' OR site_code = ?)", siteReq)
 	}
 	if appReq != "" {
-		q = q.Where("(app = '' OR app = '*' OR app = ?)", appReq)
+		q = q.Where("(app IS NULL OR app = '' OR app = '*' OR app = ?)", appReq)
 	}
 	if err := q.Scan(ctx); err != nil && !isNotFound(err) {
 		return nil, err

@@ -17,7 +17,7 @@ func (r *sqlKVRepo) FindByDomainSiteNameCategory(ctx context.Context, domainCode
 
 	q := r.db.NewSelect().Model((*sqlKV)(nil)).
 		Where("bid = ?", pkgName).
-		Where("scope IN (?)", bun.In(scopes)).
+		Where("scope IN (?)", bun.List(scopes)).
 		Where("status = ?", "active")
 	if category != "" {
 		q = q.Where("category = ?", category)
@@ -58,10 +58,10 @@ func (r *sqlKVRepo) FindByDomainSiteCategories(ctx context.Context, domainCode, 
 	scopes := scopesForQuery(domainCode, siteCode)
 
 	q := r.db.NewSelect().Model((*sqlKV)(nil)).
-		Where("scope IN (?)", bun.In(scopes)).
+		Where("scope IN (?)", bun.List(scopes)).
 		Where("status = ?", "active")
 	if len(categories) > 0 {
-		q = q.Where("category IN (?)", bun.In(categories))
+		q = q.Where("category IN (?)", bun.List(categories))
 	}
 
 	var rows []sqlKV

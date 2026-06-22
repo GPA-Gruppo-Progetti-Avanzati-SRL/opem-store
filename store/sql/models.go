@@ -161,9 +161,9 @@ type sqlRoleCaps struct {
 
 	ID         string `bun:"id,pk"`
 	Role       string `bun:"role,notnull"`
-	DomainCode string `bun:"domain_code,notnull"`
-	SiteCode   string `bun:"site_code,notnull"`
-	App        string `bun:"app,notnull"`
+	DomainCode string `bun:"domain_code"`
+	SiteCode   string `bun:"site_code"`
+	App        string `bun:"app"`
 	Status     string `bun:"status,notnull"`
 }
 
