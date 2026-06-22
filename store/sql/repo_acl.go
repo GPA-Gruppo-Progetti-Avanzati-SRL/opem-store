@@ -1,4 +1,4 @@
-package sql
+﻿package sql
 
 import (
 	model "github.com/GPA-Gruppo-Progetti-Avanzati-SRL/opem-store/store/model"
@@ -33,18 +33,27 @@ func (r *sqlACLRepo) FindRoleCaps(ctx context.Context, domainReq, siteReq, appRe
 	if err := q.Scan(ctx); err != nil && !isNotFound(err) {
 		return nil, err
 	}
+	if len(rows) == 0 {
+		return nil, nil
+	}
+
+	// Batch: carica cap-group e cap-def di tutte le righe in 2 query invece di 2N.
+	rowIDs := make([]string, len(rows))
+	for i, row := range rows {
+		rowIDs[i] = row.ID
+	}
+	capGroupsByRC, err := r.loadCapGroupIDsBatch(ctx, rowIDs)
+	if err != nil {
+		return nil, err
+	}
+	capDefsByRC, err := r.loadCapDefIDsBatch(ctx, rowIDs)
+	if err != nil {
+		return nil, err
+	}
 
 	result := make([]model.RoleCapsEntry, 0, len(rows))
 	for _, row := range rows {
-		capGroups, err := r.loadCapGroupIDs(ctx, row.ID)
-		if err != nil {
-			return nil, err
-		}
-		caps, err := r.loadCapDefIDs(ctx, row.ID)
-		if err != nil {
-			return nil, err
-		}
-		result = append(result, toOpemRoleCaps(&row, capGroups, caps))
+		result = append(result, toOpemRoleCaps(&row, capGroupsByRC[row.ID], capDefsByRC[row.ID]))
 	}
 	return result, nil
 }
@@ -61,11 +70,11 @@ func (r *sqlACLRepo) FindCapGroup(ctx context.Context, code string) (*model.CapG
 		}
 		return nil, err
 	}
-	capDefIDs, err := r.loadCapGroupDefIDs(ctx, code)
+	capDefsByGroup, err := r.loadCapGroupDefIDsBatch(ctx, []string{code})
 	if err != nil {
 		return nil, err
 	}
-	return toOpemCapGroup(&row, capDefIDs), nil
+	return toOpemCapGroup(&row, capDefsByGroup[code]), nil
 }
 
 func (r *sqlACLRepo) FindCapDef(ctx context.Context, id string) (*model.CapDef, error) {
@@ -120,37 +129,74 @@ func (r *sqlACLRepo) FindCapabilitiesPerSite(ctx context.Context, domainReq stri
 		return nil, nil
 	}
 
+	// Batch: risolvi tutti i cap-group -> cap-def in 1 query.
+	cgIDSet := make(map[string]struct{})
+	for _, entry := range entries {
+		for _, cgCode := range entry.CapGroups {
+			if cgCode != "" {
+				cgIDSet[cgCode] = struct{}{}
+			}
+		}
+	}
+	cgToCapDefs := make(map[string][]string)
+	if len(cgIDSet) > 0 {
+		cgIDs := make([]string, 0, len(cgIDSet))
+		for id := range cgIDSet {
+			cgIDs = append(cgIDs, id)
+		}
+		var err error
+		cgToCapDefs, err = r.loadCapGroupDefIDsBatch(ctx, cgIDs)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	// Costruisce la mappa (site, capID) de-duplicata.
 	type siteCapKey struct{ site, capID string }
 	siteCapIDs := make(map[siteCapKey]struct{})
-
 	for _, entry := range entries {
-		siteKey := entry.Site
+		site := entry.Site
 		for _, capID := range entry.Capabilities {
 			if capID != "" {
-				siteCapIDs[siteCapKey{siteKey, capID}] = struct{}{}
+				siteCapIDs[siteCapKey{site, capID}] = struct{}{}
 			}
 		}
 		for _, cgCode := range entry.CapGroups {
-			cg, err := r.FindCapGroup(ctx, cgCode)
-			if err != nil || cg == nil {
-				continue
-			}
-			for _, capID := range cg.Capabilities {
+			for _, capID := range cgToCapDefs[cgCode] {
 				if capID != "" {
-					siteCapIDs[siteCapKey{siteKey, capID}] = struct{}{}
+					siteCapIDs[siteCapKey{site, capID}] = struct{}{}
 				}
 			}
 		}
 	}
-
 	if len(siteCapIDs) == 0 {
 		return nil, nil
 	}
 
+	// Batch: carica tutte le cap-def distinte in 1 query.
+	seen := make(map[string]struct{}, len(siteCapIDs))
+	distinctIDs := make([]string, 0, len(siteCapIDs))
+	for k := range siteCapIDs {
+		if _, ok := seen[k.capID]; !ok {
+			distinctIDs = append(distinctIDs, k.capID)
+			seen[k.capID] = struct{}{}
+		}
+	}
+	capDefMap, err := r.findCapDefsByIDs(ctx, distinctIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Debug().
+		Str("domain", domainReq).
+		Int("cap-defs", len(capDefMap)).
+		Int("site-cap-pairs", len(siteCapIDs)).
+		Msg(semLogContext + " - batch load complete")
+
 	result := make(map[string]map[string]map[string][]model.CapDef)
 	for k := range siteCapIDs {
-		cd, err := r.FindCapDef(ctx, k.capID)
-		if err != nil || cd == nil {
+		cd, ok := capDefMap[k.capID]
+		if !ok {
 			continue
 		}
 		s := k.site
@@ -165,46 +211,105 @@ func (r *sqlACLRepo) FindCapabilitiesPerSite(ctx context.Context, domainReq stri
 	return result, nil
 }
 
-func (r *sqlACLRepo) loadCapGroupIDs(ctx context.Context, roleCapsID string) ([]string, error) {
+
+// -- helper batch -------------------------------------------------------------
+
+// loadCapGroupIDsBatch carica i cap-group-id per tutti i role-caps-id dati in 1 query.
+// Restituisce map[roleCapsID][]capGroupID.
+func (r *sqlACLRepo) loadCapGroupIDsBatch(ctx context.Context, roleCapsIDs []string) (map[string][]string, error) {
+	if len(roleCapsIDs) == 0 {
+		return nil, nil
+	}
 	var rows []sqlRoleCapGroup
-	err := r.db.NewSelect().Model(&rows).Where("role_caps_id = ?", roleCapsID).Scan(ctx)
+	err := r.db.NewSelect().Model(&rows).Where("role_caps_id IN (?)", bun.List(roleCapsIDs)).Scan(ctx)
 	if err != nil && !isNotFound(err) {
 		return nil, err
 	}
-	ids := make([]string, 0, len(rows))
+	result := make(map[string][]string, len(roleCapsIDs))
 	for _, row := range rows {
-		ids = append(ids, row.CapGroupID)
+		result[row.RoleCapsID] = append(result[row.RoleCapsID], row.CapGroupID)
 	}
-	return ids, nil
+	return result, nil
 }
 
-func (r *sqlACLRepo) loadCapDefIDs(ctx context.Context, roleCapsID string) ([]string, error) {
+// loadCapDefIDsBatch carica i cap-def-id per tutti i role-caps-id dati in 1 query.
+// Restituisce map[roleCapsID][]capDefID.
+func (r *sqlACLRepo) loadCapDefIDsBatch(ctx context.Context, roleCapsIDs []string) (map[string][]string, error) {
+	if len(roleCapsIDs) == 0 {
+		return nil, nil
+	}
 	var rows []sqlRoleCapDef
-	err := r.db.NewSelect().Model(&rows).Where("role_caps_id = ?", roleCapsID).Scan(ctx)
+	err := r.db.NewSelect().Model(&rows).Where("role_caps_id IN (?)", bun.List(roleCapsIDs)).Scan(ctx)
 	if err != nil && !isNotFound(err) {
 		return nil, err
 	}
-	ids := make([]string, 0, len(rows))
+	result := make(map[string][]string, len(roleCapsIDs))
 	for _, row := range rows {
-		ids = append(ids, row.CapDefID)
+		result[row.RoleCapsID] = append(result[row.RoleCapsID], row.CapDefID)
 	}
-	return ids, nil
+	return result, nil
 }
 
-func (r *sqlACLRepo) loadCapGroupDefIDs(ctx context.Context, capGroupID string) ([]string, error) {
+// loadCapGroupDefIDsBatch carica i cap-def-id per tutti i cap-group-id dati in 1 query.
+// Restituisce map[capGroupID][]capDefID.
+func (r *sqlACLRepo) loadCapGroupDefIDsBatch(ctx context.Context, capGroupIDs []string) (map[string][]string, error) {
+	if len(capGroupIDs) == 0 {
+		return nil, nil
+	}
 	var rows []sqlCapGroupDef
-	err := r.db.NewSelect().Model(&rows).Where("cap_group_id = ?", capGroupID).Scan(ctx)
+	err := r.db.NewSelect().Model(&rows).Where("cap_group_id IN (?)", bun.List(capGroupIDs)).Scan(ctx)
 	if err != nil && !isNotFound(err) {
 		return nil, err
 	}
-	ids := make([]string, 0, len(rows))
+	result := make(map[string][]string, len(capGroupIDs))
 	for _, row := range rows {
-		ids = append(ids, row.CapDefID)
+		result[row.CapGroupID] = append(result[row.CapGroupID], row.CapDefID)
 	}
-	return ids, nil
+	return result, nil
+}
+
+// findCapDefsByIDs carica tutte le cap-def con gli id dati in 1 query.
+// Restituisce map[capDefID]*model.CapDef.
+func (r *sqlACLRepo) findCapDefsByIDs(ctx context.Context, ids []string) (map[string]*model.CapDef, error) {
+	if len(ids) == 0 {
+		return nil, nil
+	}
+	var rows []sqlCapDef
+	err := r.db.NewSelect().Model(&rows).Where("id IN (?)", bun.List(ids)).Scan(ctx)
+	if err != nil && !isNotFound(err) {
+		return nil, err
+	}
+	result := make(map[string]*model.CapDef, len(rows))
+	for i := range rows {
+		cd := toOpemCapDef(&rows[i])
+		result[cd.OId] = cd
+	}
+	return result, nil
 }
 
 func (r *sqlACLRepo) resolveCapDefIDs(ctx context.Context, entries []model.RoleCapsEntry) (map[string]struct{}, error) {
+	// Batch: risolvi tutti i cap-group in 1 query invece di 1 per cap-group.
+	cgIDSet := make(map[string]struct{})
+	for _, entry := range entries {
+		for _, cgCode := range entry.CapGroups {
+			if cgCode != "" {
+				cgIDSet[cgCode] = struct{}{}
+			}
+		}
+	}
+	cgToCapDefs := make(map[string][]string)
+	if len(cgIDSet) > 0 {
+		cgIDs := make([]string, 0, len(cgIDSet))
+		for id := range cgIDSet {
+			cgIDs = append(cgIDs, id)
+		}
+		var err error
+		cgToCapDefs, err = r.loadCapGroupDefIDsBatch(ctx, cgIDs)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	allIDs := make(map[string]struct{})
 	for _, entry := range entries {
 		for _, capID := range entry.Capabilities {
@@ -213,12 +318,10 @@ func (r *sqlACLRepo) resolveCapDefIDs(ctx context.Context, entries []model.RoleC
 			}
 		}
 		for _, cgCode := range entry.CapGroups {
-			defIDs, err := r.loadCapGroupDefIDs(ctx, cgCode)
-			if err != nil {
-				return nil, err
-			}
-			for _, id := range defIDs {
-				allIDs[id] = struct{}{}
+			for _, id := range cgToCapDefs[cgCode] {
+				if id != "" {
+					allIDs[id] = struct{}{}
+				}
 			}
 		}
 	}
@@ -226,12 +329,20 @@ func (r *sqlACLRepo) resolveCapDefIDs(ctx context.Context, entries []model.RoleC
 }
 
 func (r *sqlACLRepo) buildCapMap(ctx context.Context, capDefIDs map[string]struct{}) (map[string]map[string][]model.CapDef, error) {
-	result := make(map[string]map[string][]model.CapDef)
-	for capID := range capDefIDs {
-		cd, err := r.FindCapDef(ctx, capID)
-		if err != nil || cd == nil {
-			continue
-		}
+	if len(capDefIDs) == 0 {
+		return nil, nil
+	}
+	ids := make([]string, 0, len(capDefIDs))
+	for id := range capDefIDs {
+		ids = append(ids, id)
+	}
+	// Batch: carica tutte le cap-def in 1 query invece di 1 per ID.
+	capDefMap, err := r.findCapDefsByIDs(ctx, ids)
+	if err != nil {
+		return nil, err
+	}
+	result := make(map[string]map[string][]model.CapDef, len(capDefMap))
+	for _, cd := range capDefMap {
 		if result[cd.App] == nil {
 			result[cd.App] = make(map[string][]model.CapDef)
 		}
