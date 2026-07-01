@@ -442,14 +442,24 @@ func FindEmbossingNameByMongoSearch(collection *mongo.Collection, findOptions *o
 		{"$match", fd},
 	})
 
+	// Branch dei dati paginati: applica skip/limit solo a questa branch del $facet,
+	// cosi' il conteggio (branch "count") resta sul totale dei match.
+	dataStages := mongo.Pipeline{}
 	if findOptions != nil {
 		if findOptions.Skip != nil {
-			pipeline = append(pipeline, bson.D{{"$skip", findOptions.Skip}})
+			dataStages = append(dataStages, bson.D{{"$skip", findOptions.Skip}})
 		}
 		if findOptions.Limit != nil {
-			pipeline = append(pipeline, bson.D{{"$limit", findOptions.Limit}})
+			dataStages = append(dataStages, bson.D{{"$limit", findOptions.Limit}})
 		}
 	}
+
+	pipeline = append(pipeline, bson.D{
+		{"$facet", bson.D{
+			{"data", dataStages},
+			{"count", mongo.Pipeline{bson.D{{"$count", "records"}}}},
+		}},
+	})
 
 	ctx := context.Background()
 	opts := options.Aggregate()
@@ -458,15 +468,30 @@ func FindEmbossingNameByMongoSearch(collection *mongo.Collection, findOptions *o
 		log.Error().Err(err).Msg(semLogContext)
 		return qr, err
 	}
+	defer cur.Close(ctx)
 
-	for cur.Next(context.Background()) {
-		dto := Card{}
-		err = cur.Decode(&dto)
-		if err != nil {
+	type facetResult struct {
+		Data  []Card `bson:"data"`
+		Count []struct {
+			Records int `bson:"records"`
+		} `bson:"count"`
+	}
+
+	if cur.Next(ctx) {
+		var fr facetResult
+		if err = cur.Decode(&fr); err != nil {
+			log.Error().Err(err).Msg(semLogContext)
 			return qr, err
 		}
+		qr.Data = fr.Data
+		if len(fr.Count) > 0 {
+			qr.Records = fr.Count[0].Records
+		}
+	}
 
-		qr.Data = append(qr.Data, dto)
+	if err = cur.Err(); err != nil {
+		log.Error().Err(err).Msg(semLogContext)
+		return qr, err
 	}
 
 	for _, stage := range pipeline {
